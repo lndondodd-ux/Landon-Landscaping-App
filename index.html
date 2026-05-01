@@ -62,7 +62,7 @@
         <button class="tab" onclick="setJob('sod')" id="tab-sod">Sod</button>
         <button class="tab" onclick="setJob('mulch')" id="tab-mulch">Mulch/Rock</button>
         <button class="tab" onclick="setJob('cleanup')" id="tab-cleanup">Cleanup</button>
-        <button class="tab" onclick="setJob('trim')" id="tab-trim">Trimming</button>
+        <button class="tab" onclick="setJob('trim')" id="tab-trim">Tree/Hedge Trim</button>
         <button class="tab" onclick="setJob('extras')" id="tab-extras">Extras</button>
       </div>
 
@@ -162,12 +162,84 @@
     </div>
 
     <div class="card hidden" id="trimFields">
-      <label>Trim Size / Difficulty</label>
-      <select id="trimType" onchange="calculate()"><option value="175">Small trim / quick cleanup ($175)</option><option value="300" selected>Normal trim + cleanup ($300)</option><option value="500">Heavy overgrowth ($500)</option><option value="750">Severe overgrowth / HOA risk ($750)</option></select>
+      <label>What Are You Trimming?</label>
+      <select id="trimCategory" onchange="calculate()">
+        <option value="hedges">Hedges / bushes</option>
+        <option value="smalltree">Small tree pruning</option>
+        <option value="deadwood">Dead limb / deadwood removal</option>
+        <option value="palm">Palm trimming</option>
+        <option value="mixed">Mixed trimming job</option>
+      </select>
+
+      <label>Job Size / Difficulty</label>
+      <select id="trimType" onchange="calculate()">
+        <option value="175">Small quick trim: 1-3 bushes or very light tree cleanup ($175)</option>
+        <option value="300" selected>Normal trim: front shrubs or small tree cleanup ($300)</option>
+        <option value="500">Heavy trim: overgrown hedges, several shrubs, or larger small tree ($500)</option>
+        <option value="750">Severe overgrowth / HOA risk / lots of cleanup ($750)</option>
+      </select>
+
       <div class="row">
-        <div><label>Palm Trimming</label><select id="palmTrim" onchange="calculate()"><option value="0">No</option><option value="125">1 palm (+$125)</option><option value="250">2-3 palms (+$250)</option><option value="450">4+ palms (+$450)</option></select></div>
-        <div><label>Haul-away</label><select id="trimHaul" onchange="calculate()"><option value="0">No</option><option value="75" selected>Yes (+$75)</option><option value="175">Heavy (+$175)</option></select></div>
+        <div>
+          <label>Number of Hedges/Bushes</label>
+          <input id="hedgeCount" type="number" placeholder="Ex: 8" oninput="calculate()" />
+        </div>
+        <div>
+          <label>Extra Per Hedge/Bush</label>
+          <input id="hedgeRate" type="number" value="20" oninput="calculate()" />
+        </div>
       </div>
+
+      <div class="row">
+        <div>
+          <label>Small Tree Pruning Add-on</label>
+          <select id="smallTreePrune" onchange="calculate()">
+            <option value="0">None</option>
+            <option value="125">Light pruning (+$125)</option>
+            <option value="250">Medium pruning (+$250)</option>
+            <option value="400">Heavy pruning (+$400)</option>
+          </select>
+        </div>
+        <div>
+          <label>Dead Limb Removal</label>
+          <select id="deadLimb" onchange="calculate()">
+            <option value="0">None</option>
+            <option value="100">1-2 small limbs (+$100)</option>
+            <option value="225">Several limbs (+$225)</option>
+            <option value="400">Heavy deadwood (+$400)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Palm Trimming</label>
+          <select id="palmTrim" onchange="calculate()">
+            <option value="0">No palms</option>
+            <option value="125">1 small palm (+$125)</option>
+            <option value="250">2-3 small palms (+$250)</option>
+            <option value="450">4+ palms or heavier palm work (+$450)</option>
+          </select>
+        </div>
+        <div>
+          <label>Haul-away / Cleanup</label>
+          <select id="trimHaul" onchange="calculate()">
+            <option value="0">Leave debris neatly piled</option>
+            <option value="75" selected>Normal cleanup + haul-away (+$75)</option>
+            <option value="175">Heavy debris haul-away (+$175)</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Trimming Risk / Access</label>
+      <select id="trimRisk" onchange="calculate()">
+        <option value="0">Easy access / ground level</option>
+        <option value="100">Tight access, thorns, or awkward shaping (+$100)</option>
+        <option value="250">Tall, ladder needed, or risky cuts (+$250)</option>
+        <option value="99999">Refer out / do not quote</option>
+      </select>
+
+      <div class="small">Use this for hedges, small ornamental trees, palms, and dead limb cleanup. Refer out anything near power lines, anything requiring climbing, or anything that feels unsafe.</div>
     </div>
 
     <div class="card hidden" id="extrasFields">
@@ -311,7 +383,7 @@
         return (bags*(n('bagCost')+n('bagLabor')))+n('edgeAdd')+n('bedPrep')+(n('barrierSqft')*barrierRate);
       }
       if(currentJob==='cleanup') return (n('hours')*n('hourRate'))+n('cleanupHaul')+n('cleanupDiff');
-      if(currentJob==='trim') return n('trimType')+n('palmTrim')+n('trimHaul');
+      if(currentJob==='trim') return n('trimType')+(n('hedgeCount')*n('hedgeRate'))+n('smallTreePrune')+n('deadLimb')+n('palmTrim')+n('trimHaul')+n('trimRisk');
       if(currentJob==='extras') return (n('plants')*n('plantRate'))+(n('lights')*n('lightRate'))+n('pressure')+n('customAdd');
       return 0;
     }
@@ -352,7 +424,7 @@
       if(currentJob==='sod') return ['perfect bed edges','mulch or rock refresh','plant package','landscape lighting','maintenance plan'];
       if(currentJob==='mulch') return ['weed barrier','bed expansion','plants','landscape lighting','fresh edging'];
       if(currentJob==='cleanup') return ['mulch refresh','hedge trimming','haul-away upgrade','pressure washing'];
-      if(currentJob==='trim') return ['haul-away','mulch refresh','tree ring cleanup','palm trimming'];
+      if(currentJob==='trim') return ['haul-away upgrade','mulch refresh','tree ring cleanup','palm trimming','bed edging','plant replacement'];
       return ['plants','landscape lighting','mulch/rock','pressure washing'];
     }
 
@@ -412,6 +484,7 @@
       const warnings=[];
       if(margin<40) warnings.push(`<div class="warning bad"><strong>Margin warning:</strong> This is under your 40% target. Raise price, lower helper cost, or add a difficulty/haul-away fee.</div>`);
       if(currentJob==='tree') warnings.push(`<div class="warning"><strong>Tree safety:</strong> Refuse or refer out if there are power lines, serious lean, heavy limbs over property, bad access, roof/fence risk, or anything you are not fully comfortable doing.</div>`);
+      if(currentJob==='trim') warnings.push(`<div class="warning"><strong>Trimming safety:</strong> Refer out anything near power lines, anything requiring climbing, large limbs over property, or cuts you cannot safely control from the ground.</div>`);
       if(currentJob==='sod') warnings.push(`<div class="warning"><strong>Sod note:</strong> Send watering instructions separately. Warranty only applies if care instructions are followed.</div>`);
       if(val('beforePhotos')==='no' || val('afterPhotos')==='no') warnings.push(`<div class="warning info"><strong>Marketing reminder:</strong> Get before/after photos if the customer is okay with it.</div>`);
       document.getElementById('warnings').innerHTML=warnings.join('');
@@ -444,7 +517,7 @@
       }
       if(currentJob==='mulch') internal.push(`Shopping list: ${mulchBags()} bags of ${val('materialType')} at ${n('depth')} inch depth`);
       if(currentJob==='tree') internal.push(`Equipment reminder: chainsaw, sharp chain, rope, wedges, rake/tarp, PPE, truck/trailer, dump plan`);
-      if(currentJob==='trim') internal.push(`Equipment reminder: hedge trimmer, loppers, pruners, pole saw if needed, rake/tarp, PPE`);
+      if(currentJob==='trim') internal.push(`Equipment reminder: hedge trimmer, loppers, hand pruners, pole saw if needed, rake/tarp, blower, gloves, eye protection, hearing protection`);
       internal.push(`Upsell ideas: ${upsells().join(', ')}`);
       internal.push(`Photos: before=${val('beforePhotos')}, after=${val('afterPhotos')}`);
       document.getElementById('internalText').value=internal.join('\n');
