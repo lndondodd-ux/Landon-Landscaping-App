@@ -3,225 +3,569 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Landon Landscaping Price Calculator</title>
+  <title>Landon Landscaping App</title>
   <style>
     * { box-sizing: border-box; }
+
+    :root {
+      --green: #244b2a;
+      --green-2: #356b3d;
+      --light: #f3f6f1;
+      --card: #ffffff;
+      --border: #d6dfd2;
+      --text: #1f2a1f;
+      --muted: #647064;
+      --soft: #eef7ee;
+      --danger: #7d2c2c;
+    }
+
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6f3;
-      color: #1f2a1f;
-      padding: 16px;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--light);
+      color: var(--text);
+      padding: 14px;
     }
+
     .app {
-      max-width: 520px;
+      max-width: 560px;
       margin: 0 auto;
-      background: white;
-      padding: 18px;
-      border-radius: 18px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
     }
-    h1 {
-      font-size: 24px;
-      margin: 0 0 6px;
+
+    .header {
+      background: linear-gradient(135deg, var(--green), var(--green-2));
+      color: white;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      margin-bottom: 14px;
     }
-    .sub {
-      color: #5b665b;
-      margin-bottom: 18px;
+
+    .header h1 {
+      margin: 0 0 5px;
+      font-size: 25px;
+      letter-spacing: -0.3px;
+    }
+
+    .header p {
+      margin: 0;
+      opacity: 0.88;
       font-size: 14px;
     }
+
+    .card {
+      background: var(--card);
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      margin-bottom: 14px;
+    }
+
     label {
       display: block;
-      font-weight: bold;
-      margin: 14px 0 6px;
+      font-weight: 700;
+      margin: 13px 0 6px;
       font-size: 14px;
     }
+
     input, select, textarea {
       width: 100%;
       padding: 12px;
-      border: 1px solid #cfd8cf;
-      border-radius: 10px;
+      border: 1px solid #cbd7c7;
+      border-radius: 12px;
       font-size: 16px;
-      background: #fff;
+      background: white;
+      color: var(--text);
     }
-    textarea { min-height: 100px; }
+
+    textarea {
+      min-height: 135px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
     .row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
     }
-    .result {
-      margin-top: 18px;
-      padding: 16px;
-      background: #eef7ee;
-      border: 1px solid #b9d8b9;
-      border-radius: 14px;
+
+    .small {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 5px;
+      line-height: 1.35;
     }
-    .big {
-      font-size: 32px;
-      font-weight: bold;
-      margin: 6px 0;
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
     }
-    .breakdown {
-      font-size: 14px;
-      line-height: 1.6;
-      color: #344034;
-    }
-    button {
-      width: 100%;
-      margin-top: 12px;
-      padding: 14px;
-      border: 0;
+
+    .tab {
+      padding: 10px 8px;
       border-radius: 12px;
-      background: #244b2a;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 700;
       cursor: pointer;
     }
-    button.secondary {
-      background: #e7ece7;
-      color: #1f2a1f;
+
+    .tab.active {
+      background: var(--green);
+      color: white;
+      border-color: var(--green);
     }
-    .note {
+
+    .result {
+      background: var(--soft);
+      border: 1px solid #b8d7b8;
+      padding: 17px;
+      border-radius: 17px;
+    }
+
+    .result-top {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .big {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 4px 0 2px;
+      letter-spacing: -1px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      background: white;
+      color: var(--green);
+      border: 1px solid #cde3cd;
+      padding: 6px 9px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .breakdown {
       margin-top: 10px;
-      font-size: 13px;
-      color: #697469;
+      font-size: 14px;
+      line-height: 1.7;
+      color: #344034;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 14px;
+      border: none;
+      border-radius: 13px;
+      background: var(--green);
+      color: white;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      background: #e8eee5;
+      color: var(--text);
+    }
+
+    button.danger {
+      background: #f1e5e5;
+      color: var(--danger);
+    }
+
+    .hidden { display: none; }
+
+    .line {
+      height: 1px;
+      background: var(--border);
+      margin: 14px 0;
+    }
+
+    .footer-note {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      padding: 10px 2px 20px;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 420px) {
+      body { padding: 10px; }
+      .row { grid-template-columns: 1fr; gap: 0; }
+      .tabs { grid-template-columns: 1fr 1fr; }
+      .big { font-size: 32px; }
     }
   </style>
 </head>
 <body>
   <div class="app">
-    <h1>Price Calculator</h1>
-    <div class="sub">Simple job pricing for Landon Landscaping LLC</div>
+    <div class="header">
+      <h1>Landon Landscaping App</h1>
+      <p>Fast pricing, profit check, and customer quote generator.</p>
+    </div>
 
-    <label>Job Type</label>
-    <select id="jobType" onchange="calculate()">
-      <option value="sod">Sod Install</option>
-      <option value="mulch">Mulch / Rock Install</option>
-      <option value="cleanup">Property Cleanup</option>
-      <option value="tree">Tree Removal</option>
-      <option value="trim">Tree / Hedge Trimming</option>
-      <option value="custom">Custom Job</option>
-    </select>
-
-    <div class="row">
-      <div>
-        <label>Size / Sq Ft</label>
-        <input id="size" type="number" placeholder="Ex: 7000" oninput="calculate()" />
+    <div class="card">
+      <div class="tabs">
+        <button class="tab active" onclick="setJob('tree')" id="tab-tree">Tree</button>
+        <button class="tab" onclick="setJob('sod')" id="tab-sod">Sod</button>
+        <button class="tab" onclick="setJob('mulch')" id="tab-mulch">Mulch/Rock</button>
+        <button class="tab" onclick="setJob('cleanup')" id="tab-cleanup">Cleanup</button>
+        <button class="tab" onclick="setJob('trim')" id="tab-trim">Trimming</button>
+        <button class="tab" onclick="setJob('custom')" id="tab-custom">Custom</button>
       </div>
-      <div>
-        <label>Material Cost</label>
-        <input id="materials" type="number" placeholder="Ex: 3920" oninput="calculate()" />
+
+      <label>Customer Name</label>
+      <input id="customer" placeholder="Ex: Mrs. Smith" oninput="calculate()" />
+
+      <label>Job Notes</label>
+      <input id="notes" placeholder="Ex: front yard tree, haul away included" oninput="calculate()" />
+    </div>
+
+    <div class="card" id="treeFields">
+      <label>Tree Size</label>
+      <select id="treeSize" onchange="calculate()">
+        <option value="375">Small, easy tree ($375 base)</option>
+        <option value="500" selected>Small-medium tree ($500 base)</option>
+        <option value="750">Medium tree ($750 base)</option>
+        <option value="1100">Larger tree ($1,100 base)</option>
+      </select>
+
+      <div class="row">
+        <div>
+          <label>Haul Away</label>
+          <select id="treeHaul" onchange="calculate()">
+            <option value="0">No</option>
+            <option value="100" selected>Yes (+$100)</option>
+            <option value="175">Heavy debris (+$175)</option>
+          </select>
+        </div>
+        <div>
+          <label>Stump Option</label>
+          <select id="stump" onchange="calculate()">
+            <option value="0" selected>No stump work</option>
+            <option value="125">Cut low (+$125)</option>
+            <option value="250">Grind/remove (+$250)</option>
+          </select>
+        </div>
       </div>
     </div>
 
-    <div class="row">
-      <div>
-        <label>Labor Cost</label>
-        <input id="labor" type="number" placeholder="Ex: 1250" oninput="calculate()" />
+    <div class="card hidden" id="sodFields">
+      <div class="row">
+        <div>
+          <label>Square Feet</label>
+          <input id="sodSqft" type="number" placeholder="Ex: 7000" oninput="calculate()" />
+        </div>
+        <div>
+          <label>Price Per Sq Ft</label>
+          <input id="sodRate" type="number" step="0.01" value="1.20" oninput="calculate()" />
+        </div>
       </div>
-      <div>
-        <label>Dump / Rental Fees</label>
-        <input id="fees" type="number" placeholder="Ex: 75" oninput="calculate()" />
+      <div class="small">Quick rule: St. Augustine pallets are usually around 450 sq ft each.</div>
+    </div>
+
+    <div class="card hidden" id="mulchFields">
+      <div class="row">
+        <div>
+          <label>Material Bags / Units</label>
+          <input id="bags" type="number" placeholder="Ex: 32" oninput="calculate()" />
+        </div>
+        <div>
+          <label>Install Price Per Bag/Unit</label>
+          <input id="bagRate" type="number" value="8" oninput="calculate()" />
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Bed Edge Add-on</label>
+          <input id="edgeAdd" type="number" value="100" oninput="calculate()" />
+        </div>
+        <div>
+          <label>Cleanup Add-on</label>
+          <input id="mulchCleanup" type="number" value="75" oninput="calculate()" />
+        </div>
       </div>
     </div>
 
-    <div class="row">
-      <div>
-        <label>Material Markup %</label>
-        <input id="materialMarkup" type="number" value="15" oninput="calculate()" />
-      </div>
-      <div>
-        <label>Profit Markup %</label>
-        <input id="profitMarkup" type="number" value="35" oninput="calculate()" />
+    <div class="card hidden" id="cleanupFields">
+      <div class="row">
+        <div>
+          <label>Hours Estimated</label>
+          <input id="hours" type="number" placeholder="Ex: 4" oninput="calculate()" />
+        </div>
+        <div>
+          <label>Hourly Rate</label>
+          <input id="hourRate" type="number" value="75" oninput="calculate()" />
+        </div>
       </div>
     </div>
 
-    <label>Difficulty</label>
-    <select id="difficulty" onchange="calculate()">
-      <option value="0">Easy</option>
-      <option value="50">Normal (+$50)</option>
-      <option value="150">Hard (+$150)</option>
-      <option value="300">Very Hard (+$300)</option>
-    </select>
-
-    <div class="result">
-      <div>Recommended Price</div>
-      <div class="big" id="finalPrice">$0</div>
-      <div class="breakdown" id="breakdown"></div>
+    <div class="card hidden" id="trimFields">
+      <label>Trim Type</label>
+      <select id="trimType" onchange="calculate()">
+        <option value="175">Light trim / small hedge ($175)</option>
+        <option value="275" selected>Normal trim + cleanup ($275)</option>
+        <option value="450">Heavy overgrowth ($450)</option>
+        <option value="650">Severe overgrowth / HOA risk ($650)</option>
+      </select>
     </div>
 
-    <label>Copy/Paste Quote</label>
-    <textarea id="quoteText" readonly></textarea>
+    <div class="card hidden" id="customFields">
+      <label>Custom Base Price</label>
+      <input id="customBase" type="number" placeholder="Ex: 500" oninput="calculate()" />
+    </div>
 
-    <button onclick="copyQuote()">Copy Quote</button>
-    <button class="secondary" onclick="resetForm()">Reset</button>
+    <div class="card">
+      <div class="row">
+        <div>
+          <label>Material Cost</label>
+          <input id="materials" type="number" placeholder="Ex: 3920" oninput="calculate()" />
+        </div>
+        <div>
+          <label>Labor / Helper Cost</label>
+          <input id="labor" type="number" placeholder="Ex: 1250" oninput="calculate()" />
+        </div>
+      </div>
 
-    <div class="note">Tip: Use this as a starting point. Raise the price if access is bad, cleanup is heavy, or the job has risk.</div>
+      <div class="row">
+        <div>
+          <label>Dump / Rental / Fuel</label>
+          <input id="fees" type="number" placeholder="Ex: 75" oninput="calculate()" />
+        </div>
+        <div>
+          <label>Material Markup %</label>
+          <input id="materialMarkup" type="number" value="15" oninput="calculate()" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Difficulty</label>
+          <select id="difficulty" onchange="calculate()">
+            <option value="0">Easy</option>
+            <option value="75" selected>Normal (+$75)</option>
+            <option value="175">Hard (+$175)</option>
+            <option value="350">Very hard (+$350)</option>
+          </select>
+        </div>
+        <div>
+          <label>Round Price To</label>
+          <select id="roundTo" onchange="calculate()">
+            <option value="1">Exact</option>
+            <option value="25" selected>$25</option>
+            <option value="50">$50</option>
+            <option value="100">$100</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="result">
+        <div class="result-top">
+          <div>
+            <div>Recommended Price</div>
+            <div class="big" id="finalPrice">$0</div>
+          </div>
+          <span class="tag" id="marginTag">0% margin</span>
+        </div>
+        <div class="breakdown" id="breakdown"></div>
+      </div>
+
+      <label>Customer Quote</label>
+      <textarea id="quoteText" readonly></textarea>
+
+      <button onclick="copyQuote()">Copy Quote</button>
+      <button class="secondary" onclick="saveDefaults()">Save My Defaults</button>
+      <button class="danger" onclick="resetForm()">Reset Current Job</button>
+    </div>
+
+    <div class="footer-note">
+      This is a pricing helper, not a guarantee. Raise price for risk, bad access, heavy cleanup, tight scheduling, or anything near houses, fences, cars, utilities, or roads.
+    </div>
   </div>
 
   <script>
+    let currentJob = 'tree';
+
+    const fields = ['treeFields', 'sodFields', 'mulchFields', 'cleanupFields', 'trimFields', 'customFields'];
+    const tabs = ['tree', 'sod', 'mulch', 'cleanup', 'trim', 'custom'];
+
     function money(num) {
       return '$' + Math.round(num).toLocaleString();
     }
 
+    function n(id) {
+      return Number(document.getElementById(id).value) || 0;
+    }
+
+    function text(id) {
+      return document.getElementById(id).value.trim();
+    }
+
+    function roundPrice(value, roundTo) {
+      if (roundTo <= 1) return value;
+      return Math.ceil(value / roundTo) * roundTo;
+    }
+
+    function setJob(job) {
+      currentJob = job;
+      fields.forEach(id => document.getElementById(id).classList.add('hidden'));
+      document.getElementById(job + 'Fields').classList.remove('hidden');
+
+      tabs.forEach(t => document.getElementById('tab-' + t).classList.remove('active'));
+      document.getElementById('tab-' + job).classList.add('active');
+      calculate();
+    }
+
+    function getJobBase() {
+      if (currentJob === 'tree') {
+        return n('treeSize') + n('treeHaul') + n('stump');
+      }
+
+      if (currentJob === 'sod') {
+        const sqft = n('sodSqft');
+        const rate = n('sodRate');
+        return sqft * rate;
+      }
+
+      if (currentJob === 'mulch') {
+        return (n('bags') * n('bagRate')) + n('edgeAdd') + n('mulchCleanup');
+      }
+
+      if (currentJob === 'cleanup') {
+        return n('hours') * n('hourRate');
+      }
+
+      if (currentJob === 'trim') {
+        return n('trimType');
+      }
+
+      if (currentJob === 'custom') {
+        return n('customBase');
+      }
+
+      return 0;
+    }
+
+    function minimumForJob(price) {
+      const mins = {
+        tree: 400,
+        sod: 750,
+        mulch: 250,
+        cleanup: 200,
+        trim: 150,
+        custom: 100
+      };
+      return Math.max(price, mins[currentJob] || 0);
+    }
+
+    function jobLabel() {
+      return {
+        tree: 'tree removal',
+        sod: 'sod installation',
+        mulch: 'mulch/rock installation',
+        cleanup: 'property cleanup',
+        trim: 'trimming/cleanup',
+        custom: 'landscaping work'
+      }[currentJob];
+    }
+
     function calculate() {
-      const jobType = document.getElementById('jobType').value;
-      const size = Number(document.getElementById('size').value) || 0;
-      const materials = Number(document.getElementById('materials').value) || 0;
-      const labor = Number(document.getElementById('labor').value) || 0;
-      const fees = Number(document.getElementById('fees').value) || 0;
-      const materialMarkup = Number(document.getElementById('materialMarkup').value) || 0;
-      const profitMarkup = Number(document.getElementById('profitMarkup').value) || 0;
-      const difficulty = Number(document.getElementById('difficulty').value) || 0;
+      const base = getJobBase();
+      const materials = n('materials');
+      const labor = n('labor');
+      const fees = n('fees');
+      const materialMarkup = n('materialMarkup');
+      const difficulty = n('difficulty');
+      const roundTo = n('roundTo');
 
       const markedMaterials = materials * (1 + materialMarkup / 100);
-      const baseCost = markedMaterials + labor + fees + difficulty;
-      let price = baseCost * (1 + profitMarkup / 100);
+      const subtotal = base + markedMaterials + labor + fees + difficulty;
+      let price = minimumForJob(subtotal);
+      price = roundPrice(price, roundTo);
 
-      if (jobType === 'tree' && price < 400) price = 400;
-      if (jobType === 'trim' && price < 150) price = 150;
-      if (jobType === 'cleanup' && price < 200) price = 200;
-      if (jobType === 'mulch' && price < 250) price = 250;
-      if (jobType === 'sod' && size > 0) price = Math.max(price, size * 1.15);
-
-      const profit = price - (materials + labor + fees);
+      const trueCost = materials + labor + fees;
+      const profit = price - trueCost;
       const margin = price > 0 ? (profit / price) * 100 : 0;
 
       document.getElementById('finalPrice').textContent = money(price);
+      document.getElementById('marginTag').textContent = Math.round(margin) + '% margin';
+
       document.getElementById('breakdown').innerHTML = `
-        Materials with markup: <strong>${money(markedMaterials)}</strong><br>
-        Labor: <strong>${money(labor)}</strong><br>
-        Fees: <strong>${money(fees)}</strong><br>
+        Job base: <strong>${money(base)}</strong><br>
+        Materials after markup: <strong>${money(markedMaterials)}</strong><br>
+        Labor/helper cost: <strong>${money(labor)}</strong><br>
+        Dump/rental/fuel: <strong>${money(fees)}</strong><br>
         Difficulty add-on: <strong>${money(difficulty)}</strong><br>
-        Estimated profit: <strong>${money(profit)}</strong><br>
-        Estimated margin: <strong>${Math.round(margin)}%</strong>
+        Estimated profit: <strong>${money(profit)}</strong>
       `;
 
-      const jobName = document.getElementById('jobType').selectedOptions[0].text;
-      document.getElementById('quoteText').value = `Hi! For the ${jobName.toLowerCase()}, my price would be around ${money(price)}. That includes labor, materials/handling if applicable, and cleanup. I can confirm the final price after checking the job in person.`;
+      const customer = text('customer');
+      const notes = text('notes');
+      const greeting = customer ? `Hi ${customer},` : 'Hi,';
+      const noteLine = notes ? `\n\nScope: ${notes}.` : '';
+
+      document.getElementById('quoteText').value = `${greeting}\n\nFor the ${jobLabel()}, my price would be ${money(price)}.${noteLine}\n\nThat includes the work discussed, labor, and cleanup. Final price is based on the current scope and may change if extra work is added.\n\nThank you,\nLandon Landscaping LLC`;
     }
 
     function copyQuote() {
       const quote = document.getElementById('quoteText');
       quote.select();
-      document.execCommand('copy');
-      alert('Quote copied');
+      quote.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(quote.value).then(() => {
+        alert('Quote copied');
+      }).catch(() => {
+        document.execCommand('copy');
+        alert('Quote copied');
+      });
+    }
+
+    function saveDefaults() {
+      const defaults = {
+        materialMarkup: document.getElementById('materialMarkup').value,
+        sodRate: document.getElementById('sodRate').value,
+        bagRate: document.getElementById('bagRate').value,
+        hourRate: document.getElementById('hourRate').value,
+        roundTo: document.getElementById('roundTo').value,
+        difficulty: document.getElementById('difficulty').value
+      };
+      localStorage.setItem('ll_defaults', JSON.stringify(defaults));
+      alert('Defaults saved on this device');
+    }
+
+    function loadDefaults() {
+      const raw = localStorage.getItem('ll_defaults');
+      if (!raw) return;
+      try {
+        const d = JSON.parse(raw);
+        Object.keys(d).forEach(id => {
+          if (document.getElementById(id)) document.getElementById(id).value = d[id];
+        });
+      } catch (e) {}
     }
 
     function resetForm() {
-      document.getElementById('size').value = '';
-      document.getElementById('materials').value = '';
-      document.getElementById('labor').value = '';
-      document.getElementById('fees').value = '';
-      document.getElementById('materialMarkup').value = 15;
-      document.getElementById('profitMarkup').value = 35;
-      document.getElementById('difficulty').value = 0;
+      ['customer', 'notes', 'materials', 'labor', 'fees', 'sodSqft', 'bags', 'hours', 'customBase'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
       calculate();
     }
 
-    calculate();
+    loadDefaults();
+    setJob('tree');
   </script>
 </body>
 </html>
