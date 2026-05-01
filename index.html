@@ -95,20 +95,20 @@
     <div class="card" id="treeFields">
       <label>Tree Removal Size</label>
       <select id="treeSize" onchange="calculate()">
-        <option value="450">Small simple tree ($450)</option>
-        <option value="600" selected>Small-medium tree ($600)</option>
-        <option value="800">Medium tree ($800)</option>
-        <option value="1100">Large tree / multiple sections ($1,100)</option>
+        <option value="400">Small simple tree ($400)</option>
+        <option value="550" selected>Small-medium tree ($550)</option>
+        <option value="750">Medium tree ($750)</option>
+        <option value="1000">Large tree / multiple sections ($1,000)</option>
       </select>
       <div class="row">
         <div><label>Haul Away</label><select id="treeHaul" onchange="calculate()"><option value="0">No haul-away</option><option value="125" selected>Normal haul-away (+$125)</option><option value="225">Heavy haul-away (+$225)</option></select></div>
-        <div><label>Stump</label><select id="stump" onchange="calculate()"><option value="0" selected>No stump work</option><option value="125">Cut stump low (+$125)</option><option value="275">Stump grind/removal (+$275)</option></select></div>
+        <div><label>Stump</label><select id="stump" onchange="calculate()"><option value="0" selected>No stump work</option><option value="100">Cut stump low (+$100)</option><option value="99999">Stump grinding: quote separately / refer out</option></select></div>
       </div>
       <label>Risk Add-on</label>
       <select id="treeRisk" onchange="calculate()">
         <option value="0">Open yard / low risk</option>
         <option value="150">Near fence, road, driveway, or house (+$150)</option>
-        <option value="350">High risk / tight access (+$350)</option>
+        <option value="99999">High risk / tight access: refer out</option>
         <option value="99999">Refer out / do not quote</option>
       </select>
     </div>
@@ -141,7 +141,7 @@
         <div><label>Cost Per Bag</label><input id="bagCost" type="number" step="0.01" value="2" oninput="calculate()" /></div>
       </div>
       <div class="row">
-        <div><label>Install Labor / Bag</label><input id="bagLabor" type="number" value="5" oninput="calculate()" /></div>
+        <div><label>Install Labor / Bag</label><input id="bagLabor" type="number" value="6" oninput="calculate()" /></div>
         <div><label>Bed Edge</label><input id="edgeAdd" type="number" value="125" oninput="calculate()" /></div>
       </div>
       <div class="row">
@@ -355,7 +355,7 @@
     function preset(type){
       if(type==='smallTree'){
         setJob('tree');
-        document.getElementById('treeSize').value='600';
+        document.getElementById('treeSize').value='550';
         document.getElementById('treeHaul').value='125';
         document.getElementById('stump').value='0';
         document.getElementById('treeRisk').value='0';
@@ -375,18 +375,25 @@
     }
 
     function jobName(){ return {tree:'tree removal',sod:'sod installation',mulch:'mulch/rock installation',cleanup:'property cleanup',trim:'trimming/cleanup',extras:'landscape add-ons'}[currentJob]; }
-    function minForJob(){ return {tree:500,sod:850,mulch:275,cleanup:200,trim:175,extras:150}[currentJob] || 100; }
+    function minForJob(){
+      if(currentJob==='mulch' && val('materialType')==='rock') return 350;
+      return {tree:500,sod:1000,mulch:275,cleanup:200,trim:175,extras:150}[currentJob] || 100;
+    }
     function autoDepositPercent(){ return {tree:25,sod:50,mulch:50,cleanup:0,trim:0,extras:50}[currentJob] || 0; }
 
     function serviceBase(){
-      if(currentJob==='tree') return n('treeSize')+n('treeHaul')+n('stump')+n('treeRisk');
+      if(currentJob==='tree') {
+        if(n('stump') >= 99999 || n('treeRisk') >= 99999) return 99999;
+        return n('treeSize')+n('treeHaul')+n('stump')+n('treeRisk');
+      }
       if(currentJob==='sod'){
         const sqft=n('sodSqft'), buffer=n('sodBuffer')/100;
         return (sqft*(1+buffer)*n('sodRate'))+(sqft*n('prepRate'))+n('sodRental');
       }
       if(currentJob==='mulch'){
         const bags=mulchBags();
-        return (bags*(n('bagCost')+n('bagLabor')))+n('edgeAdd')+n('bedPrep')+(n('barrierSqft')*barrierRate);
+        const laborPerBag = val('materialType') === 'rock' ? Math.max(n('bagLabor'), 10) : n('bagLabor');
+        return (bags*(n('bagCost')+laborPerBag))+n('edgeAdd')+n('bedPrep')+(n('barrierSqft')*barrierRate);
       }
       if(currentJob==='cleanup') return (n('hours')*n('hourRate'))+n('cleanupHaul')+n('cleanupDiff');
       if(currentJob==='trim') return n('trimType')+(n('hedgeCount')*n('hedgeRate'))+n('smallTreePrune')+n('deadLimb')+n('palmTrim')+n('trimHaul')+n('trimRisk');
@@ -488,8 +495,9 @@
       `;
 
       const warnings=[];
-      if(margin<40) warnings.push(`<div class="warning bad"><strong>Margin warning:</strong> This is under your 40% target. Raise price, lower helper cost, or add a difficulty/haul-away fee.</div>`);
-      if(currentJob==='tree') warnings.push(`<div class="warning"><strong>Tree safety:</strong> Refuse or refer out if there are power lines, serious lean, heavy limbs over property, bad access, roof/fence risk, or anything you are not fully comfortable doing.</div>`);
+      if(base >= 99999) warnings.push(`<div class="warning bad"><strong>Do not quote:</strong> This option should be referred out or quoted separately. Do not use the displayed price.</div>`);
+      if(margin<40 && base < 99999) warnings.push(`<div class="warning bad"><strong>Margin warning:</strong> This is under your 40% target. Raise price, lower helper cost, or add a difficulty/haul-away fee.</div>`);
+      if(currentJob==='tree') warnings.push(`<div class="warning"><strong>Tree safety:</strong> Refuse or refer out if there are power lines, serious lean, heavy limbs over property, bad access, roof/fence risk, stump grinding, high risk access, or anything you are not fully comfortable doing.</div>`);
       if(currentJob==='trim') warnings.push(`<div class="warning"><strong>Trimming safety:</strong> Refer out anything near power lines, anything requiring climbing, large limbs over property, or cuts you cannot safely control from the ground.</div>`);
       if(currentJob==='sod') warnings.push(`<div class="warning"><strong>Sod note:</strong> Send watering instructions separately. Warranty only applies if care instructions are followed.</div>`);
       if(val('beforePhotos')==='no' || val('afterPhotos')==='no') warnings.push(`<div class="warning info"><strong>Marketing reminder:</strong> Get before/after photos if the customer is okay with it.</div>`);
@@ -521,7 +529,7 @@
       if(currentJob==='sod'){
         const billable=n('sodSqft')*(1+n('sodBuffer')/100); internal.push(`Shopping list: ${Math.ceil(billable/450)} pallets St. Augustine sod (${Math.round(billable)} sq ft with buffer)`);
       }
-      if(currentJob==='mulch') internal.push(`Shopping list: ${mulchBags()} bags of ${val('materialType')} at ${n('depth')} inch depth`);
+      if(currentJob==='mulch') internal.push(`Shopping list: ${mulchBags()} bags of ${val('materialType')} at ${n('depth')} inch depth. Labor per bag used: ${val('materialType')==='rock' ? Math.max(n('bagLabor'),10) : n('bagLabor')}`);
       if(currentJob==='tree') internal.push(`Equipment reminder: chainsaw, sharp chain, rope, wedges, rake/tarp, PPE, truck/trailer, dump plan`);
       if(currentJob==='trim') internal.push(`Equipment reminder: hedge trimmer, loppers, hand pruners, pole saw if needed, rake/tarp, blower, gloves, eye protection, hearing protection`);
       internal.push(`Upsell ideas: ${upsells().join(', ')}`);
