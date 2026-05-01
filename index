@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Landon Landscaping Price Calculator</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f3;
+      color: #1f2a1f;
+      padding: 16px;
+    }
+    .app {
+      max-width: 520px;
+      margin: 0 auto;
+      background: white;
+      padding: 18px;
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0 0 6px;
+    }
+    .sub {
+      color: #5b665b;
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin: 14px 0 6px;
+      font-size: 14px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cfd8cf;
+      border-radius: 10px;
+      font-size: 16px;
+      background: #fff;
+    }
+    textarea { min-height: 100px; }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .result {
+      margin-top: 18px;
+      padding: 16px;
+      background: #eef7ee;
+      border: 1px solid #b9d8b9;
+      border-radius: 14px;
+    }
+    .big {
+      font-size: 32px;
+      font-weight: bold;
+      margin: 6px 0;
+    }
+    .breakdown {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #344034;
+    }
+    button {
+      width: 100%;
+      margin-top: 12px;
+      padding: 14px;
+      border: 0;
+      border-radius: 12px;
+      background: #244b2a;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button.secondary {
+      background: #e7ece7;
+      color: #1f2a1f;
+    }
+    .note {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #697469;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Price Calculator</h1>
+    <div class="sub">Simple job pricing for Landon Landscaping LLC</div>
+
+    <label>Job Type</label>
+    <select id="jobType" onchange="calculate()">
+      <option value="sod">Sod Install</option>
+      <option value="mulch">Mulch / Rock Install</option>
+      <option value="cleanup">Property Cleanup</option>
+      <option value="tree">Tree Removal</option>
+      <option value="trim">Tree / Hedge Trimming</option>
+      <option value="custom">Custom Job</option>
+    </select>
+
+    <div class="row">
+      <div>
+        <label>Size / Sq Ft</label>
+        <input id="size" type="number" placeholder="Ex: 7000" oninput="calculate()" />
+      </div>
+      <div>
+        <label>Material Cost</label>
+        <input id="materials" type="number" placeholder="Ex: 3920" oninput="calculate()" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label>Labor Cost</label>
+        <input id="labor" type="number" placeholder="Ex: 1250" oninput="calculate()" />
+      </div>
+      <div>
+        <label>Dump / Rental Fees</label>
+        <input id="fees" type="number" placeholder="Ex: 75" oninput="calculate()" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label>Material Markup %</label>
+        <input id="materialMarkup" type="number" value="15" oninput="calculate()" />
+      </div>
+      <div>
+        <label>Profit Markup %</label>
+        <input id="profitMarkup" type="number" value="35" oninput="calculate()" />
+      </div>
+    </div>
+
+    <label>Difficulty</label>
+    <select id="difficulty" onchange="calculate()">
+      <option value="0">Easy</option>
+      <option value="50">Normal (+$50)</option>
+      <option value="150">Hard (+$150)</option>
+      <option value="300">Very Hard (+$300)</option>
+    </select>
+
+    <div class="result">
+      <div>Recommended Price</div>
+      <div class="big" id="finalPrice">$0</div>
+      <div class="breakdown" id="breakdown"></div>
+    </div>
+
+    <label>Copy/Paste Quote</label>
+    <textarea id="quoteText" readonly></textarea>
+
+    <button onclick="copyQuote()">Copy Quote</button>
+    <button class="secondary" onclick="resetForm()">Reset</button>
+
+    <div class="note">Tip: Use this as a starting point. Raise the price if access is bad, cleanup is heavy, or the job has risk.</div>
+  </div>
+
+  <script>
+    function money(num) {
+      return '$' + Math.round(num).toLocaleString();
+    }
+
+    function calculate() {
+      const jobType = document.getElementById('jobType').value;
+      const size = Number(document.getElementById('size').value) || 0;
+      const materials = Number(document.getElementById('materials').value) || 0;
+      const labor = Number(document.getElementById('labor').value) || 0;
+      const fees = Number(document.getElementById('fees').value) || 0;
+      const materialMarkup = Number(document.getElementById('materialMarkup').value) || 0;
+      const profitMarkup = Number(document.getElementById('profitMarkup').value) || 0;
+      const difficulty = Number(document.getElementById('difficulty').value) || 0;
+
+      const markedMaterials = materials * (1 + materialMarkup / 100);
+      const baseCost = markedMaterials + labor + fees + difficulty;
+      let price = baseCost * (1 + profitMarkup / 100);
+
+      if (jobType === 'tree' && price < 400) price = 400;
+      if (jobType === 'trim' && price < 150) price = 150;
+      if (jobType === 'cleanup' && price < 200) price = 200;
+      if (jobType === 'mulch' && price < 250) price = 250;
+      if (jobType === 'sod' && size > 0) price = Math.max(price, size * 1.15);
+
+      const profit = price - (materials + labor + fees);
+      const margin = price > 0 ? (profit / price) * 100 : 0;
+
+      document.getElementById('finalPrice').textContent = money(price);
+      document.getElementById('breakdown').innerHTML = `
+        Materials with markup: <strong>${money(markedMaterials)}</strong><br>
+        Labor: <strong>${money(labor)}</strong><br>
+        Fees: <strong>${money(fees)}</strong><br>
+        Difficulty add-on: <strong>${money(difficulty)}</strong><br>
+        Estimated profit: <strong>${money(profit)}</strong><br>
+        Estimated margin: <strong>${Math.round(margin)}%</strong>
+      `;
+
+      const jobName = document.getElementById('jobType').selectedOptions[0].text;
+      document.getElementById('quoteText').value = `Hi! For the ${jobName.toLowerCase()}, my price would be around ${money(price)}. That includes labor, materials/handling if applicable, and cleanup. I can confirm the final price after checking the job in person.`;
+    }
+
+    function copyQuote() {
+      const quote = document.getElementById('quoteText');
+      quote.select();
+      document.execCommand('copy');
+      alert('Quote copied');
+    }
+
+    function resetForm() {
+      document.getElementById('size').value = '';
+      document.getElementById('materials').value = '';
+      document.getElementById('labor').value = '';
+      document.getElementById('fees').value = '';
+      document.getElementById('materialMarkup').value = 15;
+      document.getElementById('profitMarkup').value = 35;
+      document.getElementById('difficulty').value = 0;
+      calculate();
+    }
+
+    calculate();
+  </script>
+</body>
+</html>
