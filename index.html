@@ -68,7 +68,7 @@
 
       <label>Quick Presets</label>
       <div class="quick">
-        <button onclick="preset('treePhoto')">Tree Like Photo</button>
+        <button onclick="preset('smallTree')">Small Tree Removal</button>
         <button onclick="preset('smallMulch')">Small Mulch Refresh</button>
         <button onclick="preset('sod7000')">7,000 Sq Ft Sod</button>
         <button onclick="preset('cleanupHalfDay')">Half-Day Cleanup</button>
@@ -95,10 +95,10 @@
     <div class="card" id="treeFields">
       <label>Tree Removal Size</label>
       <select id="treeSize" onchange="calculate()">
-        <option value="450">Small / simple tree ($450)</option>
-        <option value="600" selected>Small-medium tree like photo ($600)</option>
-        <option value="850">Medium tree ($850)</option>
-        <option value="1250">Large tree / multiple sections ($1,250)</option>
+        <option value="450">Small simple tree ($450)</option>
+        <option value="600" selected>Small-medium tree ($600)</option>
+        <option value="800">Medium tree ($800)</option>
+        <option value="1100">Large tree / multiple sections ($1,100)</option>
       </select>
       <div class="row">
         <div><label>Haul Away</label><select id="treeHaul" onchange="calculate()"><option value="0">No haul-away</option><option value="125" selected>Normal haul-away (+$125)</option><option value="225">Heavy haul-away (+$225)</option></select></div>
@@ -353,8 +353,14 @@
     }
 
     function preset(type){
-      if(type==='treePhoto'){
-        setJob('tree'); document.getElementById('treeSize').value='600'; document.getElementById('treeHaul').value='125'; document.getElementById('stump').value='0'; document.getElementById('treeRisk').value='0'; document.getElementById('fees').value='50'; document.getElementById('helperCost').value='125';
+      if(type==='smallTree'){
+        setJob('tree');
+        document.getElementById('treeSize').value='600';
+        document.getElementById('treeHaul').value='125';
+        document.getElementById('stump').value='0';
+        document.getElementById('treeRisk').value='0';
+        document.getElementById('fees').value='50';
+        document.getElementById('helperCost').value='125';
       }
       if(type==='smallMulch'){
         setJob('mulch'); document.getElementById('bedSqft').value='125'; document.getElementById('depth').value='3'; document.getElementById('bagSize').value='2'; document.getElementById('bagCost').value='2'; document.getElementById('bagLabor').value='5'; document.getElementById('edgeAdd').value='125'; document.getElementById('bedPrep').value='100';
