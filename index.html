@@ -193,10 +193,10 @@
     </div>
 
     <div class="card service-section" id="treeFields">
-      <label>Tree Removal Size</label>
+      <label>Tree Base Size / Complexity</label>
       <select id="treeSize"><option value="400">Small simple tree ($400)</option><option value="550" selected>Small-medium tree ($550)</option><option value="750">Medium tree ($750)</option><option value="1000">Large tree / multiple sections ($1,000)</option></select>
       <div class="row">
-        <div><label>Haul Away</label><select id="treeHaul"><option value="0">No haul-away</option><option value="125" selected>Normal haul-away (+$125)</option><option value="225">Heavy haul-away (+$225)</option></select></div>
+        <div><label>Haul Away / Debris Removal</label><select id="treeHaul"><option value="0">No haul-away</option><option value="100">Light haul-away (+$100)</option><option value="150" selected>Normal haul-away (+$150)</option><option value="250">Heavy haul-away (+$250)</option><option value="375">Multiple trips / huge debris (+$375)</option></select></div>
         <div><label>Stump Handling</label><select id="stump"><option value="0" selected>No stump work included</option><option value="100">Cut stump low (+$100)</option><option value="300">Grind small stump (+$300)</option><option value="425">Grind medium stump (+$425)</option><option value="600">Grind large stump (+$600)</option><option value="99999">Full stump/root removal: refer out</option></select></div>
       </div>
       <div class="row">
@@ -388,7 +388,7 @@
       if (type === 'smallTree') {
         setJob('tree');
         el('treeSize').value = '550';
-        el('treeHaul').value = '125';
+        el('treeHaul').value = '150';
         el('stump').value = '0';
         el('treeHeight').value = '100';
         el('trunkDiameter').value = '75';
@@ -581,7 +581,7 @@
 
       if (currentJob === 'tree') {
         addItem('Tree removal', 'Cut down and remove tree based on selected size/scope.', num('treeSize'));
-        addItem('Haul-away and cleanup', 'Debris cleanup and haul-away for tree removal.', num('treeHaul'));
+        addItem('Haul-away and cleanup', 'Cleanup and haul-away of tree debris based on selected debris amount.', num('treeHaul'));
         addItem('Stump handling', 'Stump work selected for this estimate, if any.', num('stump') < 99999 ? num('stump') : 0);
         addItem('Tree height adjustment', 'Additional labor/risk based on tree height.', num('treeHeight') < 99999 ? num('treeHeight') : 0);
         addItem('Trunk diameter adjustment', 'Additional cutting, weight, and handling based on trunk diameter.', num('trunkDiameter'));
@@ -740,7 +740,7 @@
       var depositLine = lastCalc.deposit > 0 ? '\n\nDeposit due ' + val('depositDue').toLowerCase() + ': ' + money(lastCalc.deposit) + '\nRemaining balance due upon completion: ' + money(lastCalc.remaining) : '';
       var schedule = val('scheduleLine') === 'yes' ? '\n\nIf you’d like to move forward, I can get you on the schedule.' : '';
       var scope = scopeLines().length ? '\n\nIncludes/notes:\n- ' + scopeLines().join('\n- ') : '';
-      var safety = currentJob === 'tree' ? '\n\nTree removal includes cutting down the tree, cleanup, and haul-away of debris. Stump grinding or full stump/root removal is not included unless listed separately. This price is based on the tree being safe to remove with the discussed scope. If anything unsafe is found in person, I’ll let you know before moving forward.' : '';
+      var safety = currentJob === 'tree' ? '\n\nTree removal includes cutting down the tree, cleanup, and haul-away of tree debris when haul-away is selected. Stump grinding or full stump/root removal is not included unless listed separately. This price is based on the tree being safe to remove with the discussed scope. If anything unsafe is found in person, I’ll let you know before moving forward.' : '';
       if (lastCalc.price >= 99999) {
         el('quoteText').value = greeting + '\n\nAfter looking over the details, this is something I would recommend referring out or quoting separately due to the risk/scope. I don’t want to take on work unless I know it can be done safely and correctly.\n\nThank you,\nLandon Landscaping LLC\n657-417-7599';
         return;
