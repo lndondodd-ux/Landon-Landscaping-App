@@ -417,10 +417,6 @@
       <label>Saved Jobs</label>
       <div class="small">Saved on this device only. Use this to track leads, quotes, completed jobs, and lost jobs.</div>
       <div id="savedJobs"></div>
-      <button class="secondary" type="button" onclick="exportJobs()">Export Saved Jobs Backup</button>
-      <label>Import Saved Jobs Backup</label>
-      <textarea id="importJobsText" placeholder="Paste exported backup text here"></textarea>
-      <button class="secondary" type="button" onclick="importJobs()">Import Backup</button>
       <button class="danger" type="button" onclick="clearJobs()">Clear Saved Jobs</button>
     </div>
     <div class="footer-note">Free quotes. Built to protect margin. Raise price for risk, bad access, tight scheduling, heavy cleanup, or extra scope.</div>
@@ -861,61 +857,6 @@ Pick a different start time, shorten the estimated hours, or adjust the buffer b
       renderJobs();
       renderBookedTimes();
       calculate();
-    }
-
-    function exportJobs() {
-      var jobs = savedJobs();
-
-      if (!jobs.length) {
-        alert('No saved jobs to export yet.');
-        return;
-      }
-
-      var backup = JSON.stringify(jobs, null, 2);
-
-      try {
-        navigator.clipboard.writeText(backup).then(function () {
-          alert('Backup copied. Save it somewhere safe, like Notes or Google Docs.');
-        }).catch(function () {
-          window.prompt('Copy this backup text and save it somewhere safe:', backup);
-        });
-      } catch (error) {
-        window.prompt('Copy this backup text and save it somewhere safe:', backup);
-      }
-    }
-
-    function importJobs() {
-      var box = el('importJobsText');
-      var text = box.value.trim();
-
-      if (!text) {
-        alert('Paste your backup text first.');
-        return;
-      }
-
-      try {
-        var importedJobs = JSON.parse(text);
-
-        if (!Array.isArray(importedJobs)) {
-          alert('That backup does not look right. Make sure you pasted the full export text.');
-          return;
-        }
-
-        var confirmMessage = 'Import ' + importedJobs.length + ' saved job(s)? This will replace the saved jobs on this device.';
-
-        if (!confirm(confirmMessage)) {
-          return;
-        }
-
-        localStorage.setItem('ll_jobs', JSON.stringify(importedJobs));
-        box.value = '';
-        renderJobs();
-        renderBookedTimes();
-        calculate();
-        alert('Saved jobs imported.');
-      } catch (error) {
-        alert('Import failed. Make sure you pasted the full backup text exactly.');
-      }
     }
 
     function clearJobs() {
