@@ -194,17 +194,17 @@
 
     <div class="card service-section" id="treeFields">
       <label>Tree Base Size / Complexity</label>
-      <select id="treeSize"><option value="400">Small simple tree ($400)</option><option value="550" selected>Small-medium tree ($550)</option><option value="750">Medium tree ($750)</option><option value="1000">Large tree / multiple sections ($1,000)</option></select>
+      <select id="treeSize"><option value="350">Small ornamental / easy tree ($350)</option><option value="450" selected>Small-medium front-yard tree ($450)</option><option value="550">Small-medium heavier tree ($550)</option><option value="750">Medium tree ($750)</option><option value="1000">Large tree / multiple sections ($1,000)</option></select>
       <div class="row">
         <div><label>Haul Away / Debris Removal</label><select id="treeHaul"><option value="0">No haul-away</option><option value="100">Light haul-away (+$100)</option><option value="150" selected>Normal haul-away (+$150)</option><option value="250">Heavy haul-away (+$250)</option><option value="375">Multiple trips / huge debris (+$375)</option></select></div>
-        <div><label>Stump Handling</label><select id="stump"><option value="0" selected>No stump work included</option><option value="100">Cut stump low (+$100)</option><option value="300">Grind small stump (+$300)</option><option value="425">Grind medium stump (+$425)</option><option value="600">Grind large stump (+$600)</option><option value="99999">Full stump/root removal: refer out</option></select></div>
+        <div><label>Stump Handling</label><select id="stump"><option value="0" selected>No stump work included</option><option value="75">Cut stump low (+$75)</option><option value="300">Grind small stump (+$300)</option><option value="425">Grind medium stump (+$425)</option><option value="600">Grind large stump (+$600)</option><option value="99999">Full stump/root removal: refer out</option></select></div>
       </div>
       <div class="row">
-        <div><label>Tree Height</label><select id="treeHeight"><option value="0">Under 10 ft: no add-on</option><option value="100">10-15 ft: +$100</option><option value="225">15-25 ft: +$225</option><option value="99999">25+ ft / too tall: refer out</option></select></div>
-        <div><label>Trunk Diameter</label><select id="trunkDiameter"><option value="0">Under 4 inches: no add-on</option><option value="75">4-8 inches: +$75</option><option value="175">8-12 inches: +$175</option><option value="300">12+ inches: +$300 / quote carefully</option></select></div>
+        <div><label>Tree Height</label><select id="treeHeight"><option value="0">Under 10 ft: no add-on</option><option value="50">10-15 ft: +$50</option><option value="125">15-25 ft: +$125</option><option value="99999">25+ ft / too tall: refer out</option></select></div>
+        <div><label>Trunk Diameter</label><select id="trunkDiameter"><option value="0">Under 4 inches: no add-on</option><option value="50">4-8 inches: +$50</option><option value="100">8-12 inches: +$100</option><option value="225">12+ inches: +$225 / quote carefully</option></select></div>
       </div>
       <label>Drop Zone</label>
-      <select id="dropZone"><option value="0">Open yard / easy drop: no add-on</option><option value="125">Limited space: +$125</option><option value="200">Near fence, driveway, or road: +$200</option><option value="350">Near house/structure: +$350</option><option value="99999">High risk drop zone: refer out</option></select>
+      <select id="dropZone"><option value="0">Open yard / easy drop: no add-on</option><option value="100">Near driveway/sidewalk/landscaping but clear fall path (+$100)</option><option value="150">Near house but controlled drop zone (+$150)</option><option value="250">Tight near house/structure (+$250)</option><option value="99999">High risk drop zone: refer out</option></select>
       <label>Risk Add-on</label>
       <select id="treeRisk"><option value="0">No extra risk add-on</option><option value="150">Extra caution / awkward access (+$150)</option><option value="99999">High risk / tight access: refer out</option></select>
     </div>
@@ -387,11 +387,11 @@
     function preset(type) {
       if (type === 'smallTree') {
         setJob('tree');
-        el('treeSize').value = '550';
+        el('treeSize').value = '450';
         el('treeHaul').value = '150';
         el('stump').value = '0';
-        el('treeHeight').value = '100';
-        el('trunkDiameter').value = '75';
+        el('treeHeight').value = '50';
+        el('trunkDiameter').value = '50';
         el('dropZone').value = '0';
         el('treeRisk').value = '0';
         el('fees').value = '50';
