@@ -1114,30 +1114,50 @@
     }
 
     function attachEvents() {
-      tabs.forEach(function(job) { el('tab-' + job).addEventListener('click', function() { setJob(job); }); });
-      el('preset-tree').addEventListener('click', function() { preset('smallTree'); });
-      el('preset-mulch').addEventListener('click', function() { preset('smallMulch'); });
-      el('preset-sod').addEventListener('click', function() { preset('sod7000'); });
-      el('preset-cleanup').addEventListener('click', function() { preset('cleanupHalfDay'); });
-      el('copyQuoteBtn').addEventListener('click', function() { copyBox('quoteText'); });
-      el('copyPaymentBtn').addEventListener('click', function() { copyBox('paymentText'); });
-      el('openStripeBtn').addEventListener('click', function() { openPaymentLink('stripe'); });
-      el('openPaypalBtn').addEventListener('click', function() { openPaymentLink('paypal'); });
-      el('estimateStripeBtn').addEventListener('click', function() { openPaymentLink('stripe'); });
-      el('estimatePaypalBtn').addEventListener('click', function() { openPaymentLink('paypal'); });
-      el('copyInternalBtn').addEventListener('click', function() { copyBox('internalText'); });
-      el('copyFollowBtn').addEventListener('click', function() { copyBox('followText'); });
-      el('saveJobBtn').addEventListener('click', saveJob);
-      el('saveDefaultsBtn').addEventListener('click', saveDefaults);
-      el('resetBtn').addEventListener('click', resetForm);
-      el('exportJobsBtn').addEventListener('click', exportJobs);
-      el('importJobsBtn').addEventListener('click', importJobs);
-      el('clearJobsBtn').addEventListener('click', clearJobs);
-      el('savedJobs').addEventListener('click', function(event) {
-        if (event.target && event.target.hasAttribute('data-delete-index')) {
-          deleteJob(Number(event.target.getAttribute('data-delete-index')));
+      function bind(id, eventName, handler) {
+        var element = el(id);
+        if (element) {
+          element.addEventListener(eventName, handler);
         }
+      }
+
+      tabs.forEach(function(job) {
+        bind('tab-' + job, 'click', function() {
+          setJob(job);
+        });
       });
+
+      bind('preset-tree', 'click', function() { preset('smallTree'); });
+      bind('preset-mulch', 'click', function() { preset('smallMulch'); });
+      bind('preset-sod', 'click', function() { preset('sod7000'); });
+      bind('preset-cleanup', 'click', function() { preset('cleanupHalfDay'); });
+
+      bind('copyQuoteBtn', 'click', function() { copyBox('quoteText'); });
+      bind('copyInternalBtn', 'click', function() { copyBox('internalText'); });
+      bind('copyFollowBtn', 'click', function() { copyBox('followText'); });
+      bind('copyPaymentBtn', 'click', function() { copyBox('paymentText'); });
+
+      bind('openStripeBtn', 'click', function() { openPaymentLink('stripe'); });
+      bind('openPaypalBtn', 'click', function() { openPaymentLink('paypal'); });
+      bind('estimateStripeBtn', 'click', function() { openPaymentLink('stripe'); });
+      bind('estimatePaypalBtn', 'click', function() { openPaymentLink('paypal'); });
+
+      bind('saveJobBtn', 'click', saveJob);
+      bind('saveDefaultsBtn', 'click', saveDefaults);
+      bind('resetBtn', 'click', resetForm);
+      bind('clearJobsBtn', 'click', clearJobs);
+      bind('exportJobsBtn', 'click', exportJobs);
+      bind('importJobsBtn', 'click', importJobs);
+
+      var savedJobsBox = el('savedJobs');
+      if (savedJobsBox) {
+        savedJobsBox.addEventListener('click', function(event) {
+          if (event.target && event.target.hasAttribute('data-delete-index')) {
+            deleteJob(Number(event.target.getAttribute('data-delete-index')));
+          }
+        });
+      }
+
       document.querySelectorAll('input, select, textarea').forEach(function(input) {
         input.addEventListener('input', calculate);
         input.addEventListener('change', calculate);
