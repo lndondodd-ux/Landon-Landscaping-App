@@ -413,7 +413,16 @@
       <button type="button" onclick="saveJob()">Save This Job</button><button class="secondary" type="button" onclick="saveDefaults()">Save My Defaults</button><button class="danger" type="button" onclick="resetForm()">Reset Current Job</button>
     </div>
 
-    <div class="card"><label>Saved Jobs</label><div class="small">Saved on this device only. Use this to track leads, quotes, completed jobs, and lost jobs.</div><div id="savedJobs"></div><button class="danger" type="button" onclick="clearJobs()">Clear Saved Jobs</button></div>
+    <div class="card">
+      <label>Saved Jobs</label>
+      <div class="small">Saved on this device only. Use this to track leads, quotes, completed jobs, and lost jobs.</div>
+      <div id="savedJobs"></div>
+      <button class="secondary" type="button" onclick="exportJobs()">Export Saved Jobs Backup</button>
+      <label>Import Saved Jobs Backup</label>
+      <textarea id="importJobsText" placeholder="Paste exported backup text here"></textarea>
+      <button class="secondary" type="button" onclick="importJobs()">Import Backup</button>
+      <button class="danger" type="button" onclick="clearJobs()">Clear Saved Jobs</button>
+    </div>
     <div class="footer-note">Free quotes. Built to protect margin. Raise price for risk, bad access, tight scheduling, heavy cleanup, or extra scope.</div>
   </div>
 
@@ -798,9 +807,14 @@
           const start = new Date(job.startISO);
           const end = new Date(job.endISO);
           return `${job.customer} - ${job.job} (${start.toLocaleDateString()} • ${formatTimeRange(start, end)})`;
-        }).join('\n');
+        }).join('
+');
 
-        alert(`Schedule conflict. This job overlaps with:\n\n${conflictList}\n\nPick a different start time, shorten the estimated hours, or adjust the buffer before saving.`);
+        alert(`Schedule conflict. This job overlaps with:
+
+${conflictList}
+
+Pick a different start time, shorten the estimated hours, or adjust the buffer before saving.`);
         return;
       }
 
@@ -847,6 +861,53 @@
       renderJobs();
       renderBookedTimes();
       calculate();
+    }
+
+    function exportJobs() {
+      const jobs = savedJobs();
+      const backup = JSON.stringify(jobs, null, 2);
+
+      if (!jobs.length) {
+        alert('No saved jobs to export yet.');
+        return;
+      }
+
+      navigator.clipboard.writeText(backup).then(() => {
+        alert('Saved jobs backup copied. Paste it somewhere safe, like Notes or Google Docs.');
+      }).catch(() => {
+        prompt('Copy this backup text and save it somewhere safe:', backup);
+      });
+    }
+
+    function importJobs() {
+      const text = el('importJobsText').value.trim();
+
+      if (!text) {
+        alert('Paste your backup text first.');
+        return;
+      }
+
+      try {
+        const importedJobs = JSON.parse(text);
+
+        if (!Array.isArray(importedJobs)) {
+          alert('That backup does not look right. Make sure you pasted the full export text.');
+          return;
+        }
+
+        if (!confirm(`Import ${importedJobs.length} saved job(s)? This will replace the saved jobs on this device.`)) {
+          return;
+        }
+
+        localStorage.setItem('ll_jobs', JSON.stringify(importedJobs));
+        el('importJobsText').value = '';
+        renderJobs();
+        renderBookedTimes();
+        calculate();
+        alert('Saved jobs imported.');
+      } catch (error) {
+        alert('Import failed. Make sure you pasted the full backup text exactly.');
+      }
     }
 
     function clearJobs() {
