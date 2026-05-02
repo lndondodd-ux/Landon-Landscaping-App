@@ -790,6 +790,20 @@
 
     function saveJob() {
       const scheduled = scheduledStartEnd();
+      const conflicts = scheduledConflict();
+
+      // Hard stop: do not allow booking inside an already booked time block.
+      if (conflicts.length > 0) {
+        const conflictList = conflicts.map(job => {
+          const start = new Date(job.startISO);
+          const end = new Date(job.endISO);
+          return `${job.customer} - ${job.job} (${start.toLocaleDateString()} • ${formatTimeRange(start, end)})`;
+        }).join('\n');
+
+        alert(`Schedule conflict. This job overlaps with:\n\n${conflictList}\n\nPick a different start time, shorten the estimated hours, or adjust the buffer before saving.`);
+        return;
+      }
+
       const jobs = savedJobs();
       jobs.unshift({
         date: new Date().toLocaleString(),
