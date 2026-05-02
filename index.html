@@ -679,20 +679,110 @@
       el('followText').value = msg;
     }
 
+    function buildEstimateLineItems() {
+      var items = [];
+      var serviceTotal = 0;
+
+      function addItem(title, detail, amount) {
+        amount = Number(amount) || 0;
+        if (amount === 0) return;
+        items.push({ title: title, detail: detail, amount: amount });
+        serviceTotal += amount;
+      }
+
+      if (currentJob === 'tree') {
+        addItem('Tree removal', 'Cut down and remove tree based on selected size/scope.', num('treeSize'));
+        addItem('Haul-away and cleanup', 'Debris cleanup and haul-away for tree removal.', num('treeHaul'));
+        addItem('Stump service', 'Stump cut low or related stump service if selected.', num('stump') < 99999 ? num('stump') : 0);
+        addItem('Risk / access adjustment', 'Added difficulty for access, nearby structures, driveway, fence, or other risk.', num('treeRisk') < 99999 ? num('treeRisk') : 0);
+      }
+
+      if (currentJob === 'sod') {
+        var sqft = num('sodSqft');
+        var billableSqft = sqft * (1 + num('sodBuffer') / 100);
+        addItem('Sod installation labor', Math.round(billableSqft).toLocaleString() + ' sq ft including waste/cut buffer.', billableSqft * num('sodRate'));
+        addItem('Prep / removal', 'Ground prep, removal, grading touch-up, and install preparation.', sqft * num('prepRate'));
+        addItem('Rental / gas', 'Rental equipment, gas, and job-related equipment cost.', num('sodRental'));
+      }
+
+      if (currentJob === 'mulch') {
+        var bags = mulchBags();
+        var laborPerBag = val('materialType') === 'rock' ? Math.max(num('bagLabor'), 10) : num('bagLabor');
+        addItem((val('materialType') === 'rock' ? 'Rock' : 'Mulch') + ' material', bags + ' bag(s) estimated.', bags * num('bagCost'));
+        addItem((val('materialType') === 'rock' ? 'Rock' : 'Mulch') + ' installation labor', 'Install labor based on bags/material difficulty.', bags * laborPerBag);
+        addItem('Bed edging', 'Clean bed edge / border preparation if selected.', num('edgeAdd'));
+        addItem('Bed prep / weed cleanup', 'Prep beds before material installation.', num('bedPrep'));
+        addItem('Weed barrier', 'Weed barrier material/install allowance.', num('barrierSqft') * weedBarrierRate);
+      }
+
+      if (currentJob === 'cleanup') {
+        addItem('Property cleanup labor', (num('hours') || 0) + ' estimated hour(s) at current hourly rate.', num('hours') * num('hourRate'));
+        addItem('Haul-away', 'Normal or heavy debris haul-away.', num('cleanupHaul'));
+        addItem('Difficulty adjustment', 'Added cost for overgrowth, heavy cleanup, or difficult conditions.', num('cleanupDiff'));
+      }
+
+      if (currentJob === 'trim') {
+        addItem('Trimming service', 'Tree/hedge trimming based on selected size and difficulty.', num('trimType'));
+        addItem('Extra hedge/bush trimming', (num('hedgeCount') || 0) + ' hedge/bush add-on(s).', num('hedgeCount') * num('hedgeRate'));
+        addItem('Small tree pruning', 'Small tree pruning add-on if selected.', num('smallTreePrune'));
+        addItem('Dead limb removal', 'Dead limb/deadwood removal if selected.', num('deadLimb'));
+        addItem('Palm trimming', 'Palm trimming add-on if selected.', num('palmTrim'));
+        addItem('Haul-away and cleanup', 'Cleanup/haul-away for trimming debris.', num('trimHaul'));
+        addItem('Risk / access adjustment', 'Added difficulty for ladder, access, thorns, height, or risk.', num('trimRisk') < 99999 ? num('trimRisk') : 0);
+      }
+
+      if (currentJob === 'extras') {
+        addItem('Plant installation', (num('plants') || 0) + ' plant(s) installed.', num('plants') * num('plantRate'));
+        addItem('Landscape light installation', (num('lights') || 0) + ' light(s) installed.', num('lights') * num('lightRate'));
+        addItem('Pressure washing', 'Pressure washing add-on if selected.', num('pressure'));
+        addItem('Custom add-on', 'Custom landscape add-on/service.', num('customAdd'));
+      }
+
+      addItem('Extra materials', 'Additional material cost entered for this job.', num('materials') * (1 + num('materialMarkup') / 100));
+      addItem('Helper / crew cost', 'Helper or crew labor cost included in this quote.', num('helperCost'));
+      addItem('Dump / rental / fuel / travel', 'Job-related travel, dump, rental, or fuel expense.', num('fees') + travelFee());
+
+      var difference = lastCalc.price - serviceTotal;
+      if (Math.abs(difference) >= 1 && lastCalc.price < 99999) {
+        if (difference > 0) {
+          addItem('Pricing adjustment', 'Pricing mode, minimum, rounding, profit target, or final quote adjustment.', difference);
+        } else {
+          addItem('Labor discount', 'Discount or manual price adjustment applied to the estimate.', difference);
+        }
+      }
+
+      if (!items.length) {
+        addItem(jobName(), 'Professional landscaping service based on the discussed scope.', lastCalc.price);
+      }
+
+      return items;
+    }
+
     function makeEstimatePreview() {
       var customer = txt('customer') || 'Customer';
       var info = txt('customerInfo') || '';
       var estimateDate = new Date().toLocaleDateString();
       var estimateNumber = 'EST-' + new Date().getFullYear() + '-' + String(savedJobs().length + 1).padStart(3, '0');
-      var description = jobName().toUpperCase();
       var notes = txt('notes') || 'Professional landscaping service based on the discussed scope.';
       var taxPercent = val('taxMode') === 'none' ? '0.0%' : num('taxRate').toFixed(1) + '%';
+      var lineItems = buildEstimateLineItems();
+      var rows = '';
+
+      lineItems.forEach(function(item) {
+        rows += '<tr>';
+        rows += '<td><div class="estimate-desc-title">' + item.title + '</div><div class="estimate-desc-sub">' + item.detail + '</div></td>';
+        rows += '<td class="qty-cell">1</td>';
+        rows += '<td class="tax-cell">' + taxPercent + '</td>';
+        rows += '<td class="amount-cell">' + money(item.amount) + '</td>';
+        rows += '</tr>';
+      });
+
       var html = '';
       html += '<div class="estimate-header"><div class="estimate-logo">🌿 Landon<br><span style="font-size:12px;letter-spacing:1px;">LANDSCAPING LLC.</span></div><div class="estimate-business">LANDON LANDSCAPING LLC<br>657-417-7599<br>Green Cove Springs, Florida</div></div>';
       html += '<div class="estimate-title">ESTIMATE</div><div class="estimate-date">' + estimateDate + '</div>';
       html += '<div class="estimate-info"><div><strong>BILL TO:</strong><br>' + customer + '<br>' + info + '</div><div style="text-align:right;"><strong>NUMBER:</strong> ' + estimateNumber + '<br><strong>DATE:</strong> ' + estimateDate + '<br><strong>DUE:</strong> Upon acceptance</div></div>';
-      html += '<table class="estimate-table"><thead><tr><th>Description</th><th>Quantity</th><th>Tax</th><th>Amount</th></tr></thead><tbody><tr><td><div class="estimate-desc-title">' + description + '</div><div class="estimate-desc-sub">' + notes + '</div></td><td class="qty-cell">1</td><td class="tax-cell">' + taxPercent + '</td><td class="amount-cell">' + money(lastCalc.price) + '</td></tr></tbody></table>';
-      html += '<div class="estimate-bottom"><div class="estimate-payment"><strong>Payment instructions</strong><br>Use the secure payment buttons below the estimate. Deposit may be required before scheduling or ordering materials.<br><br><strong>Notes</strong><br>Quote is based on the discussed scope. Additional work may change the total.</div><div class="estimate-totals"><div class="estimate-total-row"><span>SUBTOTAL:</span><span>' + money(lastCalc.price) + '</span></div><div class="estimate-total-row"><span>TAX:</span><span>' + money(lastCalc.tax) + '</span></div><div class="estimate-total-row"><span>TOTAL:</span><span>' + money(lastCalc.total) + '</span></div><div class="estimate-total-row"><span>DEPOSIT:</span><span>' + money(lastCalc.deposit) + '</span></div><div class="balance-due"><span>BALANCE DUE</span><span>' + money(lastCalc.remaining) + '</span></div></div></div>';
+      html += '<table class="estimate-table"><thead><tr><th>Description</th><th>Quantity</th><th>Tax</th><th>Amount</th></tr></thead><tbody>' + rows + '</tbody></table>';
+      html += '<div class="estimate-bottom"><div class="estimate-payment"><strong>Payment instructions</strong><br>Use the secure payment buttons below the estimate. Deposit may be required before scheduling or ordering materials.<br><br><strong>Project notes</strong><br>' + notes + '<br><br><strong>Terms</strong><br>Quote is based on the discussed scope. Additional work may change the total.</div><div class="estimate-totals"><div class="estimate-total-row"><span>SUBTOTAL:</span><span>' + money(lastCalc.price) + '</span></div><div class="estimate-total-row"><span>TAX:</span><span>' + money(lastCalc.tax) + '</span></div><div class="estimate-total-row"><span>TOTAL:</span><span>' + money(lastCalc.total) + '</span></div><div class="estimate-total-row"><span>DEPOSIT:</span><span>' + money(lastCalc.deposit) + '</span></div><div class="balance-due"><span>BALANCE DUE</span><span>' + money(lastCalc.remaining) + '</span></div></div></div>';
       el('estimatePreview').innerHTML = html;
     }
 
