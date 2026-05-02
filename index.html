@@ -146,6 +146,144 @@
 
     .job-card, .time-block { border: 1px solid rgba(31,90,45,0.13); border-radius: 17px; padding: 12px; margin-top: 9px; background: white; font-size: 13px; line-height: 1.5; }
     .job-card strong, .time-block strong { font-size: 15px; color: var(--forest); }
+
+    .estimate-preview {
+      background: white;
+      border: 1px solid rgba(31,90,45,0.16);
+      border-radius: 18px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .estimate-header {
+      background: var(--forest2);
+      color: white;
+      padding: 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .estimate-logo {
+      font-size: 22px;
+      font-weight: 950;
+      letter-spacing: -0.5px;
+    }
+
+    .estimate-business {
+      text-align: right;
+      font-size: 12px;
+      line-height: 1.45;
+      opacity: 0.95;
+    }
+
+    .estimate-title {
+      text-align: center;
+      padding: 18px 16px 10px;
+      font-size: 36px;
+      line-height: 1;
+      font-weight: 950;
+      color: #394039;
+      letter-spacing: -1px;
+    }
+
+    .estimate-date {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      padding-bottom: 14px;
+    }
+
+    .estimate-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      padding: 16px 18px;
+      font-size: 13px;
+      line-height: 1.45;
+      border-top: 1px solid #edf1ed;
+    }
+
+    .estimate-info strong {
+      color: #333b33;
+    }
+
+    .estimate-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .estimate-table th {
+      background: var(--forest2);
+      color: white;
+      text-align: left;
+      padding: 11px 10px;
+      font-size: 12px;
+    }
+
+    .estimate-table td {
+      padding: 13px 10px;
+      border-bottom: 1px solid #edf1ed;
+      vertical-align: top;
+    }
+
+    .estimate-table .amount-cell,
+    .estimate-table .qty-cell,
+    .estimate-table .tax-cell {
+      text-align: right;
+      white-space: nowrap;
+      font-weight: 800;
+    }
+
+    .estimate-desc-title {
+      font-weight: 950;
+      color: #293129;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .estimate-desc-sub {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .estimate-bottom {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      padding: 16px 18px 20px;
+    }
+
+    .estimate-payment {
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .estimate-totals {
+      font-size: 13px;
+    }
+
+    .estimate-total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      font-weight: 800;
+    }
+
+    .balance-due {
+      margin-top: 8px;
+      background: #2f312f;
+      color: white;
+      padding: 11px 12px;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 950;
+      font-size: 16px;
+    }
     .status-pill { display: inline-block; padding: 4px 8px; border-radius: 999px; background: #fff6dd; border: 1px solid rgba(214,180,106,0.35); color: var(--forest); font-size: 11px; font-weight: 900; margin-top: 4px; }
 
     .footer-note { font-size: 12px; color: var(--muted); text-align: center; padding: 8px 2px 20px; line-height: 1.4; }
@@ -318,6 +456,12 @@
       <label>Internal Notes / Shopping List</label><textarea id="internalText" readonly></textarea><button class="secondary" type="button" id="copyInternalBtn">Copy Internal Notes</button>
       <label>Follow-Up Text Generator</label><select id="followType"><option value="follow">Follow up after quote</option><option value="confirm">Confirm schedule</option><option value="daybefore">Day-before reminder</option><option value="thanks">Completed / thank you</option><option value="review">Ask for review</option><option value="photo">Ask photo permission</option><option value="payment">Payment reminder</option></select><textarea id="followText" readonly></textarea><button class="secondary" type="button" id="copyFollowBtn">Copy Follow-Up Text</button>
       <button type="button" id="saveJobBtn">Save This Job</button><button class="secondary" type="button" id="saveDefaultsBtn">Save My Defaults</button><button class="danger" type="button" id="resetBtn">Reset Current Job</button>
+    </div>
+
+    <div class="card">
+      <label>Professional Estimate Preview</label>
+      <div class="small">This is a customer-facing estimate preview based on the current quote. Next we can add print/PDF and detailed line items.</div>
+      <div id="estimatePreview" class="estimate-preview"></div>
     </div>
 
     <div class="card"><label>Saved Jobs</label><div class="small">Saved on this device only. Use this to track leads, quotes, completed jobs, and lost jobs.</div><div id="savedJobs"></div><button class="secondary" type="button" id="exportJobsBtn">Export Saved Jobs Backup</button><label>Import Saved Jobs Backup</label><textarea id="importJobsText" placeholder="Paste exported backup text here"></textarea><button class="secondary" type="button" id="importJobsBtn">Import Backup</button><button class="danger" type="button" id="clearJobsBtn">Clear Saved Jobs</button></div>
@@ -553,6 +697,7 @@
         makeQuote();
         makeInternal();
         makeFollowUp();
+        makeEstimatePreview();
       } catch (err) {
         el('warnings').innerHTML = '<div class="warning bad"><strong>App error:</strong> ' + err.message + '</div>';
       }
@@ -663,6 +808,52 @@
       if (type === 'photo') msg = 'Hi ' + customer + '! Would you be okay with me using before/after photos of the project for my business page? I wouldn’t include any personal information.';
       if (type === 'payment') msg = 'Hi ' + customer + '! Just sending a payment reminder for the ' + job + '. Total: ' + money(lastCalc.total) + '. Deposit: ' + money(lastCalc.deposit) + '. Remaining balance: ' + money(lastCalc.remaining) + '. Thank you!';
       el('followText').value = msg;
+    }
+
+    function makeEstimatePreview() {
+      var customer = txt('customer') || 'Customer';
+      var info = txt('customerInfo') || '';
+      var estimateDate = new Date().toLocaleDateString();
+      var estimateNumber = 'EST-' + new Date().getFullYear() + '-' + String(savedJobs().length + 1).padStart(3, '0');
+      var description = jobName().toUpperCase();
+      var notes = txt('notes') || 'Professional landscaping service based on the discussed scope.';
+      var subtotal = lastCalc.price;
+      var tax = lastCalc.tax;
+      var total = lastCalc.total;
+      var deposit = lastCalc.deposit;
+      var balance = lastCalc.remaining;
+      var taxPercent = val('taxMode') === 'none' ? '0.0%' : num('taxRate').toFixed(1) + '%';
+
+      el('estimatePreview').innerHTML =
+        '<div class="estimate-header">' +
+          '<div class="estimate-logo">🌿 Landon<br><span style="font-size:12px;letter-spacing:1px;">LANDSCAPING LLC.</span></div>' +
+          '<div class="estimate-business">LANDON LANDSCAPING LLC<br>657-417-7599<br>Green Cove Springs, Florida</div>' +
+        '</div>' +
+        '<div class="estimate-title">ESTIMATE</div>' +
+        '<div class="estimate-date">' + estimateDate + '</div>' +
+        '<div class="estimate-info">' +
+          '<div><strong>BILL TO:</strong><br>' + customer + '<br>' + info + '</div>' +
+          '<div style="text-align:right;"><strong>NUMBER:</strong> ' + estimateNumber + '<br><strong>DATE:</strong> ' + estimateDate + '<br><strong>DUE:</strong> Upon acceptance</div>' +
+        '</div>' +
+        '<table class="estimate-table">' +
+          '<thead><tr><th>Description</th><th>Quantity</th><th>Tax</th><th>Amount</th></tr></thead>' +
+          '<tbody><tr>' +
+            '<td><div class="estimate-desc-title">' + description + '</div><div class="estimate-desc-sub">' + notes + '</div></td>' +
+            '<td class="qty-cell">1</td>' +
+            '<td class="tax-cell">' + taxPercent + '</td>' +
+            '<td class="amount-cell">' + money(subtotal) + '</td>' +
+          '</tr></tbody>' +
+        '</table>' +
+        '<div class="estimate-bottom">' +
+          '<div class="estimate-payment"><strong>Payment instructions</strong><br>Deposit may be required before scheduling or ordering materials.<br><br><strong>Notes</strong><br>Quote is based on the discussed scope. Additional work may change the total.</div>' +
+          '<div class="estimate-totals">' +
+            '<div class="estimate-total-row"><span>SUBTOTAL:</span><span>' + money(subtotal) + '</span></div>' +
+            '<div class="estimate-total-row"><span>TAX:</span><span>' + money(tax) + '</span></div>' +
+            '<div class="estimate-total-row"><span>TOTAL:</span><span>' + money(total) + '</span></div>' +
+            '<div class="estimate-total-row"><span>DEPOSIT:</span><span>' + money(deposit) + '</span></div>' +
+            '<div class="balance-due"><span>BALANCE DUE</span><span>' + money(balance) + '</span></div>' +
+          '</div>' +
+        '</div>';
     }
 
     function copyBox(id) {
