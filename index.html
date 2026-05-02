@@ -879,45 +879,53 @@
       var taxPercent = val('taxMode') === 'none' ? '0.0%' : num('taxRate').toFixed(1) + '%';
       var stripeLink = txt('stripeLink');
       var paypalLink = txt('paypalLink');
-      var paymentButtons = '';
 
+      var paymentButtons = '';
       if (stripeLink || paypalLink) {
-        paymentButtons += '<div class="estimate-pay-buttons">';
-        if (stripeLink) paymentButtons += '<a class="estimate-pay-button stripe" href="' + stripeLink + '" target="_blank">Pay with Stripe</a>';
-        if (paypalLink) paymentButtons += '<a class="estimate-pay-button paypal" href="' + paypalLink + '" target="_blank">Pay with PayPal</a>';
+        paymentButtons = '<div class="estimate-pay-buttons">';
+        if (stripeLink) {
+          paymentButtons += '<a class="estimate-pay-button stripe" href="' + stripeLink + '" target="_blank">Pay with Stripe</a>';
+        }
+        if (paypalLink) {
+          paymentButtons += '<a class="estimate-pay-button paypal" href="' + paypalLink + '" target="_blank">Pay with PayPal</a>';
+        }
         paymentButtons += '</div>';
       }
 
-      el('estimatePreview').innerHTML =
-        '<div class="estimate-header">' +
-          '<div class="estimate-logo">🌿 Landon<br><span style="font-size:12px;letter-spacing:1px;">LANDSCAPING LLC.</span></div>' +
-          '<div class="estimate-business">LANDON LANDSCAPING LLC<br>657-417-7599<br>Green Cove Springs, Florida</div>' +
-        '</div>' +
-        '<div class="estimate-title">ESTIMATE</div>' +
-        '<div class="estimate-date">' + estimateDate + '</div>' +
-        '<div class="estimate-info">' +
-          '<div><strong>BILL TO:</strong><br>' + customer + '<br>' + info + '</div>' +
-          '<div style="text-align:right;"><strong>NUMBER:</strong> ' + estimateNumber + '<br><strong>DATE:</strong> ' + estimateDate + '<br><strong>DUE:</strong> Upon acceptance</div>' +
-        '</div>' +
-        '<table class="estimate-table">' +
-          '<thead><tr><th>Description</th><th>Quantity</th><th>Tax</th><th>Amount</th></tr></thead>' +
-          '<tbody><tr>' +
-            '<td><div class="estimate-desc-title">' + description + '</div><div class="estimate-desc-sub">' + notes + '</div></td>' +
-            '<td class="qty-cell">1</td>' +
-            '<td class="tax-cell">' + taxPercent + '</td>' +
-            '<td class="amount-cell">' + money(subtotal) + '</td>' +
-          '</tr></tbody>' +
-        '</table>' +
-        '<div class="estimate-bottom">' +
-          '<div class="estimate-payment"><strong>Payment instructions</strong><br>Deposit may be required before scheduling or ordering materials.' + paymentButtons + '<br><br><strong>Notes</strong><br>Quote is based on the discussed scope. Additional work may change the total.</div>' +
-          '<div class="estimate-totals">' +
-            '<div class="estimate-total-row"><span>SUBTOTAL:</span><span>' + money(subtotal) + '</span></div>' +
-            '<div class="estimate-total-row"><span>TAX:</span><span>' + money(tax) + '</span></div>' +
-            '<div class="estimate-total-row"><span>TOTAL:</span><span>' + money(total) + '</span></div>' +
-            '<div class="estimate-total-row"><span>DEPOSIT:</span><span>' + money(deposit) + '</span></div>' +
-            '<div class="balance-due"><span>BALANCE DUE</span><span>' + money(balance) + '</span></div>' +
-          '</div>' +
-        '</div>';
+      var html = '';
+      html += '<div class="estimate-header">';
+      html += '<div class="estimate-logo">🌿 Landon<br><span style="font-size:12px;letter-spacing:1px;">LANDSCAPING LLC.</span></div>';
+      html += '<div class="estimate-business">LANDON LANDSCAPING LLC<br>657-417-7599<br>Green Cove Springs, Florida</div>';
+      html += '</div>';
+      html += '<div class="estimate-title">ESTIMATE</div>';
+      html += '<div class="estimate-date">' + estimateDate + '</div>';
+      html += '<div class="estimate-info">';
+      html += '<div><strong>BILL TO:</strong><br>' + customer + '<br>' + info + '</div>';
+      html += '<div style="text-align:right;"><strong>NUMBER:</strong> ' + estimateNumber + '<br><strong>DATE:</strong> ' + estimateDate + '<br><strong>DUE:</strong> Upon acceptance</div>';
+      html += '</div>';
+      html += '<table class="estimate-table">';
+      html += '<thead><tr><th>Description</th><th>Quantity</th><th>Tax</th><th>Amount</th></tr></thead>';
+      html += '<tbody><tr>';
+      html += '<td><div class="estimate-desc-title">' + description + '</div><div class="estimate-desc-sub">' + notes + '</div></td>';
+      html += '<td class="qty-cell">1</td>';
+      html += '<td class="tax-cell">' + taxPercent + '</td>';
+      html += '<td class="amount-cell">' + money(subtotal) + '</td>';
+      html += '</tr></tbody>';
+      html += '</table>';
+      html += '<div class="estimate-bottom">';
+      html += '<div class="estimate-payment"><strong>Payment instructions</strong><br>Deposit may be required before scheduling or ordering materials.';
+      html += paymentButtons;
+      html += '<br><br><strong>Notes</strong><br>Quote is based on the discussed scope. Additional work may change the total.</div>';
+      html += '<div class="estimate-totals">';
+      html += '<div class="estimate-total-row"><span>SUBTOTAL:</span><span>' + money(subtotal) + '</span></div>';
+      html += '<div class="estimate-total-row"><span>TAX:</span><span>' + money(tax) + '</span></div>';
+      html += '<div class="estimate-total-row"><span>TOTAL:</span><span>' + money(total) + '</span></div>';
+      html += '<div class="estimate-total-row"><span>DEPOSIT:</span><span>' + money(deposit) + '</span></div>';
+      html += '<div class="balance-due"><span>BALANCE DUE</span><span>' + money(balance) + '</span></div>';
+      html += '</div>';
+      html += '</div>';
+
+      el('estimatePreview').innerHTML = html;
     }
 
     function makePaymentText() {
