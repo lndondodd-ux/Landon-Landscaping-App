@@ -288,6 +288,13 @@
 
     .footer-note { font-size: 12px; color: var(--muted); text-align: center; padding: 8px 2px 20px; line-height: 1.4; }
 
+    .payment-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-top: 10px;
+    }
+
     @media (max-width: 520px) {
       body { padding: 10px; }
       .row, .price-grid, .quick, .checks { grid-template-columns: 1fr; }
@@ -441,6 +448,26 @@
       <div class="row"><div><label>Sales Tax %</label><input id="taxRate" type="number" step="0.1" value="7" /></div><div><label>Sales Tax</label><select id="taxMode"><option value="materials" selected>Tax materials only</option><option value="full">Tax full job</option><option value="none">No tax</option></select></div></div>
       <div class="row"><div><label>Deposit</label><select id="deposit"><option value="auto" selected>Auto by job type</option><option value="0">No deposit</option><option value="25">25%</option><option value="50">50%</option><option value="custom">Custom amount</option></select></div><div><label>Custom Deposit $</label><input id="customDeposit" type="number" placeholder="Optional" /></div></div>
       <div class="row"><div><label>Round Price To</label><select id="roundTo"><option value="1">Exact</option><option value="25" selected>$25</option><option value="50">$50</option><option value="100">$100</option></select></div><div><label>Scheduling Line</label><select id="scheduleLine"><option value="yes" selected>Include</option><option value="no">Remove</option></select></div></div>
+    </div>
+
+    <div class="card">
+      <label>Payment Request</label>
+      <div class="small">Add your payment links once, then copy a clean payment message for customers.</div>
+      <div class="row">
+        <div><label>Stripe Payment Link</label><input id="stripeLink" placeholder="https://buy.stripe.com/..." /></div>
+        <div><label>PayPal Link</label><input id="paypalLink" placeholder="https://paypal.me/..." /></div>
+      </div>
+      <div class="row">
+        <div><label>Venmo</label><input id="venmoName" placeholder="Ex: @landonlandscaping" /></div>
+        <div><label>Apple Cash / Phone</label><input id="appleCashInfo" placeholder="Ex: 657-417-7599" /></div>
+      </div>
+      <label>Payment Message</label>
+      <textarea id="paymentText" readonly></textarea>
+      <div class="payment-actions">
+        <button class="secondary" type="button" id="copyPaymentBtn">Copy Payment Message</button>
+        <button class="secondary" type="button" id="openStripeBtn">Open Stripe Link</button>
+        <button class="secondary" type="button" id="openPaypalBtn">Open PayPal Link</button>
+      </div>
     </div>
 
     <div class="card">
@@ -698,6 +725,7 @@
         makeInternal();
         makeFollowUp();
         makeEstimatePreview();
+        makePaymentText();
       } catch (err) {
         el('warnings').innerHTML = '<div class="warning bad"><strong>App error:</strong> ' + err.message + '</div>';
       }
@@ -856,6 +884,50 @@
         '</div>';
     }
 
+    function makePaymentText() {
+      var customer = txt('customer') || 'there';
+      var total = money(lastCalc.total);
+      var deposit = money(lastCalc.deposit);
+      var remaining = money(lastCalc.remaining);
+      var stripe = txt('stripeLink');
+      var paypal = txt('paypalLink');
+      var venmo = txt('venmoName');
+      var appleCash = txt('appleCashInfo');
+      var lines = [];
+
+      lines.push('Hi ' + customer + '! Here is the payment information for the ' + jobName() + '.');
+      lines.push('');
+      lines.push('Total: ' + total);
+
+      if (lastCalc.deposit > 0) {
+        lines.push('Deposit due: ' + deposit);
+        lines.push('Remaining balance due upon completion: ' + remaining);
+      }
+
+      if (stripe) lines.push('Stripe payment link: ' + stripe);
+      if (paypal) lines.push('PayPal payment link: ' + paypal);
+      if (venmo) lines.push('Venmo: ' + venmo);
+      if (appleCash) lines.push('Apple Cash: ' + appleCash);
+
+      lines.push('');
+      lines.push('Thank you!');
+      lines.push('Landon Landscaping LLC');
+
+      el('paymentText').value = lines.join('\n');
+    }
+
+    function openPaymentLink(type) {
+      var link = type === 'stripe' ? txt('stripeLink') : txt('paypalLink');
+      var label = type === 'stripe' ? 'Stripe' : 'PayPal';
+
+      if (!link) {
+        alert('Add your ' + label + ' link first.');
+        return;
+      }
+
+      window.open(link, '_blank');
+    }
+
     function copyBox(id) {
       var box = el(id);
       box.select();
@@ -986,7 +1058,7 @@
     }
 
     function saveDefaults() {
-      var ids = ['sodRate','sodCostSqft','sodBuffer','prepRate','bagCost','bagLabor','edgeAdd','bedPrep','hourRate','materialMarkup','taxRate','taxMode','deposit','roundTo','scheduleLine','pricingMode','quoteStyle','targetHourlyProfit','depositDue'];
+      var ids = ['sodRate','sodCostSqft','sodBuffer','prepRate','bagCost','bagLabor','edgeAdd','bedPrep','hourRate','materialMarkup','taxRate','taxMode','deposit','roundTo','scheduleLine','pricingMode','quoteStyle','targetHourlyProfit','depositDue','stripeLink','paypalLink','venmoName','appleCashInfo'];
       var defaults = {};
       ids.forEach(function(id) { defaults[id] = val(id); });
       localStorage.setItem('ll_defaults', JSON.stringify(defaults));
@@ -1014,6 +1086,9 @@
       el('preset-sod').addEventListener('click', function() { preset('sod7000'); });
       el('preset-cleanup').addEventListener('click', function() { preset('cleanupHalfDay'); });
       el('copyQuoteBtn').addEventListener('click', function() { copyBox('quoteText'); });
+      el('copyPaymentBtn').addEventListener('click', function() { copyBox('paymentText'); });
+      el('openStripeBtn').addEventListener('click', function() { openPaymentLink('stripe'); });
+      el('openPaypalBtn').addEventListener('click', function() { openPaymentLink('paypal'); });
       el('copyInternalBtn').addEventListener('click', function() { copyBox('internalText'); });
       el('copyFollowBtn').addEventListener('click', function() { copyBox('followText'); });
       el('saveJobBtn').addEventListener('click', saveJob);
