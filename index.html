@@ -373,7 +373,6 @@
       tabs.forEach(function(tab) { el('tab-' + tab).classList.remove('active'); });
       el('tab-' + job).classList.add('active');
       applyScopeDefaults();
-      applyTargetHourlyRate();
       calculate();
     }
 
@@ -383,24 +382,6 @@
       el('scopeEdge').checked = currentJob === 'mulch';
       el('scopeNoStump').checked = currentJob === 'tree';
       el('scopeStumpLow').checked = false;
-    }
-
-    function targetHourlyForJob(job) {
-      var targets = {
-        tree: 125,
-        sod: 100,
-        mulch: 85,
-        cleanup: 75,
-        trim: 90,
-        extras: 100
-      };
-      return targets[job] || 100;
-    }
-
-    function applyTargetHourlyRate() {
-      if (el('targetHourlyProfit')) {
-        el('targetHourlyProfit').value = targetHourlyForJob(currentJob);
-      }
     }
 
     function preset(type) {
