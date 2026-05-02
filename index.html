@@ -1146,8 +1146,14 @@
       bind('saveDefaultsBtn', 'click', saveDefaults);
       bind('resetBtn', 'click', resetForm);
       bind('clearJobsBtn', 'click', clearJobs);
-      bind('exportJobsBtn', 'click', exportJobs);
-      bind('importJobsBtn', 'click', importJobs);
+
+      if (typeof exportJobs === 'function') {
+        bind('exportJobsBtn', 'click', exportJobs);
+      }
+
+      if (typeof importJobs === 'function') {
+        bind('importJobsBtn', 'click', importJobs);
+      }
 
       var savedJobsBox = el('savedJobs');
       if (savedJobsBox) {
