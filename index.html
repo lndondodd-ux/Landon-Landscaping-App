@@ -373,6 +373,7 @@
       tabs.forEach(function(tab) { el('tab-' + tab).classList.remove('active'); });
       el('tab-' + job).classList.add('active');
       applyScopeDefaults();
+      applyTargetHourlyRate();
       calculate();
     }
 
@@ -382,6 +383,24 @@
       el('scopeEdge').checked = currentJob === 'mulch';
       el('scopeNoStump').checked = currentJob === 'tree';
       el('scopeStumpLow').checked = false;
+    }
+
+    function targetHourlyForJob(job) {
+      var targets = {
+        tree: 125,
+        sod: 100,
+        mulch: 85,
+        cleanup: 75,
+        trim: 90,
+        extras: 100
+      };
+      return targets[job] || 100;
+    }
+
+    function applyTargetHourlyRate() {
+      if (el('targetHourlyProfit')) {
+        el('targetHourlyProfit').value = targetHourlyForJob(currentJob);
+      }
     }
 
     function preset(type) {
@@ -827,11 +846,21 @@
       if (!el('sodWateringText')) return;
 
       var text = '';
-      text += 'Sod Watering Instructions\n\n';
-      text += 'For the first 2 weeks, keep the new sod consistently moist. Water 2-3 times per day depending on heat, sun, and rainfall. The goal is to keep the sod and soil underneath damp, not flooded.\n\n';
-      text += 'Weeks 3-4: begin watering deeper but less often, usually once per day or every other day depending on weather.\n\n';
-      text += 'Do not mow until the sod has rooted and cannot be easily lifted. When mowing, keep St. Augustine around 3.5-4 inches tall and avoid scalping.\n\n';
-      text += 'Avoid heavy foot traffic, pets, and parked equipment on the sod while it establishes. Customer watering and care are required for successful establishment.\n\n';
+      text += 'Sod Watering Instructions
+
+';
+      text += 'For the first 2 weeks, keep the new sod consistently moist. Water 2-3 times per day depending on heat, sun, and rainfall. The goal is to keep the sod and soil underneath damp, not flooded.
+
+';
+      text += 'Weeks 3-4: begin watering deeper but less often, usually once per day or every other day depending on weather.
+
+';
+      text += 'Do not mow until the sod has rooted and cannot be easily lifted. When mowing, keep St. Augustine around 3.5-4 inches tall and avoid scalping.
+
+';
+      text += 'Avoid heavy foot traffic, pets, and parked equipment on the sod while it establishes. Customer watering and care are required for successful establishment.
+
+';
       text += 'Landon Landscaping LLC';
 
       el('sodWateringText').value = text;
