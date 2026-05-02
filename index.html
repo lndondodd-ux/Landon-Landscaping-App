@@ -107,42 +107,15 @@
     .invoice-pay-btn.paypal { background: #243b80; }
     .payment-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 10px; }
     .footer-note { font-size: 12px; color: var(--muted); text-align: center; padding: 8px 2px 20px; line-height: 1.4; }
-
     .print-only { display: none; }
 
     @media print {
-      body {
-        background: white;
-        padding: 0;
-      }
-
-      body * {
-        visibility: hidden;
-      }
-
-      #printArea,
-      #printArea * {
-        visibility: visible;
-      }
-
-      #printArea {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        padding: 0;
-      }
-
-      .estimate-preview {
-        border: none;
-        border-radius: 0;
-        margin: 0;
-      }
-
-      .invoice-action-bar,
-      .no-print {
-        display: none !important;
-      }
+      body { background: white; padding: 0; }
+      body * { visibility: hidden; }
+      #printArea, #printArea * { visibility: visible; }
+      #printArea { position: absolute; left: 0; top: 0; width: 100%; }
+      .estimate-preview { border: none; border-radius: 0; margin: 0; }
+      .invoice-action-bar, .no-print { display: none !important; }
     }
 
     @media (max-width: 520px) {
@@ -274,11 +247,11 @@
       <div class="small">Add payment links here. These power the payment buttons on the estimate.</div>
       <div class="row">
         <div><label>Stripe Payment Link</label><input id="stripeLink" placeholder="https://buy.stripe.com/..." /></div>
-        <div><label>PayPal Link</label><input id="paypalLink" placeholder="https://paypal.me/... or PayPal email" value="aimeedodd08@gmail.com" /></div>
+        <div><label>PayPal Link or Email</label><input id="paypalLink" placeholder="https://paypal.me/... or PayPal email" /></div>
       </div>
       <div class="row">
-        <div><label>Venmo</label><input id="venmoName" placeholder="Ex: @landonlandscaping" value="landonlandscaping" /></div>
-        <div><label>Apple Cash / Phone</label><input id="appleCashInfo" placeholder="Ex: 657-417-7599" value="657-417-7599" /></div>
+        <div><label>Venmo</label><input id="venmoName" placeholder="Ex: @landonlandscaping" /></div>
+        <div><label>Apple Cash / Phone</label><input id="appleCashInfo" placeholder="Ex: 657-417-7599" /></div>
       </div>
       <label>Payment Message</label>
       <textarea id="paymentText" readonly></textarea>
@@ -345,9 +318,7 @@
     <div class="card">
       <label>Professional Estimate Preview</label>
       <div class="small">Customer-facing estimate with payment buttons.</div>
-      <div id="printArea">
-        <div id="estimatePreview" class="estimate-preview"></div>
-      </div>
+      <div id="printArea"><div id="estimatePreview" class="estimate-preview"></div></div>
       <button class="secondary no-print" type="button" id="printEstimateBtn">Print / Save Estimate as PDF</button>
       <div class="invoice-action-bar no-print">
         <button type="button" class="invoice-pay-btn stripe" id="estimateStripeBtn">Pay with Stripe</button>
@@ -403,10 +374,45 @@
     }
 
     function preset(type) {
-      if (type === 'smallTree') { setJob('tree'); el('treeSize').value = '550'; el('treeHaul').value = '125'; el('stump').value = '0'; el('treeHeight').value = '100'; el('trunkDiameter').value = '75'; el('dropZone').value = '0'; el('treeRisk').value = '0'; el('fees').value = '50'; el('helperCost').value = '0'; }
-      if (type === 'smallMulch') { setJob('mulch'); el('bedSqft').value = '125'; el('depth').value = '3'; el('bagSize').value = '2'; el('bagCost').value = '2'; el('bagLabor').value = '6'; el('edgeAdd').value = '125'; el('bedPrep').value = '100'; }
-      if (type === 'sod7000') { setJob('sod'); el('sodSqft').value = '7000'; el('sodRate').value = '1.25'; el('sodCostSqft').value = '0.40'; el('sodBuffer').value = '5'; el('prepRate').value = '0.25'; el('sodRental').value = '300'; el('helperCost').value = '1250'; }
-      if (type === 'cleanupHalfDay') { setJob('cleanup'); el('hours').value = '4'; el('hourRate').value = '85'; el('cleanupHaul').value = '100'; el('cleanupDiff').value = '100'; }
+      if (type === 'smallTree') {
+        setJob('tree');
+        el('treeSize').value = '550';
+        el('treeHaul').value = '125';
+        el('stump').value = '0';
+        el('treeHeight').value = '100';
+        el('trunkDiameter').value = '75';
+        el('dropZone').value = '0';
+        el('treeRisk').value = '0';
+        el('fees').value = '50';
+        el('helperCost').value = '0';
+      }
+      if (type === 'smallMulch') {
+        setJob('mulch');
+        el('bedSqft').value = '125';
+        el('depth').value = '3';
+        el('bagSize').value = '2';
+        el('bagCost').value = '2';
+        el('bagLabor').value = '6';
+        el('edgeAdd').value = '125';
+        el('bedPrep').value = '100';
+      }
+      if (type === 'sod7000') {
+        setJob('sod');
+        el('sodSqft').value = '7000';
+        el('sodRate').value = '1.25';
+        el('sodCostSqft').value = '0.40';
+        el('sodBuffer').value = '5';
+        el('prepRate').value = '0.25';
+        el('sodRental').value = '300';
+        el('helperCost').value = '1250';
+      }
+      if (type === 'cleanupHalfDay') {
+        setJob('cleanup');
+        el('hours').value = '4';
+        el('hourRate').value = '85';
+        el('cleanupHaul').value = '100';
+        el('cleanupDiff').value = '100';
+      }
       calculate();
     }
 
@@ -419,8 +425,14 @@
       return { tree: 500, sod: 1000, mulch: 275, cleanup: 200, trim: 175, extras: 150 }[currentJob] || 100;
     }
 
-    function autoDepositPercent() { return { tree: 25, sod: 50, mulch: 50, cleanup: 0, trim: 0, extras: 50 }[currentJob] || 0; }
-    function hasRedFlags() { return checked('redPower') || checked('redClimb') || checked('redLean') || checked('redProperty') || checked('redAccess') || checked('redUnsure'); }
+    function autoDepositPercent() {
+      return { tree: 25, sod: 50, mulch: 50, cleanup: 0, trim: 0, extras: 50 }[currentJob] || 0;
+    }
+
+    function hasRedFlags() {
+      return checked('redPower') || checked('redClimb') || checked('redLean') || checked('redProperty') || checked('redAccess') || checked('redUnsure');
+    }
+
     function travelFee() { return num('driveTime'); }
 
     function scheduledStartEnd() {
@@ -473,29 +485,11 @@
 
     function serviceBase() {
       if (currentJob === 'tree') {
-        var treeHeight = num('treeHeight');
-        var trunkDiameter = num('trunkDiameter');
-        var dropZone = num('dropZone');
-
-        if (
-          num('stump') >= 99999 ||
-          num('treeRisk') >= 99999 ||
-          treeHeight >= 99999 ||
-          dropZone >= 99999 ||
-          hasRedFlags()
-        ) {
-          return 99999;
-        }
-
-        return (
-          num('treeSize') +
-          num('treeHaul') +
-          num('stump') +
-          treeHeight +
-          trunkDiameter +
-          dropZone +
-          num('treeRisk')
-        );
+        var height = num('treeHeight');
+        var diameter = num('trunkDiameter');
+        var drop = num('dropZone');
+        if (num('stump') >= 99999 || num('treeRisk') >= 99999 || height >= 99999 || drop >= 99999 || hasRedFlags()) return 99999;
+        return num('treeSize') + num('treeHaul') + num('stump') + height + diameter + drop + num('treeRisk');
       }
 
       if (currentJob === 'sod') {
@@ -509,18 +503,14 @@
         return mulchBags() * (num('bagCost') + labor) + num('edgeAdd') + num('bedPrep') + num('barrierSqft') * weedBarrierRate;
       }
 
-      if (currentJob === 'cleanup') {
-        return num('hours') * num('hourRate') + num('cleanupHaul') + num('cleanupDiff');
-      }
+      if (currentJob === 'cleanup') return num('hours') * num('hourRate') + num('cleanupHaul') + num('cleanupDiff');
 
       if (currentJob === 'trim') {
         if (num('trimRisk') >= 99999 || hasRedFlags()) return 99999;
         return num('trimType') + num('hedgeCount') * num('hedgeRate') + num('smallTreePrune') + num('deadLimb') + num('palmTrim') + num('trimHaul') + num('trimRisk');
       }
 
-      if (currentJob === 'extras') {
-        return num('plants') * num('plantRate') + num('lights') * num('lightRate') + num('pressure') + num('customAdd');
-      }
+      if (currentJob === 'extras') return num('plants') * num('plantRate') + num('lights') * num('lightRate') + num('pressure') + num('customAdd');
 
       return 0;
     }
@@ -544,14 +534,14 @@
       if (checked('scopeCleanup')) lines.push('Cleanup included');
       if (checked('scopeEdge')) lines.push('Bed edging included');
       if (checked('scopeStumpLow')) lines.push('Stump cut low');
-      if (checked('scopeNoStump')) lines.push('Stump grinding excluded unless added');
+      if (checked('scopeNoStump')) lines.push('Stump grinding excluded unless listed separately');
       if (checked('scopeNoIrrigation')) lines.push('Irrigation repairs excluded');
       if (checked('scopeWarranty')) lines.push('30-day limited workmanship warranty included');
       return lines;
     }
 
     function upsellIdeas() {
-      if (currentJob === 'tree') return ['fresh mulch ring', 'new plant/tree install', 'stump grinding referral', 'bed cleanup'];
+      if (currentJob === 'tree') return ['fresh mulch ring', 'new plant/tree install', 'stump grinding if safe', 'bed cleanup'];
       if (currentJob === 'sod') return ['perfect bed edges', 'mulch or rock refresh', 'plant package', 'landscape lighting', 'maintenance plan'];
       if (currentJob === 'mulch') return ['weed barrier', 'bed expansion', 'plants', 'landscape lighting', 'fresh edging'];
       if (currentJob === 'cleanup') return ['mulch refresh', 'hedge trimming', 'haul-away upgrade', 'pressure washing'];
@@ -565,6 +555,81 @@
       var better = roundUp(price * 1.12, r);
       var best = roundUp(price * 1.3, r);
       return 'Basic: current scope (' + money(basic) + ')\nBetter: upgraded scope (' + money(better) + ')\nBest: full upgrade (' + money(best) + '+)';
+    }
+
+    function buildEstimateLineItems() {
+      var items = [];
+      var serviceTotal = 0;
+
+      function addItem(title, detail, amount) {
+        amount = Number(amount) || 0;
+        if (amount === 0) return;
+        items.push({ title: title, detail: detail, amount: amount });
+        serviceTotal += amount;
+      }
+
+      if (currentJob === 'tree') {
+        addItem('Tree removal', 'Cut down and remove tree based on selected size/scope.', num('treeSize'));
+        addItem('Haul-away and cleanup', 'Debris cleanup and haul-away for tree removal.', num('treeHaul'));
+        addItem('Stump handling', 'Stump work selected for this estimate, if any.', num('stump') < 99999 ? num('stump') : 0);
+        addItem('Tree height adjustment', 'Additional labor/risk based on tree height.', num('treeHeight') < 99999 ? num('treeHeight') : 0);
+        addItem('Trunk diameter adjustment', 'Additional cutting, weight, and handling based on trunk diameter.', num('trunkDiameter'));
+        addItem('Drop zone adjustment', 'Added difficulty for limited space or nearby structures.', num('dropZone') < 99999 ? num('dropZone') : 0);
+        addItem('Risk / access adjustment', 'Added difficulty for awkward access or extra caution.', num('treeRisk') < 99999 ? num('treeRisk') : 0);
+      }
+
+      if (currentJob === 'sod') {
+        var sqft = num('sodSqft');
+        var billable = sqft * (1 + num('sodBuffer') / 100);
+        addItem('Sod installation labor', Math.round(billable).toLocaleString() + ' sq ft including buffer.', billable * num('sodRate'));
+        addItem('Prep / removal', 'Ground prep and install preparation.', sqft * num('prepRate'));
+        addItem('Rental / gas', 'Rental equipment, gas, and job-related equipment cost.', num('sodRental'));
+      }
+
+      if (currentJob === 'mulch') {
+        var bags = mulchBags();
+        var labor = val('materialType') === 'rock' ? Math.max(num('bagLabor'), 10) : num('bagLabor');
+        addItem((val('materialType') === 'rock' ? 'Rock' : 'Mulch') + ' material', bags + ' bag(s) estimated.', bags * num('bagCost'));
+        addItem((val('materialType') === 'rock' ? 'Rock' : 'Mulch') + ' installation labor', 'Install labor based on material difficulty.', bags * labor);
+        addItem('Bed edging', 'Clean bed edge / border preparation if selected.', num('edgeAdd'));
+        addItem('Bed prep / weed cleanup', 'Prep beds before material installation.', num('bedPrep'));
+        addItem('Weed barrier', 'Weed barrier material/install allowance.', num('barrierSqft') * weedBarrierRate);
+      }
+
+      if (currentJob === 'cleanup') {
+        addItem('Property cleanup labor', num('hours') + ' estimated hour(s).', num('hours') * num('hourRate'));
+        addItem('Haul-away', 'Normal or heavy debris haul-away.', num('cleanupHaul'));
+        addItem('Difficulty adjustment', 'Added cost for overgrowth or difficult conditions.', num('cleanupDiff'));
+      }
+
+      if (currentJob === 'trim') {
+        addItem('Trimming service', 'Tree/hedge trimming based on selected size and difficulty.', num('trimType'));
+        addItem('Extra hedge/bush trimming', num('hedgeCount') + ' hedge/bush add-on(s).', num('hedgeCount') * num('hedgeRate'));
+        addItem('Small tree pruning', 'Small tree pruning add-on if selected.', num('smallTreePrune'));
+        addItem('Dead limb removal', 'Dead limb/deadwood removal if selected.', num('deadLimb'));
+        addItem('Palm trimming', 'Palm trimming add-on if selected.', num('palmTrim'));
+        addItem('Haul-away and cleanup', 'Cleanup/haul-away for trimming debris.', num('trimHaul'));
+        addItem('Risk / access adjustment', 'Added difficulty for ladder, access, height, or risk.', num('trimRisk') < 99999 ? num('trimRisk') : 0);
+      }
+
+      if (currentJob === 'extras') {
+        addItem('Plant installation', num('plants') + ' plant(s) installed.', num('plants') * num('plantRate'));
+        addItem('Landscape light installation', num('lights') + ' light(s) installed.', num('lights') * num('lightRate'));
+        addItem('Pressure washing', 'Pressure washing add-on if selected.', num('pressure'));
+        addItem('Custom add-on', 'Custom landscape add-on/service.', num('customAdd'));
+      }
+
+      addItem('Extra materials', 'Additional material cost entered for this job.', num('materials') * (1 + num('materialMarkup') / 100));
+      addItem('Helper / crew cost', 'Helper or crew labor cost included in this quote.', num('helperCost'));
+      addItem('Dump / rental / fuel / travel', 'Job-related travel, dump, rental, or fuel expense.', num('fees') + travelFee());
+
+      var difference = lastCalc.price - serviceTotal;
+      if (Math.abs(difference) >= 1 && lastCalc.price < 99999) {
+        addItem(difference > 0 ? 'Pricing adjustment' : 'Labor discount', difference > 0 ? 'Pricing mode, minimum, rounding, or final quote adjustment.' : 'Discount or manual price adjustment applied.', difference);
+      }
+
+      if (!items.length) addItem(jobName(), 'Professional landscaping service based on the discussed scope.', lastCalc.price);
+      return items;
     }
 
     function calculate() {
@@ -653,9 +718,7 @@
       var depositLine = lastCalc.deposit > 0 ? '\n\nDeposit due ' + val('depositDue').toLowerCase() + ': ' + money(lastCalc.deposit) + '\nRemaining balance due upon completion: ' + money(lastCalc.remaining) : '';
       var schedule = val('scheduleLine') === 'yes' ? '\n\nIf you’d like to move forward, I can get you on the schedule.' : '';
       var scope = scopeLines().length ? '\n\nIncludes/notes:\n- ' + scopeLines().join('\n- ') : '';
-      var safety = currentJob === 'tree' ? '
-
-Tree removal includes cutting down the tree, cleanup, and haul-away of debris. Stump grinding or full stump/root removal is not included unless listed separately. This price is based on the tree being safe to remove with the discussed scope. If anything unsafe is found in person, I’ll let you know before moving forward.' : '';
+      var safety = currentJob === 'tree' ? '\n\nTree removal includes cutting down the tree, cleanup, and haul-away of debris. Stump grinding or full stump/root removal is not included unless listed separately. This price is based on the tree being safe to remove with the discussed scope. If anything unsafe is found in person, I’ll let you know before moving forward.' : '';
       if (lastCalc.price >= 99999) {
         el('quoteText').value = greeting + '\n\nAfter looking over the details, this is something I would recommend referring out or quoting separately due to the risk/scope. I don’t want to take on work unless I know it can be done safely and correctly.\n\nThank you,\nLandon Landscaping LLC\n657-417-7599';
         return;
@@ -718,93 +781,6 @@ Tree removal includes cutting down the tree, cleanup, and haul-away of debris. S
       el('followText').value = msg;
     }
 
-    function buildEstimateLineItems() {
-      var items = [];
-      var serviceTotal = 0;
-
-      function addItem(title, detail, amount) {
-        amount = Number(amount) || 0;
-        if (amount === 0) return;
-        items.push({ title: title, detail: detail, amount: amount });
-        serviceTotal += amount;
-      }
-
-      if (currentJob === 'tree') {
-        addItem('Tree removal', 'Cut down and remove tree based on selected size/scope.', num('treeSize'));
-        addItem('Haul-away and cleanup', 'Debris cleanup and haul-away for tree removal.', num('treeHaul'));
-        var stumpText = 'No stump work included unless selected separately.';
-        if (num('stump') === 100) stumpText = 'Cut stump as low as reasonably possible.';
-        if (num('stump') === 300) stumpText = 'Small stump grinding. Includes grinder rental allowance and labor.';
-        if (num('stump') === 425) stumpText = 'Medium stump grinding. Includes grinder rental allowance and labor.';
-        if (num('stump') === 600) stumpText = 'Large stump grinding. Includes grinder rental allowance and labor.';
-        addItem('Stump handling', stumpText, num('stump') < 99999 ? num('stump') : 0);
-        addItem('Tree height adjustment', 'Additional labor/risk based on tree height.', num('treeHeight') < 99999 ? num('treeHeight') : 0);
-        addItem('Trunk diameter adjustment', 'Additional cutting, weight, and handling based on trunk diameter.', num('trunkDiameter'));
-        addItem('Drop zone adjustment', 'Added difficulty for limited space, road, driveway, fence, house, or structure nearby.', num('dropZone') < 99999 ? num('dropZone') : 0);
-        addItem('Risk / access adjustment', 'Added difficulty for awkward access or extra caution.', num('treeRisk') < 99999 ? num('treeRisk') : 0);
-      }
-
-      if (currentJob === 'sod') {
-        var sqft = num('sodSqft');
-        var billableSqft = sqft * (1 + num('sodBuffer') / 100);
-        addItem('Sod installation labor', Math.round(billableSqft).toLocaleString() + ' sq ft including waste/cut buffer.', billableSqft * num('sodRate'));
-        addItem('Prep / removal', 'Ground prep, removal, grading touch-up, and install preparation.', sqft * num('prepRate'));
-        addItem('Rental / gas', 'Rental equipment, gas, and job-related equipment cost.', num('sodRental'));
-      }
-
-      if (currentJob === 'mulch') {
-        var bags = mulchBags();
-        var laborPerBag = val('materialType') === 'rock' ? Math.max(num('bagLabor'), 10) : num('bagLabor');
-        addItem((val('materialType') === 'rock' ? 'Rock' : 'Mulch') + ' material', bags + ' bag(s) estimated.', bags * num('bagCost'));
-        addItem((val('materialType') === 'rock' ? 'Rock' : 'Mulch') + ' installation labor', 'Install labor based on bags/material difficulty.', bags * laborPerBag);
-        addItem('Bed edging', 'Clean bed edge / border preparation if selected.', num('edgeAdd'));
-        addItem('Bed prep / weed cleanup', 'Prep beds before material installation.', num('bedPrep'));
-        addItem('Weed barrier', 'Weed barrier material/install allowance.', num('barrierSqft') * weedBarrierRate);
-      }
-
-      if (currentJob === 'cleanup') {
-        addItem('Property cleanup labor', (num('hours') || 0) + ' estimated hour(s) at current hourly rate.', num('hours') * num('hourRate'));
-        addItem('Haul-away', 'Normal or heavy debris haul-away.', num('cleanupHaul'));
-        addItem('Difficulty adjustment', 'Added cost for overgrowth, heavy cleanup, or difficult conditions.', num('cleanupDiff'));
-      }
-
-      if (currentJob === 'trim') {
-        addItem('Trimming service', 'Tree/hedge trimming based on selected size and difficulty.', num('trimType'));
-        addItem('Extra hedge/bush trimming', (num('hedgeCount') || 0) + ' hedge/bush add-on(s).', num('hedgeCount') * num('hedgeRate'));
-        addItem('Small tree pruning', 'Small tree pruning add-on if selected.', num('smallTreePrune'));
-        addItem('Dead limb removal', 'Dead limb/deadwood removal if selected.', num('deadLimb'));
-        addItem('Palm trimming', 'Palm trimming add-on if selected.', num('palmTrim'));
-        addItem('Haul-away and cleanup', 'Cleanup/haul-away for trimming debris.', num('trimHaul'));
-        addItem('Risk / access adjustment', 'Added difficulty for ladder, access, thorns, height, or risk.', num('trimRisk') < 99999 ? num('trimRisk') : 0);
-      }
-
-      if (currentJob === 'extras') {
-        addItem('Plant installation', (num('plants') || 0) + ' plant(s) installed.', num('plants') * num('plantRate'));
-        addItem('Landscape light installation', (num('lights') || 0) + ' light(s) installed.', num('lights') * num('lightRate'));
-        addItem('Pressure washing', 'Pressure washing add-on if selected.', num('pressure'));
-        addItem('Custom add-on', 'Custom landscape add-on/service.', num('customAdd'));
-      }
-
-      addItem('Extra materials', 'Additional material cost entered for this job.', num('materials') * (1 + num('materialMarkup') / 100));
-      addItem('Helper / crew cost', 'Helper or crew labor cost included in this quote.', num('helperCost'));
-      addItem('Dump / rental / fuel / travel', 'Job-related travel, dump, rental, or fuel expense.', num('fees') + travelFee());
-
-      var difference = lastCalc.price - serviceTotal;
-      if (Math.abs(difference) >= 1 && lastCalc.price < 99999) {
-        if (difference > 0) {
-          addItem('Pricing adjustment', 'Pricing mode, minimum, rounding, profit target, or final quote adjustment.', difference);
-        } else {
-          addItem('Labor discount', 'Discount or manual price adjustment applied to the estimate.', difference);
-        }
-      }
-
-      if (!items.length) {
-        addItem(jobName(), 'Professional landscaping service based on the discussed scope.', lastCalc.price);
-      }
-
-      return items;
-    }
-
     function makeEstimatePreview() {
       var customer = txt('customer') || 'Customer';
       var info = txt('customerInfo') || '';
@@ -812,18 +788,10 @@ Tree removal includes cutting down the tree, cleanup, and haul-away of debris. S
       var estimateNumber = 'EST-' + new Date().getFullYear() + '-' + String(savedJobs().length + 1).padStart(3, '0');
       var notes = txt('notes') || 'Professional landscaping service based on the discussed scope.';
       var taxPercent = val('taxMode') === 'none' ? '0.0%' : num('taxRate').toFixed(1) + '%';
-      var lineItems = buildEstimateLineItems();
       var rows = '';
-
-      lineItems.forEach(function(item) {
-        rows += '<tr>';
-        rows += '<td><div class="estimate-desc-title">' + item.title + '</div><div class="estimate-desc-sub">' + item.detail + '</div></td>';
-        rows += '<td class="qty-cell">1</td>';
-        rows += '<td class="tax-cell">' + taxPercent + '</td>';
-        rows += '<td class="amount-cell">' + money(item.amount) + '</td>';
-        rows += '</tr>';
+      buildEstimateLineItems().forEach(function(item) {
+        rows += '<tr><td><div class="estimate-desc-title">' + item.title + '</div><div class="estimate-desc-sub">' + item.detail + '</div></td><td class="qty-cell">1</td><td class="tax-cell">' + taxPercent + '</td><td class="amount-cell">' + money(item.amount) + '</td></tr>';
       });
-
       var html = '';
       html += '<div class="estimate-header"><div class="estimate-logo">🌿 Landon<br><span style="font-size:12px;letter-spacing:1px;">LANDSCAPING LLC.</span></div><div class="estimate-business">LANDON LANDSCAPING LLC<br>657-417-7599<br>Green Cove Springs, Florida</div></div>';
       html += '<div class="estimate-title">ESTIMATE</div><div class="estimate-date">' + estimateDate + '</div>';
@@ -844,7 +812,7 @@ Tree removal includes cutting down the tree, cleanup, and haul-away of debris. S
         lines.push('Remaining balance due upon completion: ' + money(lastCalc.remaining));
       }
       if (txt('stripeLink')) lines.push('Stripe payment link: ' + txt('stripeLink'));
-      if (txt('paypalLink')) lines.push('PayPal payment link: ' + txt('paypalLink'));
+      if (txt('paypalLink')) lines.push('PayPal: ' + txt('paypalLink'));
       if (txt('venmoName')) lines.push('Venmo: ' + txt('venmoName'));
       if (txt('appleCashInfo')) lines.push('Apple Cash: ' + txt('appleCashInfo'));
       lines.push('');
@@ -853,20 +821,13 @@ Tree removal includes cutting down the tree, cleanup, and haul-away of debris. S
       el('paymentText').value = lines.join('\n');
     }
 
-    function printEstimate() {
-      window.print();
-    }
-
     function openPaymentLink(type) {
       var link = type === 'stripe' ? txt('stripeLink') : txt('paypalLink');
       var label = type === 'stripe' ? 'Stripe' : 'PayPal';
-
       if (!link) {
         alert('Add your ' + label + ' link first.');
         return;
       }
-
-      // Stripe should be a real payment link.
       if (type === 'stripe') {
         if (link.indexOf('http://') !== 0 && link.indexOf('https://') !== 0) {
           alert('Stripe needs a full payment link that starts with https://');
@@ -875,21 +836,15 @@ Tree removal includes cutting down the tree, cleanup, and haul-away of debris. S
         window.open(link, '_blank');
         return;
       }
-
-      // PayPal can be either a PayPal.Me/full link OR an email address.
-      if (type === 'paypal') {
-        if (link.indexOf('@') > -1 && link.indexOf('http') !== 0) {
-          window.open('https://www.paypal.com/myaccount/transfer/send?recipient=' + encodeURIComponent(link), '_blank');
-          return;
-        }
-
-        if (link.indexOf('http://') !== 0 && link.indexOf('https://') !== 0) {
-          link = 'https://' + link;
-        }
-
-        window.open(link, '_blank');
+      if (link.indexOf('@') > -1 && link.indexOf('http') !== 0) {
+        window.open('https://www.paypal.com/myaccount/transfer/send?recipient=' + encodeURIComponent(link), '_blank');
+        return;
       }
+      if (link.indexOf('http://') !== 0 && link.indexOf('https://') !== 0) link = 'https://' + link;
+      window.open(link, '_blank');
     }
+
+    function printEstimate() { window.print(); }
 
     function copyBox(id) {
       var box = el(id);
@@ -996,13 +951,9 @@ Tree removal includes cutting down the tree, cleanup, and haul-away of debris. S
       try {
         var defaults = JSON.parse(localStorage.getItem('ll_defaults') || '{}');
         Object.keys(defaults).forEach(function(id) {
-          if (el(id) && defaults[id] !== '') {
-            el(id).value = defaults[id];
-          }
+          if (el(id) && defaults[id] !== '') el(id).value = defaults[id];
         });
       } catch(e) {}
-
-      // Built-in payment defaults. These refill if saved defaults are blank.
       if (el('venmoName') && !el('venmoName').value) el('venmoName').value = 'landonlandscaping';
       if (el('appleCashInfo') && !el('appleCashInfo').value) el('appleCashInfo').value = '657-417-7599';
       if (el('paypalLink') && !el('paypalLink').value) el('paypalLink').value = 'aimeedodd08@gmail.com';
@@ -1015,29 +966,41 @@ Tree removal includes cutting down the tree, cleanup, and haul-away of debris. S
       calculate();
     }
 
+    function bind(id, eventName, handler) {
+      var element = el(id);
+      if (element) element.addEventListener(eventName, handler);
+    }
+
     function attachEvents() {
-      tabs.forEach(function(job) { el('tab-' + job).addEventListener('click', function() { setJob(job); }); });
-      el('preset-tree').addEventListener('click', function() { preset('smallTree'); });
-      el('preset-mulch').addEventListener('click', function() { preset('smallMulch'); });
-      el('preset-sod').addEventListener('click', function() { preset('sod7000'); });
-      el('preset-cleanup').addEventListener('click', function() { preset('cleanupHalfDay'); });
-      el('copyQuoteBtn').addEventListener('click', function() { copyBox('quoteText'); });
-      el('copyInternalBtn').addEventListener('click', function() { copyBox('internalText'); });
-      el('copyFollowBtn').addEventListener('click', function() { copyBox('followText'); });
-      el('copyPaymentBtn').addEventListener('click', function() { copyBox('paymentText'); });
-      el('openStripeBtn').addEventListener('click', function() { openPaymentLink('stripe'); });
-      el('openPaypalBtn').addEventListener('click', function() { openPaymentLink('paypal'); });
-      el('estimateStripeBtn').addEventListener('click', function() { openPaymentLink('stripe'); });
-      el('estimatePaypalBtn').addEventListener('click', function() { openPaymentLink('paypal'); });
-      el('printEstimateBtn').addEventListener('click', printEstimate);
-      el('saveJobBtn').addEventListener('click', saveJob);
-      el('saveDefaultsBtn').addEventListener('click', saveDefaults);
-      el('resetBtn').addEventListener('click', resetForm);
-      el('exportJobsBtn').addEventListener('click', exportJobs);
-      el('importJobsBtn').addEventListener('click', importJobs);
-      el('clearJobsBtn').addEventListener('click', clearJobs);
-      el('savedJobs').addEventListener('click', function(event) { if (event.target && event.target.hasAttribute('data-delete-index')) deleteJob(Number(event.target.getAttribute('data-delete-index'))); });
-      document.querySelectorAll('input, select, textarea').forEach(function(input) { input.addEventListener('input', calculate); input.addEventListener('change', calculate); });
+      tabs.forEach(function(job) { bind('tab-' + job, 'click', function() { setJob(job); }); });
+      bind('preset-tree', 'click', function() { preset('smallTree'); });
+      bind('preset-mulch', 'click', function() { preset('smallMulch'); });
+      bind('preset-sod', 'click', function() { preset('sod7000'); });
+      bind('preset-cleanup', 'click', function() { preset('cleanupHalfDay'); });
+      bind('copyQuoteBtn', 'click', function() { copyBox('quoteText'); });
+      bind('copyInternalBtn', 'click', function() { copyBox('internalText'); });
+      bind('copyFollowBtn', 'click', function() { copyBox('followText'); });
+      bind('copyPaymentBtn', 'click', function() { copyBox('paymentText'); });
+      bind('openStripeBtn', 'click', function() { openPaymentLink('stripe'); });
+      bind('openPaypalBtn', 'click', function() { openPaymentLink('paypal'); });
+      bind('estimateStripeBtn', 'click', function() { openPaymentLink('stripe'); });
+      bind('estimatePaypalBtn', 'click', function() { openPaymentLink('paypal'); });
+      bind('printEstimateBtn', 'click', printEstimate);
+      bind('saveJobBtn', 'click', saveJob);
+      bind('saveDefaultsBtn', 'click', saveDefaults);
+      bind('resetBtn', 'click', resetForm);
+      bind('exportJobsBtn', 'click', exportJobs);
+      bind('importJobsBtn', 'click', importJobs);
+      bind('clearJobsBtn', 'click', clearJobs);
+      if (el('savedJobs')) {
+        el('savedJobs').addEventListener('click', function(event) {
+          if (event.target && event.target.hasAttribute('data-delete-index')) deleteJob(Number(event.target.getAttribute('data-delete-index')));
+        });
+      }
+      document.querySelectorAll('input, select, textarea').forEach(function(input) {
+        input.addEventListener('input', calculate);
+        input.addEventListener('change', calculate);
+      });
     }
 
     window.addEventListener('DOMContentLoaded', function() {
