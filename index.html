@@ -224,7 +224,7 @@
       <select id="treeSize"><option value="400">Small simple tree ($400)</option><option value="550" selected>Small-medium tree ($550)</option><option value="750">Medium tree ($750)</option><option value="1000">Large tree / multiple sections ($1,000)</option></select>
       <div class="row">
         <div><label>Haul Away</label><select id="treeHaul"><option value="0">No haul-away</option><option value="125" selected>Normal haul-away (+$125)</option><option value="225">Heavy haul-away (+$225)</option></select></div>
-        <div><label>Stump</label><select id="stump"><option value="0" selected>No stump work</option><option value="100">Cut stump low (+$100)</option><option value="99999">Stump grinding: quote separately / refer out</option></select></div>
+        <div><label>Stump Handling</label><select id="stump"><option value="0" selected>No stump work included</option><option value="100">Cut stump low (+$100)</option><option value="300">Grind small stump (+$300)</option><option value="425">Grind medium stump (+$425)</option><option value="600">Grind large stump (+$600)</option><option value="99999">Full stump/root removal: refer out</option></select></div>
       </div>
       <label>Risk Add-on</label>
       <select id="treeRisk"><option value="0">Open yard / low risk</option><option value="150">Near fence, road, driveway, or house (+$150)</option><option value="99999">High risk / tight access: refer out</option></select>
@@ -601,7 +601,7 @@
       if (pph >= target * 1.25) messages.push('<div class="warning info"><strong>High priority recommendation:</strong> This job is above your hourly profit target. Try to schedule it quickly.</div>');
       else if (pph < target && base < 99999) messages.push('<div class="warning"><strong>Pricing recommendation:</strong> Profit per hour is below your target. Raise the price, reduce helper cost, or avoid discounting.</div>');
       if (margin < 40 && base < 99999) messages.push('<div class="warning bad"><strong>Margin warning:</strong> This is under your 40% target. Raise price, lower helper cost, or add a difficulty/haul-away fee.</div>');
-      if (currentJob === 'tree') messages.push('<div class="warning"><strong>Tree safety:</strong> Refer out power lines, serious lean, heavy limbs over property, bad access, roof/fence risk, stump grinding, high-risk access, or anything you are not comfortable doing.</div>');
+      if (currentJob === 'tree') messages.push('<div class="warning"><strong>Tree safety:</strong> Refer out power lines, serious lean, heavy limbs over property, bad access, roof/fence risk, full stump/root removal, or anything you are not comfortable doing. Stump grinding should be quoted only when access is safe and utilities/irrigation risk is clear.</div>');
       if (currentJob === 'trim') messages.push('<div class="warning"><strong>Trimming safety:</strong> Refer out anything near power lines, requiring climbing, or cuts you cannot control from the ground.</div>');
       if (currentJob === 'sod') messages.push('<div class="warning"><strong>Sod note:</strong> Send watering instructions separately. Warranty only applies if care instructions are followed.</div>');
       el('warnings').innerHTML = messages.join('');
@@ -616,7 +616,7 @@
       var depositLine = lastCalc.deposit > 0 ? '\n\nDeposit due ' + val('depositDue').toLowerCase() + ': ' + money(lastCalc.deposit) + '\nRemaining balance due upon completion: ' + money(lastCalc.remaining) : '';
       var schedule = val('scheduleLine') === 'yes' ? '\n\nIf you’d like to move forward, I can get you on the schedule.' : '';
       var scope = scopeLines().length ? '\n\nIncludes/notes:\n- ' + scopeLines().join('\n- ') : '';
-      var safety = currentJob === 'tree' ? '\n\nThis price is based on the tree being safe to remove with the discussed scope. If anything unsafe is found in person, I’ll let you know before moving forward.' : '';
+      var safety = currentJob === 'tree' ? '\n\nTree removal includes cutting down the tree, cleanup, and haul-away of debris. Stump grinding or full stump/root removal is not included unless listed separately. This price is based on the tree being safe to remove with the discussed scope. If anything unsafe is found in person, I’ll let you know before moving forward.' : '';
       if (lastCalc.price >= 99999) {
         el('quoteText').value = greeting + '\n\nAfter looking over the details, this is something I would recommend referring out or quoting separately due to the risk/scope. I don’t want to take on work unless I know it can be done safely and correctly.\n\nThank you,\nLandon Landscaping LLC\n657-417-7599';
         return;
@@ -693,7 +693,12 @@
       if (currentJob === 'tree') {
         addItem('Tree removal', 'Cut down and remove tree based on selected size/scope.', num('treeSize'));
         addItem('Haul-away and cleanup', 'Debris cleanup and haul-away for tree removal.', num('treeHaul'));
-        addItem('Stump service', 'Stump cut low or related stump service if selected.', num('stump') < 99999 ? num('stump') : 0);
+        var stumpText = 'No stump work included unless selected separately.';
+        if (num('stump') === 100) stumpText = 'Cut stump as low as reasonably possible.';
+        if (num('stump') === 300) stumpText = 'Small stump grinding. Includes grinder rental allowance and labor.';
+        if (num('stump') === 425) stumpText = 'Medium stump grinding. Includes grinder rental allowance and labor.';
+        if (num('stump') === 600) stumpText = 'Large stump grinding. Includes grinder rental allowance and labor.';
+        addItem('Stump handling', stumpText, num('stump') < 99999 ? num('stump') : 0);
         addItem('Risk / access adjustment', 'Added difficulty for access, nearby structures, driveway, fence, or other risk.', num('treeRisk') < 99999 ? num('treeRisk') : 0);
       }
 
