@@ -616,7 +616,9 @@
       var depositLine = lastCalc.deposit > 0 ? '\n\nDeposit due ' + val('depositDue').toLowerCase() + ': ' + money(lastCalc.deposit) + '\nRemaining balance due upon completion: ' + money(lastCalc.remaining) : '';
       var schedule = val('scheduleLine') === 'yes' ? '\n\nIf you’d like to move forward, I can get you on the schedule.' : '';
       var scope = scopeLines().length ? '\n\nIncludes/notes:\n- ' + scopeLines().join('\n- ') : '';
-      var safety = currentJob === 'tree' ? '\n\nTree removal includes cutting down the tree, cleanup, and haul-away of debris. Stump grinding or full stump/root removal is not included unless listed separately. This price is based on the tree being safe to remove with the discussed scope. If anything unsafe is found in person, I’ll let you know before moving forward.' : '';
+      var safety = currentJob === 'tree' ? '
+
+Tree removal includes cutting down the tree, cleanup, and haul-away of debris. Stump grinding or full stump/root removal is not included unless listed separately. This price is based on the tree being safe to remove with the discussed scope. If anything unsafe is found in person, I’ll let you know before moving forward.' : '';
       if (lastCalc.price >= 99999) {
         el('quoteText').value = greeting + '\n\nAfter looking over the details, this is something I would recommend referring out or quoting separately due to the risk/scope. I don’t want to take on work unless I know it can be done safely and correctly.\n\nThank you,\nLandon Landscaping LLC\n657-417-7599';
         return;
