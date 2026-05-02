@@ -213,6 +213,17 @@
       <div class="row"><div><label>Square Feet</label><input id="sodSqft" type="number" placeholder="Ex: 7000" /></div><div><label>Install Rate / Sq Ft</label><input id="sodRate" type="number" step="0.01" value="1.25" /></div></div>
       <div class="row"><div><label>Sod Cost / Sq Ft</label><input id="sodCostSqft" type="number" step="0.01" value="0.40" /></div><div><label>Waste/Cut Buffer</label><select id="sodBuffer"><option value="0">0%</option><option value="5" selected>5%</option><option value="8">8%</option><option value="10">10%</option></select></div></div>
       <div class="row"><div><label>Prep / Removal Rate</label><input id="prepRate" type="number" step="0.01" value="0.25" /></div><div><label>Rental + Gas</label><input id="sodRental" type="number" placeholder="Ex: 250" /></div></div>
+      <div class="row">
+        <div><label>Sod Access Difficulty</label><select id="sodAccess"><option value="0">Pallets dropped close: no add-on</option><option value="250">Medium carry / side yard: +$250</option><option value="500">Long carry / backyard: +$500</option><option value="800">Tight gate / difficult cart access: +$800</option></select></div>
+        <div><label>Removal / Prep Difficulty</label><select id="sodPrepDifficulty"><option value="0">Already prepped / easy</option><option value="350">Light removal: +$350</option><option value="700">Normal removal: +$700</option><option value="1200">Heavy removal / leveling: +$1,200</option></select></div>
+      </div>
+      <div class="row">
+        <div><label>Irrigation / Sprinklers</label><select id="sodIrrigation"><option value="0">No irrigation noted</option><option value="0">Irrigation heads present - customer responsible</option><option value="150">Extra caution around irrigation: +$150</option></select></div>
+        <div><label>Sod Warranty</label><select id="sodWarranty"><option value="none">No warranty included</option><option value="workmanship" selected>30-day workmanship warranty</option><option value="watering">30-day warranty only with watering instructions followed</option><option value="declined">Customer declined care/warranty plan</option></select></div>
+      </div>
+      <label>Sod Watering Instructions</label>
+      <textarea id="sodWateringText" readonly></textarea>
+      <button class="secondary" type="button" id="copySodWateringBtn">Copy Sod Watering Instructions</button>
     </div>
 
     <div class="card service-section hidden" id="mulchFields">
@@ -495,7 +506,7 @@
       if (currentJob === 'sod') {
         var sqft = num('sodSqft');
         var billable = sqft * (1 + num('sodBuffer') / 100);
-        return billable * num('sodRate') + sqft * num('prepRate') + num('sodRental');
+        return billable * num('sodRate') + sqft * num('prepRate') + num('sodRental') + num('sodAccess') + num('sodPrepDifficulty') + num('sodIrrigation');
       }
 
       if (currentJob === 'mulch') {
@@ -584,6 +595,9 @@
         addItem('Sod installation labor', Math.round(billable).toLocaleString() + ' sq ft including buffer.', billable * num('sodRate'));
         addItem('Prep / removal', 'Ground prep and install preparation.', sqft * num('prepRate'));
         addItem('Rental / gas', 'Rental equipment, gas, and job-related equipment cost.', num('sodRental'));
+        addItem('Sod access difficulty', 'Added labor for carry distance, backyard access, gates, or cart difficulty.', num('sodAccess'));
+        addItem('Removal / prep difficulty', 'Added cost for removal, leveling, rough grading, or difficult prep.', num('sodPrepDifficulty'));
+        addItem('Irrigation caution', 'Extra caution around irrigation heads or sprinkler areas.', num('sodIrrigation')); 
       }
 
       if (currentJob === 'mulch') {
@@ -669,6 +683,7 @@
         makeFollowUp();
         makeEstimatePreview();
         makePaymentText();
+        makeSodWateringText();
       } catch (err) {
         el('warnings').innerHTML = '<div class="warning bad"><strong>App error:</strong> ' + err.message + '</div>';
       }
@@ -705,7 +720,14 @@
       if (margin < 40 && base < 99999) messages.push('<div class="warning bad"><strong>Margin warning:</strong> This is under your 40% target. Raise price, lower helper cost, or add a difficulty/haul-away fee.</div>');
       if (currentJob === 'tree') messages.push('<div class="warning"><strong>Tree safety:</strong> Refer out power lines, serious lean, heavy limbs over property, bad access, roof/fence risk, full stump/root removal, or anything you are not comfortable doing. Stump grinding should be quoted only when access is safe and utilities/irrigation risk is clear.</div>');
       if (currentJob === 'trim') messages.push('<div class="warning"><strong>Trimming safety:</strong> Refer out anything near power lines, requiring climbing, or cuts you cannot control from the ground.</div>');
-      if (currentJob === 'sod') messages.push('<div class="warning"><strong>Sod note:</strong> Send watering instructions separately. Warranty only applies if care instructions are followed.</div>');
+      if (currentJob === 'sod') {
+        var warrantyText = val('sodWarranty');
+        var warrantyMessage = 'Send watering instructions separately. Warranty only applies if care instructions are followed.';
+        if (warrantyText === 'none') warrantyMessage = 'No sod warranty is selected. Make sure the customer understands care is their responsibility.';
+        if (warrantyText === 'watering') warrantyMessage = 'Warranty is tied to the customer following watering instructions. Send the watering text after install.';
+        if (warrantyText === 'declined') warrantyMessage = 'Customer declined care/warranty plan. Note this in the quote if needed.';
+        messages.push('<div class="warning"><strong>Sod note:</strong> ' + warrantyMessage + '</div>');
+      }
       el('warnings').innerHTML = messages.join('');
     }
 
@@ -799,6 +821,20 @@
       html += '<table class="estimate-table"><thead><tr><th>Description</th><th>Quantity</th><th>Tax</th><th>Amount</th></tr></thead><tbody>' + rows + '</tbody></table>';
       html += '<div class="estimate-bottom"><div class="estimate-payment"><strong>Payment instructions</strong><br>Use the secure payment buttons below the estimate. Deposit may be required before scheduling or ordering materials.<br><br><strong>Project notes</strong><br>' + notes + '<br><br><strong>Terms</strong><br>Quote is based on the discussed scope. Additional work may change the total.</div><div class="estimate-totals"><div class="estimate-total-row"><span>SUBTOTAL:</span><span>' + money(lastCalc.price) + '</span></div><div class="estimate-total-row"><span>TAX:</span><span>' + money(lastCalc.tax) + '</span></div><div class="estimate-total-row"><span>TOTAL:</span><span>' + money(lastCalc.total) + '</span></div><div class="estimate-total-row"><span>DEPOSIT:</span><span>' + money(lastCalc.deposit) + '</span></div><div class="balance-due"><span>BALANCE DUE</span><span>' + money(lastCalc.remaining) + '</span></div></div></div>';
       el('estimatePreview').innerHTML = html;
+    }
+
+    function makeSodWateringText() {
+      if (!el('sodWateringText')) return;
+
+      var text = '';
+      text += 'Sod Watering Instructions\n\n';
+      text += 'For the first 2 weeks, keep the new sod consistently moist. Water 2-3 times per day depending on heat, sun, and rainfall. The goal is to keep the sod and soil underneath damp, not flooded.\n\n';
+      text += 'Weeks 3-4: begin watering deeper but less often, usually once per day or every other day depending on weather.\n\n';
+      text += 'Do not mow until the sod has rooted and cannot be easily lifted. When mowing, keep St. Augustine around 3.5-4 inches tall and avoid scalping.\n\n';
+      text += 'Avoid heavy foot traffic, pets, and parked equipment on the sod while it establishes. Customer watering and care are required for successful establishment.\n\n';
+      text += 'Landon Landscaping LLC';
+
+      el('sodWateringText').value = text;
     }
 
     function makePaymentText() {
@@ -940,7 +976,7 @@
     }
 
     function saveDefaults() {
-      var ids = ['sodRate','sodCostSqft','sodBuffer','prepRate','bagCost','bagLabor','edgeAdd','bedPrep','hourRate','materialMarkup','taxRate','taxMode','deposit','roundTo','scheduleLine','pricingMode','quoteStyle','targetHourlyProfit','depositDue','stripeLink','paypalLink','venmoName','appleCashInfo'];
+      var ids = ['sodRate','sodCostSqft','sodBuffer','prepRate','sodAccess','sodPrepDifficulty','sodIrrigation','sodWarranty','bagCost','bagLabor','edgeAdd','bedPrep','hourRate','materialMarkup','taxRate','taxMode','deposit','roundTo','scheduleLine','pricingMode','quoteStyle','targetHourlyProfit','depositDue','stripeLink','paypalLink','venmoName','appleCashInfo'];
       var defaults = {};
       ids.forEach(function(id) { defaults[id] = val(id); });
       localStorage.setItem('ll_defaults', JSON.stringify(defaults));
@@ -981,6 +1017,7 @@
       bind('copyInternalBtn', 'click', function() { copyBox('internalText'); });
       bind('copyFollowBtn', 'click', function() { copyBox('followText'); });
       bind('copyPaymentBtn', 'click', function() { copyBox('paymentText'); });
+      bind('copySodWateringBtn', 'click', function() { copyBox('sodWateringText'); });
       bind('openStripeBtn', 'click', function() { openPaymentLink('stripe'); });
       bind('openPaypalBtn', 'click', function() { openPaymentLink('paypal'); });
       bind('estimateStripeBtn', 'click', function() { openPaymentLink('stripe'); });
