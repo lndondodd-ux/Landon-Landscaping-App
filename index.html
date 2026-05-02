@@ -320,7 +320,7 @@
       <button type="button" id="saveJobBtn">Save This Job</button><button class="secondary" type="button" id="saveDefaultsBtn">Save My Defaults</button><button class="danger" type="button" id="resetBtn">Reset Current Job</button>
     </div>
 
-    <div class="card"><label>Saved Jobs</label><div class="small">Saved on this device only. Use this to track leads, quotes, completed jobs, and lost jobs.</div><div id="savedJobs"></div><button class="secondary" type="button" id="exportJobsBtn">Export Saved Jobs Backup</button><button class="danger" type="button" id="clearJobsBtn">Clear Saved Jobs</button></div>
+    <div class="card"><label>Saved Jobs</label><div class="small">Saved on this device only. Use this to track leads, quotes, completed jobs, and lost jobs.</div><div id="savedJobs"></div><button class="secondary" type="button" id="exportJobsBtn">Export Saved Jobs Backup</button><label>Import Saved Jobs Backup</label><textarea id="importJobsText" placeholder="Paste exported backup text here"></textarea><button class="secondary" type="button" id="importJobsBtn">Import Backup</button><button class="danger" type="button" id="clearJobsBtn">Clear Saved Jobs</button></div>
     <div class="footer-note">Free quotes. Built to protect margin. Raise price for risk, bad access, tight scheduling, heavy cleanup, or extra scope.</div>
   </div>
 
@@ -755,6 +755,37 @@
       }
     }
 
+    function importJobs() {
+      var backupText = el('importJobsText').value.trim();
+
+      if (!backupText) {
+        alert('Paste your backup text first.');
+        return;
+      }
+
+      try {
+        var importedJobs = JSON.parse(backupText);
+
+        if (!Array.isArray(importedJobs)) {
+          alert('That backup does not look right. Make sure you pasted the full export text.');
+          return;
+        }
+
+        if (!confirm('Import ' + importedJobs.length + ' saved job(s)? This will replace the saved jobs on this device.')) {
+          return;
+        }
+
+        localStorage.setItem('ll_jobs', JSON.stringify(importedJobs));
+        el('importJobsText').value = '';
+        renderJobs();
+        renderBookedTimes();
+        calculate();
+        alert('Saved jobs imported.');
+      } catch (error) {
+        alert('Import failed. Make sure you pasted the full backup text exactly.');
+      }
+    }
+
     function clearJobs() {
       if (!confirm('Clear all saved jobs?')) return;
       localStorage.removeItem('ll_jobs');
@@ -798,6 +829,7 @@
       el('saveDefaultsBtn').addEventListener('click', saveDefaults);
       el('resetBtn').addEventListener('click', resetForm);
       el('exportJobsBtn').addEventListener('click', exportJobs);
+      el('importJobsBtn').addEventListener('click', importJobs);
       el('clearJobsBtn').addEventListener('click', clearJobs);
       el('savedJobs').addEventListener('click', function(event) {
         if (event.target && event.target.hasAttribute('data-delete-index')) {
