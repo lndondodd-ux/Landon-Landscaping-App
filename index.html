@@ -497,21 +497,31 @@
           num('treeRisk')
         );
       }
-      if (currentJob === 'sod' {
+
+      if (currentJob === 'sod') {
         var sqft = num('sodSqft');
         var billable = sqft * (1 + num('sodBuffer') / 100);
         return billable * num('sodRate') + sqft * num('prepRate') + num('sodRental');
       }
+
       if (currentJob === 'mulch') {
         var labor = val('materialType') === 'rock' ? Math.max(num('bagLabor'), 10) : num('bagLabor');
         return mulchBags() * (num('bagCost') + labor) + num('edgeAdd') + num('bedPrep') + num('barrierSqft') * weedBarrierRate;
       }
-      if (currentJob === 'cleanup') return num('hours') * num('hourRate') + num('cleanupHaul') + num('cleanupDiff');
+
+      if (currentJob === 'cleanup') {
+        return num('hours') * num('hourRate') + num('cleanupHaul') + num('cleanupDiff');
+      }
+
       if (currentJob === 'trim') {
         if (num('trimRisk') >= 99999 || hasRedFlags()) return 99999;
         return num('trimType') + num('hedgeCount') * num('hedgeRate') + num('smallTreePrune') + num('deadLimb') + num('palmTrim') + num('trimHaul') + num('trimRisk');
       }
-      if (currentJob === 'extras') return num('plants') * num('plantRate') + num('lights') * num('lightRate') + num('pressure') + num('customAdd');
+
+      if (currentJob === 'extras') {
+        return num('plants') * num('plantRate') + num('lights') * num('lightRate') + num('pressure') + num('customAdd');
+      }
+
       return 0;
     }
 
