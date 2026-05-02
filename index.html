@@ -226,8 +226,14 @@
         <div><label>Haul Away</label><select id="treeHaul"><option value="0">No haul-away</option><option value="125" selected>Normal haul-away (+$125)</option><option value="225">Heavy haul-away (+$225)</option></select></div>
         <div><label>Stump Handling</label><select id="stump"><option value="0" selected>No stump work included</option><option value="100">Cut stump low (+$100)</option><option value="300">Grind small stump (+$300)</option><option value="425">Grind medium stump (+$425)</option><option value="600">Grind large stump (+$600)</option><option value="99999">Full stump/root removal: refer out</option></select></div>
       </div>
+      <div class="row">
+        <div><label>Tree Height</label><select id="treeHeight"><option value="0">Under 10 ft: no add-on</option><option value="100">10-15 ft: +$100</option><option value="225">15-25 ft: +$225</option><option value="99999">25+ ft / too tall: refer out</option></select></div>
+        <div><label>Trunk Diameter</label><select id="trunkDiameter"><option value="0">Under 4 inches: no add-on</option><option value="75">4-8 inches: +$75</option><option value="175">8-12 inches: +$175</option><option value="300">12+ inches: +$300 / quote carefully</option></select></div>
+      </div>
+      <label>Drop Zone</label>
+      <select id="dropZone"><option value="0">Open yard / easy drop: no add-on</option><option value="125">Limited space: +$125</option><option value="200">Near fence, driveway, or road: +$200</option><option value="350">Near house/structure: +$350</option><option value="99999">High risk drop zone: refer out</option></select>
       <label>Risk Add-on</label>
-      <select id="treeRisk"><option value="0">Open yard / low risk</option><option value="150">Near fence, road, driveway, or house (+$150)</option><option value="99999">High risk / tight access: refer out</option></select>
+      <select id="treeRisk"><option value="0">No extra risk add-on</option><option value="150">Extra caution / awkward access (+$150)</option><option value="99999">High risk / tight access: refer out</option></select>
     </div>
 
     <div class="card service-section hidden" id="sodFields">
@@ -397,7 +403,7 @@
     }
 
     function preset(type) {
-      if (type === 'smallTree') { setJob('tree'); el('treeSize').value = '550'; el('treeHaul').value = '125'; el('stump').value = '0'; el('treeRisk').value = '0'; el('fees').value = '50'; el('helperCost').value = '0'; }
+      if (type === 'smallTree') { setJob('tree'); el('treeSize').value = '550'; el('treeHaul').value = '125'; el('stump').value = '0'; el('treeHeight').value = '100'; el('trunkDiameter').value = '75'; el('dropZone').value = '0'; el('treeRisk').value = '0'; el('fees').value = '50'; el('helperCost').value
       if (type === 'smallMulch') { setJob('mulch'); el('bedSqft').value = '125'; el('depth').value = '3'; el('bagSize').value = '2'; el('bagCost').value = '2'; el('bagLabor').value = '6'; el('edgeAdd').value = '125'; el('bedPrep').value = '100'; }
       if (type === 'sod7000') { setJob('sod'); el('sodSqft').value = '7000'; el('sodRate').value = '1.25'; el('sodCostSqft').value = '0.40'; el('sodBuffer').value = '5'; el('prepRate').value = '0.25'; el('sodRental').value = '300'; el('helperCost').value = '1250'; }
       if (type === 'cleanupHalfDay') { setJob('cleanup'); el('hours').value = '4'; el('hourRate').value = '85'; el('cleanupHaul').value = '100'; el('cleanupDiff').value = '100'; }
@@ -467,8 +473,8 @@
 
     function serviceBase() {
       if (currentJob === 'tree') {
-        if (num('stump') >= 99999 || num('treeRisk') >= 99999 || hasRedFlags()) return 99999;
-        return num('treeSize') + num('treeHaul') + num('stump') + num('treeRisk');
+        if (num('stump') >= 99999 || num('treeRisk') >= 99999 || num('treeHeight') >= 99999 || num('dropZone') >= 99999 || hasRedFlags()) return 99999;
+        return num('treeSize') + num('treeHaul') + num('stump') + num('treeHeight') + num('trunkDiameter') + num('dropZone') + num('treeRisk');
       }
       if (currentJob === 'sod') {
         var sqft = num('sodSqft');
@@ -701,7 +707,10 @@ Tree removal includes cutting down the tree, cleanup, and haul-away of debris. S
         if (num('stump') === 425) stumpText = 'Medium stump grinding. Includes grinder rental allowance and labor.';
         if (num('stump') === 600) stumpText = 'Large stump grinding. Includes grinder rental allowance and labor.';
         addItem('Stump handling', stumpText, num('stump') < 99999 ? num('stump') : 0);
-        addItem('Risk / access adjustment', 'Added difficulty for access, nearby structures, driveway, fence, or other risk.', num('treeRisk') < 99999 ? num('treeRisk') : 0);
+        addItem('Tree height adjustment', 'Additional labor/risk based on tree height.', num('treeHeight') < 99999 ? num('treeHeight') : 0);
+        addItem('Trunk diameter adjustment', 'Additional cutting, weight, and handling based on trunk diameter.', num('trunkDiameter'));
+        addItem('Drop zone adjustment', 'Added difficulty for limited space, road, driveway, fence, house, or structure nearby.', num('dropZone') < 99999 ? num('dropZone') : 0);
+        addItem('Risk / access adjustment', 'Added difficulty for awkward access or extra caution.', num('treeRisk') < 99999 ? num('treeRisk') : 0);
       }
 
       if (currentJob === 'sod') {
