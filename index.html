@@ -454,6 +454,34 @@
       color: var(--forest);
     }
 
+    .schedule-board {
+      display: grid;
+      gap: 9px;
+      margin-top: 10px;
+    }
+
+    .time-block {
+      background: linear-gradient(135deg, #ffffff, #f7faf6);
+      border: 1px solid rgba(31, 90, 45, 0.13);
+      border-radius: 15px;
+      padding: 10px;
+      font-size: 13px;
+      line-height: 1.45;
+      box-shadow: 0 6px 14px rgba(20, 53, 29, 0.06);
+    }
+
+    .status-pill {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--soft-gold);
+      border: 1px solid rgba(214, 180, 106, 0.35);
+      color: var(--forest);
+      font-size: 11px;
+      font-weight: 900;
+      margin-top: 4px;
+    }
+
     .mini-btns {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -589,6 +617,48 @@
 
       <div class="row">
         <div>
+          <label>Lead Source</label>
+          <select id="leadSource" onchange="calculate()">
+            <option>Facebook group</option>
+            <option>Yard sign</option>
+            <option>Referral</option>
+            <option>Repeat customer</option>
+            <option>Neighbor of current job</option>
+            <option>Door knocking</option>
+            <option>Nextdoor</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div>
+          <label>Priority</label>
+          <select id="jobPriority" onchange="calculate()">
+            <option>Auto</option>
+            <option>Low</option>
+            <option>Normal</option>
+            <option>High Priority</option>
+            <option>Urgent</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Job Location / Neighborhood</label>
+          <input id="jobLocation" placeholder="Ex: Green Cove Springs" oninput="calculate()" />
+        </div>
+        <div>
+          <label>Drive Time</label>
+          <select id="driveTime" onchange="calculate()">
+            <option value="0">0-15 min: no fee</option>
+            <option value="35">15-30 min: +$35</option>
+            <option value="60">30-45 min: +$60</option>
+            <option value="100">45+ min: +$100</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
           <label>Before Photos?</label>
           <select id="beforePhotos" onchange="calculate()">
             <option value="yes">Yes</option>
@@ -603,6 +673,44 @@
           </select>
         </div>
       </div>
+    </div>
+
+    <!-- =========================================================
+         SCHEDULING + BOOKED TIME CHECK
+         ========================================================= -->
+    <div class="card">
+      <label>Schedule Job</label>
+      <div class="row">
+        <div>
+          <label>Scheduled Date</label>
+          <input id="scheduleDate" type="date" onchange="calculate()" />
+        </div>
+        <div>
+          <label>Start Time</label>
+          <input id="scheduleTime" type="time" onchange="calculate()" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Estimated Job Hours</label>
+          <input id="estimatedHours" type="number" step="0.25" value="3" oninput="calculate()" />
+        </div>
+        <div>
+          <label>Buffer After Job</label>
+          <select id="bufferMinutes" onchange="calculate()">
+            <option value="0">No buffer</option>
+            <option value="30" selected>30 minutes</option>
+            <option value="60">1 hour</option>
+            <option value="90">1.5 hours</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="small">The app checks saved jobs and warns you if this time overlaps another booked job.</div>
+      <div id="scheduleSummary" class="warning info">Pick a date/time to check availability.</div>
+      <label>Booked Time Blocks</label>
+      <div id="bookedTimes" class="schedule-board"></div>
     </div>
 
     <!-- =========================================================
@@ -961,6 +1069,50 @@
 
       <div class="row">
         <div>
+          <label>Target Profit / Hour</label>
+          <input id="targetHourlyProfit" type="number" value="100" oninput="calculate()" />
+        </div>
+        <div>
+          <label>Manual Final Price Override</label>
+          <input id="manualPrice" type="number" placeholder="Optional" oninput="calculate()" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Labor-Only Discount %</label>
+          <input id="laborDiscount" type="number" value="0" oninput="calculate()" />
+        </div>
+        <div>
+          <label>Discount Reason</label>
+          <select id="discountReason" onchange="calculate()">
+            <option>No discount</option>
+            <option>Referral / neighbor</option>
+            <option>Repeat customer</option>
+            <option>Bundle discount</option>
+            <option>Competitive close</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Negotiation Floor</label>
+          <input id="negotiationFloor" type="number" placeholder="Auto if blank" oninput="calculate()" />
+        </div>
+        <div>
+          <label>Deposit Due</label>
+          <select id="depositDue" onchange="calculate()">
+            <option>Before scheduling</option>
+            <option>Before materials are ordered</option>
+            <option>Upon acceptance</option>
+            <option>None</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
           <label>Extra Material Cost</label>
           <input id="materials" type="number" placeholder="Optional" oninput="calculate()" />
         </div>
@@ -1305,6 +1457,77 @@
       );
     }
 
+    function travelFee() {
+      return getNumber('driveTime');
+    }
+
+    function scheduledStartEnd() {
+      const date = getValue('scheduleDate');
+      const time = getValue('scheduleTime');
+      const hours = getNumber('estimatedHours');
+      const buffer = getNumber('bufferMinutes');
+
+      if (!date || !time || !hours) {
+        return null;
+      }
+
+      const start = new Date(date + 'T' + time);
+      const end = new Date(start.getTime() + (hours * 60 + buffer) * 60 * 1000);
+
+      return { start, end };
+    }
+
+    function formatTimeRange(start, end) {
+      const options = { hour: 'numeric', minute: '2-digit' };
+      return start.toLocaleTimeString([], options) + ' - ' + end.toLocaleTimeString([], options);
+    }
+
+    function scheduledConflict() {
+      const current = scheduledStartEnd();
+      if (!current) return [];
+
+      const jobs = JSON.parse(localStorage.getItem('ll_jobs') || '[]');
+
+      return jobs.filter(function (job) {
+        if (!job.startISO || !job.endISO) return false;
+
+        const existingStart = new Date(job.startISO);
+        const existingEnd = new Date(job.endISO);
+
+        return current.start < existingEnd && current.end > existingStart;
+      });
+    }
+
+    function renderBookedTimes() {
+      const selectedDate = getValue('scheduleDate');
+      const jobs = JSON.parse(localStorage.getItem('ll_jobs') || '[]');
+      const bookedTimesDiv = document.getElementById('bookedTimes');
+
+      const scheduledJobs = jobs.filter(function (job) {
+        if (!job.startISO) return false;
+        if (!selectedDate) return true;
+        return job.startISO.startsWith(selectedDate);
+      });
+
+      if (!scheduledJobs.length) {
+        bookedTimesDiv.innerHTML = '<div class="small">No saved booked times for this date yet.</div>';
+        return;
+      }
+
+      bookedTimesDiv.innerHTML = scheduledJobs.map(function (job) {
+        const start = new Date(job.startISO);
+        const end = new Date(job.endISO);
+
+        return `
+          <div class="time-block">
+            <strong>${job.customer}</strong> - ${job.job}<br>
+            ${start.toLocaleDateString()} • ${formatTimeRange(start, end)}<br>
+            <span class="status-pill">${job.status}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
     /* =========================================================
        SERVICE BASE PRICING
        ========================================================= */
@@ -1552,13 +1775,20 @@
       const trueMaterials = autoMaterials + extraMaterials;
       const markedExtraMaterials = extraMaterials * (1 + getNumber('materialMarkup') / 100);
       const helperCost = getNumber('helperCost');
-      const fees = getNumber('fees');
+      const fees = getNumber('fees') + travelFee();
       const roundTo = getNumber('roundTo');
       const pricingMode = Number(getValue('pricingMode'));
 
       const subtotal = base + markedExtraMaterials + helperCost + fees;
       const rawPrice = Math.max(subtotal, minimumForJob()) * pricingMode;
-      const price = roundUp(Math.max(rawPrice, minimumForJob()), roundTo);
+      const laborDiscountAmount = base < 99999 ? base * (getNumber('laborDiscount') / 100) : 0;
+
+      let price = roundUp(Math.max(rawPrice - laborDiscountAmount, minimumForJob()), roundTo);
+
+      // Manual override lets you use your judgment while still showing profit/margin.
+      if (getNumber('manualPrice') > 0) {
+        price = getNumber('manualPrice');
+      }
 
       const minimumPrice = roundUp(Math.max(price * 0.92, minimumForJob()), roundTo);
       const premiumPrice = roundUp(price * 1.18, roundTo);
@@ -1597,6 +1827,7 @@
 
       updateResultsDisplay(base, trueMaterials, helperCost, fees, tax, deposit, remaining, profit);
       updateWarnings(base, margin);
+      renderBookedTimes();
       makeQuote();
       makeInternalNotes();
       makeFollowUp();
@@ -1631,7 +1862,9 @@
         True cost: <strong>${money(lastCalc.trueCost)}</strong><br>
         Est. material cost: <strong>${money(trueMaterials)}</strong><br>
         Helper cost: <strong>${money(helperCost)}</strong><br>
-        Dump/rental/fuel: <strong>${money(fees)}</strong><br>
+        Dump/rental/fuel/travel: <strong>${money(fees)}</strong><br>
+        Profit per hour: <strong>${money(lastCalc.profit / Math.max(getNumber('estimatedHours'), 1))}/hr</strong><br>
+        Negotiation floor: <strong>${money(getNumber('negotiationFloor') || Math.max(lastCalc.trueCost + 100, lastCalc.price - 75))}</strong><br>
         Sales tax shown: <strong>${money(tax)}</strong><br>
         Deposit due: <strong>${money(deposit)}</strong><br>
         Remaining balance: <strong>${money(remaining)}</strong><br>
@@ -1647,6 +1880,40 @@
         warnings.push(`
           <div class="warning bad">
             <strong>Do not quote:</strong> Refer this out or quote separately. Do not use the displayed price.
+          </div>
+        `);
+      }
+
+      const conflicts = scheduledConflict();
+      const scheduled = scheduledStartEnd();
+
+      if (scheduled) {
+        document.getElementById('scheduleSummary').innerHTML = `Selected time: <strong>${scheduled.start.toLocaleDateString()} • ${formatTimeRange(scheduled.start, scheduled.end)}</strong>`;
+      } else {
+        document.getElementById('scheduleSummary').innerHTML = 'Pick a date/time to check availability.';
+      }
+
+      if (conflicts.length) {
+        warnings.push(`
+          <div class="warning bad">
+            <strong>Schedule conflict:</strong> This overlaps with ${conflicts.length} saved booked job(s). Pick another time or adjust the estimate/buffer.
+          </div>
+        `);
+      }
+
+      const profitPerHour = lastCalc.profit / Math.max(getNumber('estimatedHours'), 1);
+      const targetHourly = getNumber('targetHourlyProfit') || 100;
+
+      if (profitPerHour >= targetHourly * 1.25) {
+        warnings.push(`
+          <div class="warning info">
+            <strong>High priority recommendation:</strong> This job is above your hourly profit target. Try to schedule it quickly.
+          </div>
+        `);
+      } else if (profitPerHour < targetHourly && base < 99999) {
+        warnings.push(`
+          <div class="warning">
+            <strong>Pricing recommendation:</strong> Profit per hour is below your target. Raise the price, reduce helper cost, or avoid discounting.
           </div>
         `);
       }
@@ -1708,10 +1975,10 @@
       const taxLabel = getValue('taxMode') === 'materials' ? 'Sales tax on materials' : 'Sales tax';
       const taxLine = getValue('taxMode') === 'none'
         ? `\nTotal: ${money(lastCalc.total)}`
-        : `\n${taxLabel}: ${money(lastCalc.tax)}\nTotal: ${money(lastCalc.total)}`;
+        : `\nTotal: ${money(lastCalc.total)} including ${money(lastCalc.tax)} ${taxLabel.toLowerCase()}`;
 
       const depositLine = lastCalc.deposit > 0
-        ? `\n\nDeposit due to reserve the job: ${money(lastCalc.deposit)}\nRemaining balance due upon completion: ${money(lastCalc.remaining)}`
+        ? `\n\nDeposit due ${getValue('depositDue').toLowerCase()}: ${money(lastCalc.deposit)}\nRemaining balance due upon completion: ${money(lastCalc.remaining)}`
         : '';
 
       const scheduleLine = getValue('scheduleLine') === 'yes'
@@ -1757,9 +2024,21 @@
       internal.push(`Customer: ${customer || 'N/A'}`);
       internal.push(`Info: ${getText('customerInfo') || 'N/A'}`);
       internal.push(`Status: ${getValue('jobStatus')} | Win/Loss: ${getValue('winLoss')}`);
+      internal.push(`Lead source: ${getValue('leadSource')} | Priority: ${getValue('jobPriority')}`);
+      internal.push(`Location: ${getText('jobLocation') || 'N/A'} | Travel fee: ${money(travelFee())}`);
+
+      const scheduled = scheduledStartEnd();
+      if (scheduled) {
+        internal.push(`Scheduled: ${scheduled.start.toLocaleDateString()} • ${formatTimeRange(scheduled.start, scheduled.end)}`);
+      } else {
+        internal.push('Scheduled: not set');
+      }
+
       internal.push(`Notes: ${notes || 'N/A'}`);
       internal.push(`Minimum / Recommended / Premium: ${money(lastCalc.min)} / ${money(lastCalc.total)} / ${money(lastCalc.premiumTotal)}`);
       internal.push(`True cost: ${money(lastCalc.trueCost)} | Profit: ${money(lastCalc.profit)} | Margin: ${Math.round(lastCalc.margin)}%`);
+      internal.push(`Profit per hour: ${money(lastCalc.profit / Math.max(getNumber('estimatedHours'), 1))}/hr | Target: ${money(getNumber('targetHourlyProfit') || 100)}/hr`);
+      internal.push(`Negotiation floor: ${money(getNumber('negotiationFloor') || Math.max(lastCalc.trueCost + 100, lastCalc.price - 75))}`);
       internal.push(`Deposit: ${money(lastCalc.deposit)} | Remaining: ${money(lastCalc.remaining)}`);
 
       if (currentJob === 'sod') {
@@ -1810,7 +2089,9 @@
       }
 
       if (type === 'confirm') {
-        message = `Hi ${customer}! Just confirming we’re scheduled for the ${job}. I’ll let you know when I’m on the way. Thank you!`;
+        const scheduled = scheduledStartEnd();
+        const timeText = scheduled ? ` for ${scheduled.start.toLocaleDateString()} at ${scheduled.start.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}` : '';
+        message = `Hi ${customer}! Just confirming we’re scheduled${timeText} for the ${job}. I’ll let you know when I’m on the way. Thank you!`;
       }
 
       if (type === 'daybefore') {
@@ -1862,13 +2143,20 @@
     function saveJob() {
       const jobs = JSON.parse(localStorage.getItem('ll_jobs') || '[]');
 
+      const scheduled = scheduledStartEnd();
+
       const savedJob = {
         date: new Date().toLocaleString(),
+        startISO: scheduled ? scheduled.start.toISOString() : '',
+        endISO: scheduled ? scheduled.end.toISOString() : '',
         customer: getText('customer') || 'Unnamed',
         info: getText('customerInfo'),
         job: jobName(),
         status: getValue('jobStatus'),
         winLoss: getValue('winLoss'),
+        leadSource: getValue('leadSource'),
+        priority: getValue('jobPriority'),
+        location: getText('jobLocation'),
         total: money(lastCalc.total),
         profit: money(lastCalc.profit),
         margin: Math.round(lastCalc.margin) + '%',
@@ -1899,6 +2187,8 @@
             <strong>${job.customer}</strong> - ${job.job}<br>
             ${job.date}<br>
             Status: ${job.status} | ${job.winLoss}<br>
+            ${job.startISO ? 'Scheduled: ' + new Date(job.startISO).toLocaleDateString() + ' • ' + formatTimeRange(new Date(job.startISO), new Date(job.endISO)) + '<br>' : ''}
+            Lead: ${job.leadSource || 'N/A'} | Priority: ${job.priority || 'N/A'}<br>
             Total: ${job.total} | Profit: ${job.profit} | Margin: ${job.margin}<br>
             ${job.notes || ''}
             <div class="mini-btns">
@@ -1944,7 +2234,9 @@
         'roundTo',
         'scheduleLine',
         'pricingMode',
-        'quoteStyle'
+        'quoteStyle',
+        'targetHourlyProfit',
+        'depositDue'
       ];
 
       const defaults = {};
@@ -1983,6 +2275,9 @@
         'customer',
         'customerInfo',
         'notes',
+        'jobLocation',
+        'scheduleDate',
+        'scheduleTime',
         'materials',
         'helperCost',
         'fees',
@@ -1995,7 +2290,10 @@
         'lights',
         'customAdd',
         'customDeposit',
-        'hedgeCount'
+        'hedgeCount',
+        'manualPrice',
+        'laborDiscount',
+        'negotiationFloor
       ];
 
       fieldsToClear.forEach(function (id) {
