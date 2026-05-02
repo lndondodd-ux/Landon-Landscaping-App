@@ -108,6 +108,43 @@
     .payment-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 10px; }
     .footer-note { font-size: 12px; color: var(--muted); text-align: center; padding: 8px 2px 20px; line-height: 1.4; }
 
+    .print-only { display: none; }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+
+      body * {
+        visibility: hidden;
+      }
+
+      #printArea,
+      #printArea * {
+        visibility: visible;
+      }
+
+      #printArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        padding: 0;
+      }
+
+      .estimate-preview {
+        border: none;
+        border-radius: 0;
+        margin: 0;
+      }
+
+      .invoice-action-bar,
+      .no-print {
+        display: none !important;
+      }
+    }
+
     @media (max-width: 520px) {
       body { padding: 10px; }
       .row, .price-grid, .quick, .checks, .estimate-info, .estimate-bottom, .invoice-action-bar, .payment-actions { grid-template-columns: 1fr; }
@@ -231,11 +268,11 @@
       <div class="small">Add payment links here. These power the payment buttons on the estimate.</div>
       <div class="row">
         <div><label>Stripe Payment Link</label><input id="stripeLink" placeholder="https://buy.stripe.com/..." /></div>
-        <div><label>PayPal Link</label><input id="paypalLink" placeholder="https://paypal.me/..." /></div>
+        <div><label>PayPal Link</label><input id="paypalLink" placeholder="https://paypal.me/... or PayPal email" value="aimeedodd08@gmail.com" /></div>
       </div>
       <div class="row">
-        <div><label>Venmo</label><input id="venmoName" placeholder="Ex: @landonlandscaping" /></div>
-        <div><label>Apple Cash / Phone</label><input id="appleCashInfo" placeholder="Ex: 657-417-7599" /></div>
+        <div><label>Venmo</label><input id="venmoName" placeholder="Ex: @landonlandscaping" value="landonlandscaping" /></div>
+        <div><label>Apple Cash / Phone</label><input id="appleCashInfo" placeholder="Ex: 657-417-7599" value="657-417-7599" /></div>
       </div>
       <label>Payment Message</label>
       <textarea id="paymentText" readonly></textarea>
@@ -302,8 +339,11 @@
     <div class="card">
       <label>Professional Estimate Preview</label>
       <div class="small">Customer-facing estimate with payment buttons.</div>
-      <div id="estimatePreview" class="estimate-preview"></div>
-      <div class="invoice-action-bar">
+      <div id="printArea">
+        <div id="estimatePreview" class="estimate-preview"></div>
+      </div>
+      <button class="secondary no-print" type="button" id="printEstimateBtn">Print / Save Estimate as PDF</button>
+      <div class="invoice-action-bar no-print">
         <button type="button" class="invoice-pay-btn stripe" id="estimateStripeBtn">Pay with Stripe</button>
         <button type="button" class="invoice-pay-btn paypal" id="estimatePaypalBtn">Pay with PayPal</button>
       </div>
@@ -676,6 +716,10 @@
       el('paymentText').value = lines.join('\n');
     }
 
+    function printEstimate() {
+      window.print();
+    }
+
     function openPaymentLink(type) {
       var link = type === 'stripe' ? txt('stripeLink') : txt('paypalLink');
       var label = type === 'stripe' ? 'Stripe' : 'PayPal';
@@ -790,8 +834,17 @@
     function loadDefaults() {
       try {
         var defaults = JSON.parse(localStorage.getItem('ll_defaults') || '{}');
-        Object.keys(defaults).forEach(function(id) { if (el(id)) el(id).value = defaults[id]; });
+        Object.keys(defaults).forEach(function(id) {
+          if (el(id) && defaults[id] !== '') {
+            el(id).value = defaults[id];
+          }
+        });
       } catch(e) {}
+
+      // Built-in payment defaults. These refill if saved defaults are blank.
+      if (el('venmoName') && !el('venmoName').value) el('venmoName').value = 'landonlandscaping';
+      if (el('appleCashInfo') && !el('appleCashInfo').value) el('appleCashInfo').value = '657-417-7599';
+      if (el('paypalLink') && !el('paypalLink').value) el('paypalLink').value = 'aimeedodd08@gmail.com';
     }
 
     function resetForm() {
@@ -815,6 +868,7 @@
       el('openPaypalBtn').addEventListener('click', function() { openPaymentLink('paypal'); });
       el('estimateStripeBtn').addEventListener('click', function() { openPaymentLink('stripe'); });
       el('estimatePaypalBtn').addEventListener('click', function() { openPaymentLink('paypal'); });
+      el('printEstimateBtn').addEventListener('click', printEstimate);
       el('saveJobBtn').addEventListener('click', saveJob);
       el('saveDefaultsBtn').addEventListener('click', saveDefaults);
       el('resetBtn').addEventListener('click', resetForm);
