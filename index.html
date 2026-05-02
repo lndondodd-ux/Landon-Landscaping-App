@@ -320,7 +320,7 @@
       <button type="button" id="saveJobBtn">Save This Job</button><button class="secondary" type="button" id="saveDefaultsBtn">Save My Defaults</button><button class="danger" type="button" id="resetBtn">Reset Current Job</button>
     </div>
 
-    <div class="card"><label>Saved Jobs</label><div class="small">Saved on this device only. Use this to track leads, quotes, completed jobs, and lost jobs.</div><div id="savedJobs"></div><button class="danger" type="button" id="clearJobsBtn">Clear Saved Jobs</button></div>
+    <div class="card"><label>Saved Jobs</label><div class="small">Saved on this device only. Use this to track leads, quotes, completed jobs, and lost jobs.</div><div id="savedJobs"></div><button class="secondary" type="button" id="exportJobsBtn">Export Saved Jobs Backup</button><button class="danger" type="button" id="clearJobsBtn">Clear Saved Jobs</button></div>
     <div class="footer-note">Free quotes. Built to protect margin. Raise price for risk, bad access, tight scheduling, heavy cleanup, or extra scope.</div>
   </div>
 
@@ -735,6 +735,26 @@
       calculate();
     }
 
+    function exportJobs() {
+      var jobs = savedJobs();
+      if (!jobs.length) {
+        alert('No saved jobs to export yet.');
+        return;
+      }
+
+      var backupText = JSON.stringify(jobs, null, 2);
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(backupText).then(function() {
+          alert('Backup copied. Paste it somewhere safe, like Notes or Google Docs.');
+        }).catch(function() {
+          window.prompt('Copy this backup text and save it somewhere safe:', backupText);
+        });
+      } else {
+        window.prompt('Copy this backup text and save it somewhere safe:', backupText);
+      }
+    }
+
     function clearJobs() {
       if (!confirm('Clear all saved jobs?')) return;
       localStorage.removeItem('ll_jobs');
@@ -777,6 +797,7 @@
       el('saveJobBtn').addEventListener('click', saveJob);
       el('saveDefaultsBtn').addEventListener('click', saveDefaults);
       el('resetBtn').addEventListener('click', resetForm);
+      el('exportJobsBtn').addEventListener('click', exportJobs);
       el('clearJobsBtn').addEventListener('click', clearJobs);
       el('savedJobs').addEventListener('click', function(event) {
         if (event.target && event.target.hasAttribute('data-delete-index')) {
