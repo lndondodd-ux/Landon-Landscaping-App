@@ -10,11 +10,10 @@
     :root {
       --forest: #14351d;
       --forest2: #1f5a2d;
-      --gold: #d6b46a;
       --cream: #f7f3e8;
       --text: #172417;
       --muted: #667266;
-      --border: rgba(31, 90, 45, 0.15);
+      --border: rgba(31, 90, 45, 0.16);
       --danger: #842b2b;
       --danger-bg: #faeaea;
       --warn-bg: #fff8e8;
@@ -26,7 +25,7 @@
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      background: radial-gradient(circle at top left, rgba(214,180,106,.25), transparent 30%), radial-gradient(circle at top right, rgba(31,90,45,.2), transparent 28%), linear-gradient(180deg, var(--cream), #edf3e9 45%, #f8f6ef);
+      background: linear-gradient(180deg, var(--cream), #edf3e9 55%, #f8f6ef);
       color: var(--text);
       padding: 12px;
       min-height: 100vh;
@@ -36,37 +35,22 @@
 
     .header {
       background: linear-gradient(135deg, var(--forest), var(--forest2));
-      color: #fff;
+      color: white;
       padding: 22px;
-      border-radius: 28px;
-      box-shadow: 0 12px 34px rgba(20,53,29,.12);
+      border-radius: 26px;
+      box-shadow: 0 12px 34px rgba(20, 53, 29, 0.14);
       margin-bottom: 14px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .header:after {
-      content: "";
-      position: absolute;
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      background: rgba(214,180,106,.18);
-      right: -55px;
-      top: -70px;
     }
 
     .header-top {
-      position: relative;
-      z-index: 1;
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       gap: 14px;
     }
 
-    .header h1 { margin: 0 0 5px; font-size: 27px; letter-spacing: -.6px; }
-    .header p { margin: 0; opacity: .92; font-size: 14px; line-height: 1.4; }
+    .header h1 { margin: 0 0 5px; font-size: 27px; letter-spacing: -0.6px; }
+    .header p { margin: 0; opacity: 0.92; font-size: 14px; line-height: 1.4; }
 
     .brand-mark {
       width: 54px;
@@ -74,8 +58,8 @@
       display: grid;
       place-items: center;
       border-radius: 18px;
-      background: rgba(255,255,255,.14);
-      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.20);
       font-size: 27px;
       flex-shrink: 0;
     }
@@ -85,19 +69,18 @@
       margin-top: 12px;
       padding: 7px 11px;
       border-radius: 999px;
-      background: rgba(214,180,106,.18);
-      border: 1px solid rgba(214,180,106,.35);
+      background: rgba(214,180,106,0.18);
       color: #fff3cf;
       font-size: 12px;
       font-weight: 900;
     }
 
     .card {
-      background: rgba(255,255,255,.9);
+      background: rgba(255,255,255,0.92);
       padding: 17px;
       border-radius: 22px;
       border: 1px solid var(--border);
-      box-shadow: 0 8px 22px rgba(20,53,29,.08);
+      box-shadow: 0 8px 22px rgba(20, 53, 29, 0.08);
       margin-bottom: 14px;
     }
 
@@ -106,20 +89,15 @@
     input, select, textarea {
       width: 100%;
       padding: 13px;
-      border: 1px solid rgba(31,90,45,.18);
+      border: 1px solid rgba(31,90,45,0.18);
       border-radius: 15px;
       font-size: 16px;
-      background: rgba(255,255,255,.95);
+      background: white;
       color: var(--text);
       outline: none;
     }
 
-    input:focus, select:focus, textarea:focus {
-      border-color: rgba(31,90,45,.55);
-      box-shadow: 0 0 0 4px rgba(31,90,45,.1);
-    }
-
-    textarea { min-height: 135px; resize: vertical; line-height: 1.5; }
+    textarea { min-height: 130px; resize: vertical; line-height: 1.5; }
 
     button {
       width: 100%;
@@ -132,53 +110,51 @@
       font-size: 16px;
       font-weight: 900;
       cursor: pointer;
-      box-shadow: 0 8px 18px rgba(20,53,29,.18);
+      box-shadow: 0 8px 18px rgba(20,53,29,0.18);
     }
 
-    button.secondary { background: linear-gradient(135deg, #eef3e9, #fff); color: var(--forest); border: 1px solid rgba(31,90,45,.14); }
-    button.danger { background: linear-gradient(135deg, #f8e6e6, #fff6f6); color: var(--danger); border: 1px solid rgba(132,43,43,.18); }
+    button.secondary { background: #eef3e9; color: var(--forest); border: 1px solid rgba(31,90,45,0.14); }
+    button.danger { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(132,43,43,0.18); }
 
     .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .hidden { display: none; }
+    .hidden { display: none !important; }
     .small { font-size: 12px; color: var(--muted); line-height: 1.35; margin-top: 6px; }
 
-    .tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; padding: 6px; border-radius: 20px; background: rgba(20,53,29,.06); border: 1px solid rgba(31,90,45,.1); }
-    .tab { margin: 0; padding: 11px 8px; border-radius: 15px; background: rgba(255,255,255,.72); color: var(--forest); box-shadow: none; font-size: 13px; }
+    .tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; padding: 6px; border-radius: 20px; background: rgba(20,53,29,0.06); }
+    .tab { margin: 0; padding: 11px 8px; border-radius: 15px; background: white; color: var(--forest); box-shadow: none; font-size: 13px; border: 1px solid rgba(31,90,45,0.12); }
     .tab.active { background: linear-gradient(135deg, var(--forest), var(--forest2)); color: white; }
 
     .quick { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; margin-top: 10px; }
-    .quick button { margin: 0; padding: 12px 10px; font-size: 13px; background: linear-gradient(135deg,#fff,#f1f6ee); color: var(--forest); border: 1px solid rgba(31,90,45,.13); }
+    .quick button { margin: 0; padding: 12px 10px; font-size: 13px; background: white; color: var(--forest); border: 1px solid rgba(31,90,45,0.13); box-shadow: none; }
 
     .checks { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 8px; }
-    .check { display: flex; gap: 9px; align-items: center; background: rgba(255,255,255,.85); border: 1px solid rgba(31,90,45,.13); border-radius: 15px; padding: 10px; font-size: 13px; font-weight: 800; }
+    .check { display: flex; gap: 9px; align-items: center; background: white; border: 1px solid rgba(31,90,45,0.13); border-radius: 15px; padding: 10px; font-size: 13px; font-weight: 800; }
     .check input { width: auto; transform: scale(1.15); accent-color: var(--forest2); }
 
-    .result { background: linear-gradient(135deg, #f3fbf1, #fffaf0); border: 1px solid rgba(31,90,45,.16); padding: 18px; border-radius: 22px; }
+    .result { background: linear-gradient(135deg, #f3fbf1, #fffaf0); border: 1px solid rgba(31,90,45,0.16); padding: 18px; border-radius: 22px; }
     .main-price { font-size: 42px; font-weight: 950; margin: 4px 0 0; letter-spacing: -1.3px; color: var(--forest); }
-    .tag { display: inline-block; font-size: 12px; font-weight: 900; background: #fff; color: var(--forest2); border: 1px solid rgba(31,90,45,.16); padding: 7px 10px; border-radius: 999px; margin-top: 7px; }
+    .tag { display: inline-block; font-size: 12px; font-weight: 900; background: white; color: var(--forest2); border: 1px solid rgba(31,90,45,0.16); padding: 7px 10px; border-radius: 999px; margin-top: 7px; }
     .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-top: 12px; }
-    .price-box { background: rgba(255,255,255,.9); border: 1px solid rgba(31,90,45,.13); border-radius: 17px; padding: 12px 10px; text-align: center; }
+    .price-box { background: white; border: 1px solid rgba(31,90,45,0.13); border-radius: 17px; padding: 12px 10px; text-align: center; }
     .price-box .label { font-size: 12px; color: var(--muted); font-weight: 900; margin: 0; }
     .price-box .price { font-size: 23px; font-weight: 950; margin-top: 5px; color: var(--forest); }
-    .breakdown { margin-top: 12px; font-size: 14px; line-height: 1.75; color: #344034; background: rgba(255,255,255,.6); border: 1px solid rgba(31,90,45,.09); border-radius: 16px; padding: 12px; }
+    .breakdown { margin-top: 12px; font-size: 14px; line-height: 1.75; color: #344034; background: white; border: 1px solid rgba(31,90,45,0.09); border-radius: 16px; padding: 12px; }
 
     .warning { margin-top: 10px; background: var(--warn-bg); border: 1px solid var(--warn-border); padding: 11px; border-radius: 15px; font-size: 13px; line-height: 1.45; }
     .bad { background: var(--danger-bg); border-color: #e3b2b2; color: var(--danger); }
     .info { background: var(--info-bg); border-color: var(--info-border); }
 
-    .job-card, .time-block { border: 1px solid rgba(31,90,45,.13); border-radius: 17px; padding: 12px; margin-top: 9px; background: linear-gradient(135deg,#fff,#f7faf6); font-size: 13px; line-height: 1.5; }
+    .job-card, .time-block { border: 1px solid rgba(31,90,45,0.13); border-radius: 17px; padding: 12px; margin-top: 9px; background: white; font-size: 13px; line-height: 1.5; }
     .job-card strong, .time-block strong { font-size: 15px; color: var(--forest); }
-    .status-pill { display: inline-block; padding: 4px 8px; border-radius: 999px; background: #fff6dd; border: 1px solid rgba(214,180,106,.35); color: var(--forest); font-size: 11px; font-weight: 900; margin-top: 4px; }
-    .mini-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .mini-btns button { font-size: 13px; padding: 10px; margin-top: 8px; }
+    .status-pill { display: inline-block; padding: 4px 8px; border-radius: 999px; background: #fff6dd; border: 1px solid rgba(214,180,106,0.35); color: var(--forest); font-size: 11px; font-weight: 900; margin-top: 4px; }
+
     .footer-note { font-size: 12px; color: var(--muted); text-align: center; padding: 8px 2px 20px; line-height: 1.4; }
 
     @media (max-width: 520px) {
       body { padding: 10px; }
-      .row, .price-grid, .quick, .checks, .mini-btns { grid-template-columns: 1fr; }
+      .row, .price-grid, .quick, .checks { grid-template-columns: 1fr; }
       .tabs { grid-template-columns: 1fr 1fr; }
       .main-price { font-size: 36px; }
-      .brand-mark { width: 48px; height: 48px; font-size: 24px; }
     }
   </style>
 </head>
@@ -189,7 +165,7 @@
         <div>
           <h1>Landon Landscaping LLC</h1>
           <p>Smart pricing, cleaner quotes, better margins.<br>657-417-7599</p>
-          <div class="header-badge">Premium job pricing dashboard</div>
+          <div class="header-badge">Stable pricing dashboard</div>
         </div>
         <div class="brand-mark">🌿</div>
       </div>
@@ -197,142 +173,154 @@
 
     <div class="card">
       <div class="tabs">
-        <button class="tab active" type="button" onclick="setJob('tree')" id="tab-tree">🌳 Tree</button>
-        <button class="tab" type="button" onclick="setJob('sod')" id="tab-sod">🌱 Sod</button>
-        <button class="tab" type="button" onclick="setJob('mulch')" id="tab-mulch">🪨 Mulch/Rock</button>
-        <button class="tab" type="button" onclick="setJob('cleanup')" id="tab-cleanup">🧹 Cleanup</button>
-        <button class="tab" type="button" onclick="setJob('trim')" id="tab-trim">✂️ Trim</button>
-        <button class="tab" type="button" onclick="setJob('extras')" id="tab-extras">💡 Extras</button>
+        <button class="tab active" type="button" id="tab-tree">🌳 Tree</button>
+        <button class="tab" type="button" id="tab-sod">🌱 Sod</button>
+        <button class="tab" type="button" id="tab-mulch">🪨 Mulch/Rock</button>
+        <button class="tab" type="button" id="tab-cleanup">🧹 Cleanup</button>
+        <button class="tab" type="button" id="tab-trim">✂️ Trim</button>
+        <button class="tab" type="button" id="tab-extras">💡 Extras</button>
       </div>
 
       <label>Quick Presets</label>
       <div class="quick">
-        <button type="button" onclick="preset('smallTree')">Small Tree Removal</button>
-        <button type="button" onclick="preset('smallMulch')">Small Mulch Refresh</button>
-        <button type="button" onclick="preset('sod7000')">7,000 Sq Ft Sod</button>
-        <button type="button" onclick="preset('cleanupHalfDay')">Half-Day Cleanup</button>
+        <button type="button" id="preset-tree">Small Tree Removal</button>
+        <button type="button" id="preset-mulch">Small Mulch Refresh</button>
+        <button type="button" id="preset-sod">7,000 Sq Ft Sod</button>
+        <button type="button" id="preset-cleanup">Half-Day Cleanup</button>
       </div>
 
       <div class="row">
-        <div><label>Customer Name</label><input id="customer" placeholder="Ex: Mrs. Smith" oninput="calculate()" /></div>
-        <div><label>Customer Phone/Address</label><input id="customerInfo" placeholder="Optional" oninput="calculate()" /></div>
+        <div><label>Customer Name</label><input id="customer" placeholder="Ex: Mrs. Smith" /></div>
+        <div><label>Customer Phone/Address</label><input id="customerInfo" placeholder="Optional" /></div>
       </div>
 
       <label>Job Notes</label>
-      <input id="notes" placeholder="Ex: front yard tree, haul away included" oninput="calculate()" />
+      <input id="notes" placeholder="Ex: front yard tree, haul away included" />
 
       <div class="row">
-        <div><label>Job Status</label><select id="jobStatus" onchange="calculate()"><option>Lead</option><option>Quote sent</option><option>Waiting on customer</option><option>Scheduled</option><option>Completed</option><option>Lost job</option></select></div>
-        <div><label>Win/Loss Reason</label><select id="winLoss" onchange="calculate()"><option>None yet</option><option>Accepted</option><option>Too expensive</option><option>Went with someone else</option><option>No response</option><option>Follow up later</option></select></div>
+        <div><label>Job Status</label><select id="jobStatus"><option>Lead</option><option>Quote sent</option><option>Waiting on customer</option><option>Scheduled</option><option>Completed</option><option>Lost job</option></select></div>
+        <div><label>Lead Source</label><select id="leadSource"><option>Facebook group</option><option>Yard sign</option><option>Referral</option><option>Repeat customer</option><option>Neighbor of current job</option><option>Door knocking</option><option>Nextdoor</option><option>Other</option></select></div>
       </div>
 
       <div class="row">
-        <div><label>Lead Source</label><select id="leadSource" onchange="calculate()"><option>Facebook group</option><option>Yard sign</option><option>Referral</option><option>Repeat customer</option><option>Neighbor of current job</option><option>Door knocking</option><option>Nextdoor</option><option>Other</option></select></div>
-        <div><label>Priority</label><select id="jobPriority" onchange="calculate()"><option>Auto</option><option>Low</option><option>Normal</option><option>High Priority</option><option>Urgent</option></select></div>
-      </div>
-
-      <div class="row">
-        <div><label>Job Location / Neighborhood</label><input id="jobLocation" placeholder="Ex: Green Cove Springs" oninput="calculate()" /></div>
-        <div><label>Drive Time</label><select id="driveTime" onchange="calculate()"><option value="0">0-15 min: no fee</option><option value="35">15-30 min: +$35</option><option value="60">30-45 min: +$60</option><option value="100">45+ min: +$100</option></select></div>
-      </div>
-
-      <div class="row">
-        <div><label>Before Photos?</label><select id="beforePhotos" onchange="calculate()"><option value="yes">Yes</option><option value="no" selected>No</option></select></div>
-        <div><label>After Photos?</label><select id="afterPhotos" onchange="calculate()"><option value="yes">Yes</option><option value="no" selected>No</option></select></div>
+        <div><label>Drive Time</label><select id="driveTime"><option value="0">0-15 min: no fee</option><option value="35">15-30 min: +$35</option><option value="60">30-45 min: +$60</option><option value="100">45+ min: +$100</option></select></div>
+        <div><label>Priority</label><select id="jobPriority"><option>Auto</option><option>Low</option><option>Normal</option><option>High Priority</option><option>Urgent</option></select></div>
       </div>
     </div>
 
     <div class="card">
       <label>Schedule Job</label>
       <div class="row">
-        <div><label>Scheduled Date</label><input id="scheduleDate" type="date" onchange="calculate()" /></div>
-        <div><label>Start Time</label><input id="scheduleTime" type="time" onchange="calculate()" /></div>
+        <div><label>Scheduled Date</label><input id="scheduleDate" type="date" /></div>
+        <div><label>Start Time</label><input id="scheduleTime" type="time" /></div>
       </div>
       <div class="row">
-        <div><label>Estimated Job Hours</label><input id="estimatedHours" type="number" step="0.25" value="3" oninput="calculate()" /></div>
-        <div><label>Buffer After Job</label><select id="bufferMinutes" onchange="calculate()"><option value="0">No buffer</option><option value="30" selected>30 minutes</option><option value="60">1 hour</option><option value="90">1.5 hours</option></select></div>
+        <div><label>Estimated Job Hours</label><input id="estimatedHours" type="number" step="0.25" value="3" /></div>
+        <div><label>Buffer After Job</label><select id="bufferMinutes"><option value="0">No buffer</option><option value="30" selected>30 minutes</option><option value="60">1 hour</option><option value="90">1.5 hours</option></select></div>
       </div>
-      <div class="small">The app blocks saved jobs that overlap an already booked time.</div>
       <div id="scheduleSummary" class="warning info">Pick a date/time to check availability.</div>
       <label>Booked Time Blocks</label>
       <div id="bookedTimes"></div>
     </div>
 
-    <div class="card" id="treeFields">
+    <div class="card service-section" id="treeFields">
       <label>Tree Removal Size</label>
-      <select id="treeSize" onchange="calculate()"><option value="400">Small simple tree ($400)</option><option value="550" selected>Small-medium tree ($550)</option><option value="750">Medium tree ($750)</option><option value="1000">Large tree / multiple sections ($1,000)</option></select>
+      <select id="treeSize"><option value="400">Small simple tree ($400)</option><option value="550" selected>Small-medium tree ($550)</option><option value="750">Medium tree ($750)</option><option value="1000">Large tree / multiple sections ($1,000)</option></select>
       <div class="row">
-        <div><label>Haul Away</label><select id="treeHaul" onchange="calculate()"><option value="0">No haul-away</option><option value="125" selected>Normal haul-away (+$125)</option><option value="225">Heavy haul-away (+$225)</option></select></div>
-        <div><label>Stump</label><select id="stump" onchange="calculate()"><option value="0" selected>No stump work</option><option value="100">Cut stump low (+$100)</option><option value="99999">Stump grinding: quote separately / refer out</option></select></div>
+        <div><label>Haul Away</label><select id="treeHaul"><option value="0">No haul-away</option><option value="125" selected>Normal haul-away (+$125)</option><option value="225">Heavy haul-away (+$225)</option></select></div>
+        <div><label>Stump</label><select id="stump"><option value="0" selected>No stump work</option><option value="100">Cut stump low (+$100)</option><option value="99999">Stump grinding: quote separately / refer out</option></select></div>
       </div>
       <label>Risk Add-on</label>
-      <select id="treeRisk" onchange="calculate()"><option value="0">Open yard / low risk</option><option value="150">Near fence, road, driveway, or house (+$150)</option><option value="99999">High risk / tight access: refer out</option></select>
+      <select id="treeRisk"><option value="0">Open yard / low risk</option><option value="150">Near fence, road, driveway, or house (+$150)</option><option value="99999">High risk / tight access: refer out</option></select>
     </div>
 
-    <div class="card hidden" id="sodFields">
-      <div class="row"><div><label>Square Feet</label><input id="sodSqft" type="number" placeholder="Ex: 7000" oninput="calculate()" /></div><div><label>Install Rate / Sq Ft</label><input id="sodRate" type="number" step="0.01" value="1.25" oninput="calculate()" /></div></div>
-      <div class="row"><div><label>Sod Cost / Sq Ft</label><input id="sodCostSqft" type="number" step="0.01" value="0.40" oninput="calculate()" /></div><div><label>Waste/Cut Buffer</label><select id="sodBuffer" onchange="calculate()"><option value="0">0%</option><option value="5" selected>5%</option><option value="8">8%</option><option value="10">10%</option></select></div></div>
-      <div class="row"><div><label>Prep / Removal Rate</label><input id="prepRate" type="number" step="0.01" value="0.25" oninput="calculate()" /></div><div><label>Rental + Gas</label><input id="sodRental" type="number" placeholder="Ex: 250" oninput="calculate()" /></div></div>
-      <div class="small">Waste buffer means extra sod for clean cuts, edges, weird shapes, and damaged pieces.</div>
+    <div class="card service-section hidden" id="sodFields">
+      <div class="row"><div><label>Square Feet</label><input id="sodSqft" type="number" placeholder="Ex: 7000" /></div><div><label>Install Rate / Sq Ft</label><input id="sodRate" type="number" step="0.01" value="1.25" /></div></div>
+      <div class="row"><div><label>Sod Cost / Sq Ft</label><input id="sodCostSqft" type="number" step="0.01" value="0.40" /></div><div><label>Waste/Cut Buffer</label><select id="sodBuffer"><option value="0">0%</option><option value="5" selected>5%</option><option value="8">8%</option><option value="10">10%</option></select></div></div>
+      <div class="row"><div><label>Prep / Removal Rate</label><input id="prepRate" type="number" step="0.01" value="0.25" /></div><div><label>Rental + Gas</label><input id="sodRental" type="number" placeholder="Ex: 250" /></div></div>
     </div>
 
-    <div class="card hidden" id="mulchFields">
-      <label>Material Type</label><select id="materialType" onchange="calculate()"><option value="mulch">Mulch</option><option value="rock">Rock</option></select>
-      <div class="row"><div><label>Area Sq Ft</label><input id="bedSqft" type="number" placeholder="Ex: 125" oninput="calculate()" /></div><div><label>Depth Inches</label><input id="depth" type="number" value="3" oninput="calculate()" /></div></div>
-      <div class="row"><div><label>Bag Size Cu Ft</label><input id="bagSize" type="number" value="2" oninput="calculate()" /></div><div><label>Cost Per Bag</label><input id="bagCost" type="number" step="0.01" value="2" oninput="calculate()" /></div></div>
-      <div class="row"><div><label>Install Labor / Bag</label><input id="bagLabor" type="number" value="6" oninput="calculate()" /></div><div><label>Bed Edge</label><input id="edgeAdd" type="number" value="125" oninput="calculate()" /></div></div>
-      <div class="row"><div><label>Weed/Prep Add-on</label><input id="bedPrep" type="number" value="100" oninput="calculate()" /></div><div><label>Weed Barrier Sq Ft</label><input id="barrierSqft" type="number" placeholder="Optional" oninput="calculate()" /></div></div>
+    <div class="card service-section hidden" id="mulchFields">
+      <label>Material Type</label><select id="materialType"><option value="mulch">Mulch</option><option value="rock">Rock</option></select>
+      <div class="row"><div><label>Area Sq Ft</label><input id="bedSqft" type="number" placeholder="Ex: 125" /></div><div><label>Depth Inches</label><input id="depth" type="number" value="3" /></div></div>
+      <div class="row"><div><label>Bag Size Cu Ft</label><input id="bagSize" type="number" value="2" /></div><div><label>Cost Per Bag</label><input id="bagCost" type="number" step="0.01" value="2" /></div></div>
+      <div class="row"><div><label>Install Labor / Bag</label><input id="bagLabor" type="number" value="6" /></div><div><label>Bed Edge</label><input id="edgeAdd" type="number" value="125" /></div></div>
+      <div class="row"><div><label>Weed/Prep Add-on</label><input id="bedPrep" type="number" value="100" /></div><div><label>Weed Barrier Sq Ft</label><input id="barrierSqft" type="number" placeholder="Optional" /></div></div>
     </div>
 
-    <div class="card hidden" id="cleanupFields">
-      <div class="row"><div><label>Estimated Hours</label><input id="hours" type="number" placeholder="Ex: 4" oninput="calculate()" /></div><div><label>Your Rate / Hour</label><input id="hourRate" type="number" value="85" oninput="calculate()" /></div></div>
-      <div class="row"><div><label>Haul-away</label><select id="cleanupHaul" onchange="calculate()"><option value="0">None</option><option value="100" selected>Normal (+$100)</option><option value="200">Heavy (+$200)</option></select></div><div><label>Difficulty</label><select id="cleanupDiff" onchange="calculate()"><option value="0">Easy</option><option value="100" selected>Normal (+$100)</option><option value="250">Heavy / overgrown (+$250)</option></select></div></div>
+    <div class="card service-section hidden" id="cleanupFields">
+      <div class="row"><div><label>Estimated Hours</label><input id="hours" type="number" placeholder="Ex: 4" /></div><div><label>Your Rate / Hour</label><input id="hourRate" type="number" value="85" /></div></div>
+      <div class="row"><div><label>Haul-away</label><select id="cleanupHaul"><option value="0">None</option><option value="100" selected>Normal (+$100)</option><option value="200">Heavy (+$200)</option></select></div><div><label>Difficulty</label><select id="cleanupDiff"><option value="0">Easy</option><option value="100" selected>Normal (+$100)</option><option value="250">Heavy / overgrown (+$250)</option></select></div></div>
     </div>
 
-    <div class="card hidden" id="trimFields">
-      <label>What Are You Trimming?</label><select id="trimCategory" onchange="calculate()"><option value="hedges">Hedges / bushes</option><option value="smalltree">Small tree pruning</option><option value="deadwood">Dead limb / deadwood removal</option><option value="palm">Palm trimming</option><option value="mixed">Mixed trimming job</option></select>
-      <label>Job Size / Difficulty</label><select id="trimType" onchange="calculate()"><option value="175">Small quick trim: 1-3 bushes or light cleanup ($175)</option><option value="300" selected>Normal trim: front shrubs or small tree cleanup ($300)</option><option value="500">Heavy trim: overgrown hedges/several shrubs ($500)</option><option value="750">Severe overgrowth / HOA risk ($750)</option></select>
-      <div class="row"><div><label>Number of Hedges/Bushes</label><input id="hedgeCount" type="number" placeholder="Ex: 8" oninput="calculate()" /></div><div><label>Extra Per Hedge/Bush</label><input id="hedgeRate" type="number" value="20" oninput="calculate()" /></div></div>
-      <div class="row"><div><label>Small Tree Pruning Add-on</label><select id="smallTreePrune" onchange="calculate()"><option value="0">None</option><option value="125">Light pruning (+$125)</option><option value="250">Medium pruning (+$250)</option><option value="400">Heavy pruning (+$400)</option></select></div><div><label>Dead Limb Removal</label><select id="deadLimb" onchange="calculate()"><option value="0">None</option><option value="100">1-2 small limbs (+$100)</option><option value="225">Several limbs (+$225)</option><option value="400">Heavy deadwood (+$400)</option></select></div></div>
-      <div class="row"><div><label>Palm Trimming</label><select id="palmTrim" onchange="calculate()"><option value="0">No palms</option><option value="125">1 small palm (+$125)</option><option value="250">2-3 small palms (+$250)</option><option value="450">4+ palms/heavier palm work (+$450)</option></select></div><div><label>Haul-away / Cleanup</label><select id="trimHaul" onchange="calculate()"><option value="0">Leave debris neatly piled</option><option value="75" selected>Normal cleanup + haul-away (+$75)</option><option value="175">Heavy debris haul-away (+$175)</option></select></div></div>
-      <label>Trimming Risk / Access</label><select id="trimRisk" onchange="calculate()"><option value="0">Easy access / ground level</option><option value="100">Tight access, thorns, or awkward shaping (+$100)</option><option value="250">Tall, ladder needed, or risky cuts (+$250)</option><option value="99999">Refer out / do not quote</option></select>
+    <div class="card service-section hidden" id="trimFields">
+      <label>Job Size / Difficulty</label><select id="trimType"><option value="175">Small quick trim ($175)</option><option value="300" selected>Normal trim ($300)</option><option value="500">Heavy trim ($500)</option><option value="750">Severe overgrowth / HOA risk ($750)</option></select>
+      <div class="row"><div><label>Number of Hedges/Bushes</label><input id="hedgeCount" type="number" placeholder="Ex: 8" /></div><div><label>Extra Per Hedge/Bush</label><input id="hedgeRate" type="number" value="20" /></div></div>
+      <div class="row"><div><label>Small Tree Pruning</label><select id="smallTreePrune"><option value="0">None</option><option value="125">Light pruning (+$125)</option><option value="250">Medium pruning (+$250)</option><option value="400">Heavy pruning (+$400)</option></select></div><div><label>Dead Limb Removal</label><select id="deadLimb"><option value="0">None</option><option value="100">1-2 small limbs (+$100)</option><option value="225">Several limbs (+$225)</option><option value="400">Heavy deadwood (+$400)</option></select></div></div>
+      <div class="row"><div><label>Palm Trimming</label><select id="palmTrim"><option value="0">No palms</option><option value="125">1 small palm (+$125)</option><option value="250">2-3 small palms (+$250)</option><option value="450">4+ palms (+$450)</option></select></div><div><label>Haul-away / Cleanup</label><select id="trimHaul"><option value="0">Leave debris</option><option value="75" selected>Normal haul-away (+$75)</option><option value="175">Heavy haul-away (+$175)</option></select></div></div>
+      <label>Trimming Risk / Access</label><select id="trimRisk"><option value="0">Easy access</option><option value="100">Tight access/thorns (+$100)</option><option value="250">Tall/ladder/risky (+$250)</option><option value="99999">Refer out / do not quote</option></select>
     </div>
 
-    <div class="card hidden" id="extrasFields">
-      <div class="row"><div><label>Plants Installed</label><input id="plants" type="number" placeholder="Ex: 10" oninput="calculate()" /></div><div><label>Install Labor / Plant</label><input id="plantRate" type="number" value="45" oninput="calculate()" /></div></div>
-      <div class="row"><div><label>Landscape Lights</label><input id="lights" type="number" placeholder="Ex: 6" oninput="calculate()" /></div><div><label>Install Labor / Light</label><input id="lightRate" type="number" value="75" oninput="calculate()" /></div></div>
-      <div class="row"><div><label>Pressure Washing</label><select id="pressure" onchange="calculate()"><option value="0">No</option><option value="275">Small/medium area ($275)</option><option value="450">Large area ($450)</option></select></div><div><label>Custom Add-on</label><input id="customAdd" type="number" placeholder="Ex: 250" oninput="calculate()" /></div></div>
+    <div class="card service-section hidden" id="extrasFields">
+      <div class="row"><div><label>Plants Installed</label><input id="plants" type="number" placeholder="Ex: 10" /></div><div><label>Install Labor / Plant</label><input id="plantRate" type="number" value="45" /></div></div>
+      <div class="row"><div><label>Landscape Lights</label><input id="lights" type="number" placeholder="Ex: 6" /></div><div><label>Install Labor / Light</label><input id="lightRate" type="number" value="75" /></div></div>
+      <div class="row"><div><label>Pressure Washing</label><select id="pressure"><option value="0">No</option><option value="275">Small/medium area ($275)</option><option value="450">Large area ($450)</option></select></div><div><label>Custom Add-on</label><input id="customAdd" type="number" placeholder="Ex: 250" /></div></div>
     </div>
-
-    <div class="card"><label>Red Flag Checklist</label><div class="checks"><label class="check"><input id="redPower" type="checkbox" onchange="calculate()" /> Power lines nearby</label><label class="check"><input id="redClimb" type="checkbox" onchange="calculate()" /> Climbing required</label><label class="check"><input id="redLean" type="checkbox" onchange="calculate()" /> Heavy lean</label><label class="check"><input id="redProperty" type="checkbox" onchange="calculate()" /> Roof/fence/car risk</label><label class="check"><input id="redAccess" type="checkbox" onchange="calculate()" /> Bad access</label><label class="check"><input id="redUnsure" type="checkbox" onchange="calculate()" /> I feel unsure</label></div></div>
-
-    <div class="card"><label>Scope Checklist</label><div class="checks"><label class="check"><input id="scopeMaterials" type="checkbox" onchange="calculate()" /> Materials included</label><label class="check"><input id="scopeHaul" type="checkbox" onchange="calculate()" checked /> Haul-away included</label><label class="check"><input id="scopeCleanup" type="checkbox" onchange="calculate()" checked /> Cleanup included</label><label class="check"><input id="scopeEdge" type="checkbox" onchange="calculate()" /> Bed edging included</label><label class="check"><input id="scopeStumpLow" type="checkbox" onchange="calculate()" /> Stump cut low</label><label class="check"><input id="scopeNoStump" type="checkbox" onchange="calculate()" checked /> Stump grinding excluded</label><label class="check"><input id="scopeNoIrrigation" type="checkbox" onchange="calculate()" checked /> Irrigation repair excluded</label><label class="check"><input id="scopeWarranty" type="checkbox" onchange="calculate()" /> Warranty included</label></div></div>
 
     <div class="card">
-      <div class="row"><div><label>Pricing Mode</label><select id="pricingMode" onchange="calculate()"><option value="0.92">Competitive</option><option value="1" selected>Recommended</option><option value="1.18">Premium</option></select></div><div><label>Quote Style</label><select id="quoteStyle" onchange="calculate()"><option value="short">Short</option><option value="detailed" selected>Detailed</option><option value="professional">Professional</option><option value="friendly">Friendly</option></select></div></div>
-      <div class="row"><div><label>Target Profit / Hour</label><input id="targetHourlyProfit" type="number" value="100" oninput="calculate()" /></div><div><label>Manual Final Price Override</label><input id="manualPrice" type="number" placeholder="Optional" oninput="calculate()" /></div></div>
-      <div class="row"><div><label>Labor-Only Discount %</label><input id="laborDiscount" type="number" value="0" oninput="calculate()" /></div><div><label>Discount Reason</label><select id="discountReason" onchange="calculate()"><option>No discount</option><option>Referral / neighbor</option><option>Repeat customer</option><option>Bundle discount</option><option>Competitive close</option></select></div></div>
-      <div class="row"><div><label>Negotiation Floor</label><input id="negotiationFloor" type="number" placeholder="Auto if blank" oninput="calculate()" /></div><div><label>Deposit Due</label><select id="depositDue" onchange="calculate()"><option>Before scheduling</option><option>Before materials are ordered</option><option>Upon acceptance</option><option>None</option></select></div></div>
-      <div class="row"><div><label>Extra Material Cost</label><input id="materials" type="number" placeholder="Optional" oninput="calculate()" /></div><div><label>Helper Cost</label><input id="helperCost" type="number" placeholder="Optional" oninput="calculate()" /></div></div>
-      <div class="row"><div><label>Dump / Rental / Fuel</label><input id="fees" type="number" placeholder="Optional" oninput="calculate()" /></div><div><label>Material Markup %</label><input id="materialMarkup" type="number" value="35" oninput="calculate()" /></div></div>
-      <div class="row"><div><label>Sales Tax %</label><input id="taxRate" type="number" step="0.1" value="7" oninput="calculate()" /></div><div><label>Sales Tax</label><select id="taxMode" onchange="calculate()"><option value="materials" selected>Tax materials only</option><option value="full">Tax full job</option><option value="none">No tax</option></select></div></div>
-      <div class="row"><div><label>Deposit</label><select id="deposit" onchange="calculate()"><option value="auto" selected>Auto by job type</option><option value="0">No deposit</option><option value="25">25%</option><option value="50">50%</option><option value="custom">Custom amount</option></select></div><div><label>Custom Deposit $</label><input id="customDeposit" type="number" placeholder="Optional" oninput="calculate()" /></div></div>
-      <div class="row"><div><label>Round Price To</label><select id="roundTo" onchange="calculate()"><option value="1">Exact</option><option value="25" selected>$25</option><option value="50">$50</option><option value="100">$100</option></select></div><div><label>Scheduling Line</label><select id="scheduleLine" onchange="calculate()"><option value="yes" selected>Include</option><option value="no">Remove</option></select></div></div>
+      <label>Red Flag Checklist</label>
+      <div class="checks">
+        <label class="check"><input id="redPower" type="checkbox" /> Power lines nearby</label>
+        <label class="check"><input id="redClimb" type="checkbox" /> Climbing required</label>
+        <label class="check"><input id="redLean" type="checkbox" /> Heavy lean</label>
+        <label class="check"><input id="redProperty" type="checkbox" /> Roof/fence/car risk</label>
+        <label class="check"><input id="redAccess" type="checkbox" /> Bad access</label>
+        <label class="check"><input id="redUnsure" type="checkbox" /> I feel unsure</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <label>Scope Checklist</label>
+      <div class="checks">
+        <label class="check"><input id="scopeMaterials" type="checkbox" /> Materials included</label>
+        <label class="check"><input id="scopeHaul" type="checkbox" checked /> Haul-away included</label>
+        <label class="check"><input id="scopeCleanup" type="checkbox" checked /> Cleanup included</label>
+        <label class="check"><input id="scopeEdge" type="checkbox" /> Bed edging included</label>
+        <label class="check"><input id="scopeStumpLow" type="checkbox" /> Stump cut low</label>
+        <label class="check"><input id="scopeNoStump" type="checkbox" checked /> Stump grinding excluded</label>
+        <label class="check"><input id="scopeNoIrrigation" type="checkbox" checked /> Irrigation repair excluded</label>
+        <label class="check"><input id="scopeWarranty" type="checkbox" /> Warranty included</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row"><div><label>Pricing Mode</label><select id="pricingMode"><option value="0.92">Competitive</option><option value="1" selected>Recommended</option><option value="1.18">Premium</option></select></div><div><label>Quote Style</label><select id="quoteStyle"><option value="short">Short</option><option value="detailed" selected>Detailed</option><option value="friendly">Friendly</option></select></div></div>
+      <div class="row"><div><label>Target Profit / Hour</label><input id="targetHourlyProfit" type="number" value="100" /></div><div><label>Manual Final Price Override</label><input id="manualPrice" type="number" placeholder="Optional" /></div></div>
+      <div class="row"><div><label>Labor-Only Discount %</label><input id="laborDiscount" type="number" value="0" /></div><div><label>Discount Reason</label><select id="discountReason"><option>No discount</option><option>Referral / neighbor</option><option>Repeat customer</option><option>Bundle discount</option><option>Competitive close</option></select></div></div>
+      <div class="row"><div><label>Negotiation Floor</label><input id="negotiationFloor" type="number" placeholder="Auto if blank" /></div><div><label>Deposit Due</label><select id="depositDue"><option>Before scheduling</option><option>Before materials are ordered</option><option>Upon acceptance</option><option>None</option></select></div></div>
+      <div class="row"><div><label>Extra Material Cost</label><input id="materials" type="number" placeholder="Optional" /></div><div><label>Helper Cost</label><input id="helperCost" type="number" placeholder="Optional" /></div></div>
+      <div class="row"><div><label>Dump / Rental / Fuel</label><input id="fees" type="number" placeholder="Optional" /></div><div><label>Material Markup %</label><input id="materialMarkup" type="number" value="35" /></div></div>
+      <div class="row"><div><label>Sales Tax %</label><input id="taxRate" type="number" step="0.1" value="7" /></div><div><label>Sales Tax</label><select id="taxMode"><option value="materials" selected>Tax materials only</option><option value="full">Tax full job</option><option value="none">No tax</option></select></div></div>
+      <div class="row"><div><label>Deposit</label><select id="deposit"><option value="auto" selected>Auto by job type</option><option value="0">No deposit</option><option value="25">25%</option><option value="50">50%</option><option value="custom">Custom amount</option></select></div><div><label>Custom Deposit $</label><input id="customDeposit" type="number" placeholder="Optional" /></div></div>
+      <div class="row"><div><label>Round Price To</label><select id="roundTo"><option value="1">Exact</option><option value="25" selected>$25</option><option value="50">$50</option><option value="100">$100</option></select></div><div><label>Scheduling Line</label><select id="scheduleLine"><option value="yes" selected>Include</option><option value="no">Remove</option></select></div></div>
     </div>
 
     <div class="card">
       <div class="result">
-        <div>Recommended Price</div><div class="main-price" id="finalPrice">$0</div><span class="tag" id="marginTag">0% margin</span>
+        <div>Recommended Price</div>
+        <div class="main-price" id="finalPrice">$0</div>
+        <span class="tag" id="marginTag">0% margin</span>
         <div class="price-grid"><div class="price-box"><div class="label">Minimum</div><div class="price" id="minPrice">$0</div></div><div class="price-box"><div class="label">Recommended</div><div class="price" id="recPrice">$0</div></div><div class="price-box"><div class="label">Premium</div><div class="price" id="premiumPrice">$0</div></div></div>
-        <div class="breakdown" id="breakdown"></div><div id="warnings"></div>
+        <div class="breakdown" id="breakdown"></div>
+        <div id="warnings"></div>
       </div>
-      <label>Customer Quote</label><textarea id="quoteText" readonly></textarea><button type="button" onclick="copyBox('quoteText')">Copy Customer Quote</button>
-      <label>Internal Notes / Shopping List</label><textarea id="internalText" readonly></textarea><button class="secondary" type="button" onclick="copyBox('internalText')">Copy Internal Notes</button>
-      <label>Follow-Up Text Generator</label><select id="followType" onchange="makeFollowUp()"><option value="follow">Follow up after quote</option><option value="confirm">Confirm schedule</option><option value="daybefore">Day-before reminder</option><option value="thanks">Completed / thank you</option><option value="review">Ask for review</option><option value="photo">Ask photo permission</option><option value="payment">Payment reminder</option></select><textarea id="followText" readonly></textarea><button class="secondary" type="button" onclick="copyBox('followText')">Copy Follow-Up Text</button>
-      <button type="button" onclick="saveJob()">Save This Job</button><button class="secondary" type="button" onclick="saveDefaults()">Save My Defaults</button><button class="danger" type="button" onclick="resetForm()">Reset Current Job</button>
+      <label>Customer Quote</label><textarea id="quoteText" readonly></textarea><button type="button" id="copyQuoteBtn">Copy Customer Quote</button>
+      <label>Internal Notes / Shopping List</label><textarea id="internalText" readonly></textarea><button class="secondary" type="button" id="copyInternalBtn">Copy Internal Notes</button>
+      <label>Follow-Up Text Generator</label><select id="followType"><option value="follow">Follow up after quote</option><option value="confirm">Confirm schedule</option><option value="daybefore">Day-before reminder</option><option value="thanks">Completed / thank you</option><option value="review">Ask for review</option><option value="photo">Ask photo permission</option><option value="payment">Payment reminder</option></select><textarea id="followText" readonly></textarea><button class="secondary" type="button" id="copyFollowBtn">Copy Follow-Up Text</button>
+      <button type="button" id="saveJobBtn">Save This Job</button><button class="secondary" type="button" id="saveDefaultsBtn">Save My Defaults</button><button class="danger" type="button" id="resetBtn">Reset Current Job</button>
     </div>
 
-    <div class="card"><label>Saved Jobs</label><div class="small">Saved on this device only. Use this to track leads, quotes, completed jobs, and lost jobs.</div><div id="savedJobs"></div><button class="danger" type="button" onclick="clearJobs()">Clear Saved Jobs</button></div>
+    <div class="card"><label>Saved Jobs</label><div class="small">Saved on this device only. Use this to track leads, quotes, completed jobs, and lost jobs.</div><div id="savedJobs"></div><button class="danger" type="button" id="clearJobsBtn">Clear Saved Jobs</button></div>
     <div class="footer-note">Free quotes. Built to protect margin. Raise price for risk, bad access, tight scheduling, heavy cleanup, or extra scope.</div>
   </div>
 
@@ -353,9 +341,9 @@
 
     function setJob(job) {
       currentJob = job;
-      for (var i = 0; i < sections.length; i++) el(sections[i]).classList.add('hidden');
+      sections.forEach(function(id) { el(id).classList.add('hidden'); });
       el(job + 'Fields').classList.remove('hidden');
-      for (var j = 0; j < tabs.length; j++) el('tab-' + tabs[j]).classList.remove('active');
+      tabs.forEach(function(tab) { el('tab-' + tab).classList.remove('active'); });
       el('tab-' + job).classList.add('active');
       applyScopeDefaults();
       calculate();
@@ -370,21 +358,48 @@
     }
 
     function preset(type) {
-      if (type === 'smallTree') { setJob('tree'); el('treeSize').value = '550'; el('treeHaul').value = '125'; el('stump').value = '0'; el('treeRisk').value = '0'; el('fees').value = '50'; el('helperCost').value = '0'; }
-      if (type === 'smallMulch') { setJob('mulch'); el('bedSqft').value = '125'; el('depth').value = '3'; el('bagSize').value = '2'; el('bagCost').value = '2'; el('bagLabor').value = '6'; el('edgeAdd').value = '125'; el('bedPrep').value = '100'; }
-      if (type === 'sod7000') { setJob('sod'); el('sodSqft').value = '7000'; el('sodRate').value = '1.25'; el('sodCostSqft').value = '0.40'; el('sodBuffer').value = '5'; el('prepRate').value = '0.25'; el('sodRental').value = '300'; el('helperCost').value = '1250'; }
-      if (type === 'cleanupHalfDay') { setJob('cleanup'); el('hours').value = '4'; el('hourRate').value = '85'; el('cleanupHaul').value = '100'; el('cleanupDiff').value = '100'; }
+      if (type === 'smallTree') {
+        setJob('tree'); el('treeSize').value = '550'; el('treeHaul').value = '125'; el('stump').value = '0'; el('treeRisk').value = '0'; el('fees').value = '50'; el('helperCost').value = '0';
+      }
+      if (type === 'smallMulch') {
+        setJob('mulch'); el('bedSqft').value = '125'; el('depth').value = '3'; el('bagSize').value = '2'; el('bagCost').value = '2'; el('bagLabor').value = '6'; el('edgeAdd').value = '125'; el('bedPrep').value = '100';
+      }
+      if (type === 'sod7000') {
+        setJob('sod'); el('sodSqft').value = '7000'; el('sodRate').value = '1.25'; el('sodCostSqft').value = '0.40'; el('sodBuffer').value = '5'; el('prepRate').value = '0.25'; el('sodRental').value = '300'; el('helperCost').value = '1250';
+      }
+      if (type === 'cleanupHalfDay') {
+        setJob('cleanup'); el('hours').value = '4'; el('hourRate').value = '85'; el('cleanupHaul').value = '100'; el('cleanupDiff').value = '100';
+      }
       calculate();
     }
 
-    function jobName() { var names = { tree: 'tree removal', sod: 'sod installation', mulch: 'mulch/rock installation', cleanup: 'property cleanup', trim: 'tree/hedge trimming', extras: 'landscape add-ons' }; return names[currentJob]; }
-    function minForJob() { if (currentJob === 'mulch' && val('materialType') === 'rock') return 350; var mins = { tree: 500, sod: 1000, mulch: 275, cleanup: 200, trim: 175, extras: 150 }; return mins[currentJob] || 100; }
-    function autoDepositPercent() { var d = { tree: 25, sod: 50, mulch: 50, cleanup: 0, trim: 0, extras: 50 }; return d[currentJob] || 0; }
-    function hasRedFlags() { return checked('redPower') || checked('redClimb') || checked('redLean') || checked('redProperty') || checked('redAccess') || checked('redUnsure'); }
+    function jobName() {
+      var names = { tree: 'tree removal', sod: 'sod installation', mulch: 'mulch/rock installation', cleanup: 'property cleanup', trim: 'tree/hedge trimming', extras: 'landscape add-ons' };
+      return names[currentJob];
+    }
+
+    function minForJob() {
+      if (currentJob === 'mulch' && val('materialType') === 'rock') return 350;
+      var mins = { tree: 500, sod: 1000, mulch: 275, cleanup: 200, trim: 175, extras: 150 };
+      return mins[currentJob] || 100;
+    }
+
+    function autoDepositPercent() {
+      var d = { tree: 25, sod: 50, mulch: 50, cleanup: 0, trim: 0, extras: 50 };
+      return d[currentJob] || 0;
+    }
+
+    function hasRedFlags() {
+      return checked('redPower') || checked('redClimb') || checked('redLean') || checked('redProperty') || checked('redAccess') || checked('redUnsure');
+    }
+
     function travelFee() { return num('driveTime'); }
 
     function scheduledStartEnd() {
-      var date = val('scheduleDate'); var time = val('scheduleTime'); var hours = num('estimatedHours'); var buffer = num('bufferMinutes');
+      var date = val('scheduleDate');
+      var time = val('scheduleTime');
+      var hours = num('estimatedHours');
+      var buffer = num('bufferMinutes');
       if (!date || !time || !hours) return null;
       var start = new Date(date + 'T' + time);
       var end = new Date(start.getTime() + (hours * 60 + buffer) * 60 * 1000);
@@ -396,19 +411,21 @@
       return start.toLocaleTimeString([], options) + ' - ' + end.toLocaleTimeString([], options);
     }
 
-    function savedJobs() { return JSON.parse(localStorage.getItem('ll_jobs') || '[]'); }
+    function savedJobs() {
+      return JSON.parse(localStorage.getItem('ll_jobs') || '[]');
+    }
 
     function scheduledConflict() {
       var current = scheduledStartEnd();
       if (!current) return [];
       var jobs = savedJobs();
       var conflicts = [];
-      for (var i = 0; i < jobs.length; i++) {
-        if (!jobs[i].startISO || !jobs[i].endISO) continue;
-        var existingStart = new Date(jobs[i].startISO);
-        var existingEnd = new Date(jobs[i].endISO);
-        if (current.start < existingEnd && current.end > existingStart) conflicts.push(jobs[i]);
-      }
+      jobs.forEach(function(job) {
+        if (!job.startISO || !job.endISO) return;
+        var existingStart = new Date(job.startISO);
+        var existingEnd = new Date(job.endISO);
+        if (current.start < existingEnd && current.end > existingStart) conflicts.push(job);
+      });
       return conflicts;
     }
 
@@ -416,34 +433,68 @@
       var selectedDate = val('scheduleDate');
       var jobs = savedJobs();
       var html = '';
-      for (var i = 0; i < jobs.length; i++) {
-        if (!jobs[i].startISO) continue;
-        if (selectedDate && jobs[i].startISO.indexOf(selectedDate) !== 0) continue;
-        var start = new Date(jobs[i].startISO);
-        var end = new Date(jobs[i].endISO);
-        html += '<div class="time-block"><strong>' + jobs[i].customer + '</strong> - ' + jobs[i].job + '<br>' + start.toLocaleDateString() + ' • ' + formatTimeRange(start, end) + '<br><span class="status-pill">' + jobs[i].status + '</span></div>';
-      }
+      jobs.forEach(function(job) {
+        if (!job.startISO) return;
+        if (selectedDate && job.startISO.indexOf(selectedDate) !== 0) return;
+        var start = new Date(job.startISO);
+        var end = new Date(job.endISO);
+        html += '<div class="time-block"><strong>' + job.customer + '</strong> - ' + job.job + '<br>' + start.toLocaleDateString() + ' • ' + formatTimeRange(start, end) + '<br><span class="status-pill">' + job.status + '</span></div>';
+      });
       el('bookedTimes').innerHTML = html || '<div class="small">No saved booked times for this date yet.</div>';
     }
 
-    function mulchBags() { if (currentJob !== 'mulch') return 0; var cubicFeetNeeded = num('bedSqft') * (num('depth') / 12); var bagSize = num('bagSize') || 2; return Math.ceil(cubicFeetNeeded / bagSize); }
+    function mulchBags() {
+      if (currentJob !== 'mulch') return 0;
+      var cubicFeetNeeded = num('bedSqft') * (num('depth') / 12);
+      var bagSize = num('bagSize') || 2;
+      return Math.ceil(cubicFeetNeeded / bagSize);
+    }
 
     function serviceBase() {
-      if (currentJob === 'tree') { if (num('stump') >= 99999 || num('treeRisk') >= 99999 || hasRedFlags()) return 99999; return num('treeSize') + num('treeHaul') + num('stump') + num('treeRisk'); }
-      if (currentJob === 'sod') { var sqft = num('sodSqft'); var billable = sqft * (1 + num('sodBuffer') / 100); return billable * num('sodRate') + sqft * num('prepRate') + num('sodRental'); }
-      if (currentJob === 'mulch') { var laborPerBag = val('materialType') === 'rock' ? Math.max(num('bagLabor'), 10) : num('bagLabor'); return mulchBags() * (num('bagCost') + laborPerBag) + num('edgeAdd') + num('bedPrep') + num('barrierSqft') * weedBarrierRate; }
+      if (currentJob === 'tree') {
+        if (num('stump') >= 99999 || num('treeRisk') >= 99999 || hasRedFlags()) return 99999;
+        return num('treeSize') + num('treeHaul') + num('stump') + num('treeRisk');
+      }
+      if (currentJob === 'sod') {
+        var sqft = num('sodSqft');
+        var billable = sqft * (1 + num('sodBuffer') / 100);
+        return billable * num('sodRate') + sqft * num('prepRate') + num('sodRental');
+      }
+      if (currentJob === 'mulch') {
+        var laborPerBag = val('materialType') === 'rock' ? Math.max(num('bagLabor'), 10) : num('bagLabor');
+        return mulchBags() * (num('bagCost') + laborPerBag) + num('edgeAdd') + num('bedPrep') + num('barrierSqft') * weedBarrierRate;
+      }
       if (currentJob === 'cleanup') return num('hours') * num('hourRate') + num('cleanupHaul') + num('cleanupDiff');
-      if (currentJob === 'trim') { if (num('trimRisk') >= 99999 || hasRedFlags()) return 99999; return num('trimType') + num('hedgeCount') * num('hedgeRate') + num('smallTreePrune') + num('deadLimb') + num('palmTrim') + num('trimHaul') + num('trimRisk'); }
+      if (currentJob === 'trim') {
+        if (num('trimRisk') >= 99999 || hasRedFlags()) return 99999;
+        return num('trimType') + num('hedgeCount') * num('hedgeRate') + num('smallTreePrune') + num('deadLimb') + num('palmTrim') + num('trimHaul') + num('trimRisk');
+      }
       if (currentJob === 'extras') return num('plants') * num('plantRate') + num('lights') * num('lightRate') + num('pressure') + num('customAdd');
       return 0;
     }
 
-    function materialCost() { if (currentJob === 'sod') return num('sodSqft') * (1 + num('sodBuffer') / 100) * num('sodCostSqft'); if (currentJob === 'mulch') return mulchBags() * num('bagCost'); return 0; }
-    function depositAmount(total) { if (val('deposit') === 'custom') return num('customDeposit'); var pct = val('deposit') === 'auto' ? autoDepositPercent() : Number(val('deposit')); return total * (pct / 100); }
+    function materialCost() {
+      if (currentJob === 'sod') return num('sodSqft') * (1 + num('sodBuffer') / 100) * num('sodCostSqft');
+      if (currentJob === 'mulch') return mulchBags() * num('bagCost');
+      return 0;
+    }
+
+    function depositAmount(total) {
+      if (val('deposit') === 'custom') return num('customDeposit');
+      var pct = val('deposit') === 'auto' ? autoDepositPercent() : Number(val('deposit'));
+      return total * (pct / 100);
+    }
 
     function scopeLines() {
       var lines = [];
-      if (checked('scopeMaterials')) lines.push('Materials included'); if (checked('scopeHaul')) lines.push('Haul-away included'); if (checked('scopeCleanup')) lines.push('Cleanup included'); if (checked('scopeEdge')) lines.push('Bed edging included'); if (checked('scopeStumpLow')) lines.push('Stump cut low'); if (checked('scopeNoStump')) lines.push('Stump grinding excluded unless added'); if (checked('scopeNoIrrigation')) lines.push('Irrigation repairs excluded'); if (checked('scopeWarranty')) lines.push('30-day limited workmanship warranty included');
+      if (checked('scopeMaterials')) lines.push('Materials included');
+      if (checked('scopeHaul')) lines.push('Haul-away included');
+      if (checked('scopeCleanup')) lines.push('Cleanup included');
+      if (checked('scopeEdge')) lines.push('Bed edging included');
+      if (checked('scopeStumpLow')) lines.push('Stump cut low');
+      if (checked('scopeNoStump')) lines.push('Stump grinding excluded unless added');
+      if (checked('scopeNoIrrigation')) lines.push('Irrigation repairs excluded');
+      if (checked('scopeWarranty')) lines.push('30-day limited workmanship warranty included');
       return lines;
     }
 
@@ -457,7 +508,10 @@
     }
 
     function packageOptions(price) {
-      var r = num('roundTo'); var basic = roundUp(price * 0.92, r); var better = roundUp(price * 1.12, r); var best = roundUp(price * 1.3, r);
+      var r = num('roundTo');
+      var basic = roundUp(price * 0.92, r);
+      var better = roundUp(price * 1.12, r);
+      var best = roundUp(price * 1.3, r);
       if (currentJob === 'tree') return 'Basic: removal + cleanup (' + money(basic) + ')\nBetter: removal + haul-away + stump cut low (' + money(better) + ')\nBest: removal + mulch ring/new plant option (' + money(best) + '+)';
       if (currentJob === 'sod') return 'Basic: sod install (' + money(basic) + ')\nBetter: sod + bed edging (' + money(better) + ')\nBest: sod + mulch/plants/curb appeal (' + money(best) + '+)';
       if (currentJob === 'mulch') return 'Basic: material install (' + money(basic) + ')\nBetter: install + bed edging/prep (' + money(better) + ')\nBest: install + weed barrier/plants (' + money(best) + '+)';
@@ -466,54 +520,141 @@
 
     function calculate() {
       try {
-        var base = serviceBase(); var autoMaterials = materialCost(); var extraMaterials = num('materials'); var trueMaterials = autoMaterials + extraMaterials; var markedExtraMaterials = extraMaterials * (1 + num('materialMarkup') / 100); var helperCost = num('helperCost'); var fees = num('fees') + travelFee(); var roundTo = num('roundTo'); var pricingMode = Number(val('pricingMode'));
-        var subtotal = base + markedExtraMaterials + helperCost + fees; var laborDiscount = base < 99999 ? base * (num('laborDiscount') / 100) : 0; var price = roundUp(Math.max(subtotal * pricingMode - laborDiscount, minForJob()), roundTo); if (num('manualPrice') > 0) price = num('manualPrice');
-        var min = roundUp(Math.max(price * 0.92, minForJob()), roundTo); var premium = roundUp(price * 1.18, roundTo); var taxable = 0; if (val('taxMode') === 'materials') taxable = trueMaterials; if (val('taxMode') === 'full') taxable = price; var tax = val('taxMode') === 'none' ? 0 : taxable * (num('taxRate') / 100); var total = price + tax; var premiumTotal = premium + (val('taxMode') === 'full' ? premium * (num('taxRate') / 100) : tax); var trueCost = trueMaterials + helperCost + fees; var profit = base >= 99999 ? 0 : price - trueCost; var margin = price > 0 && base < 99999 ? profit / price * 100 : 0; var deposit = depositAmount(total); var remaining = total - deposit;
+        var base = serviceBase();
+        var autoMaterials = materialCost();
+        var extraMaterials = num('materials');
+        var trueMaterials = autoMaterials + extraMaterials;
+        var markedExtraMaterials = extraMaterials * (1 + num('materialMarkup') / 100);
+        var helperCost = num('helperCost');
+        var fees = num('fees') + travelFee();
+        var roundTo = num('roundTo');
+        var pricingMode = Number(val('pricingMode'));
+        var subtotal = base + markedExtraMaterials + helperCost + fees;
+        var laborDiscount = base < 99999 ? base * (num('laborDiscount') / 100) : 0;
+        var price = roundUp(Math.max(subtotal * pricingMode - laborDiscount, minForJob()), roundTo);
+        if (num('manualPrice') > 0) price = num('manualPrice');
+        var min = roundUp(Math.max(price * 0.92, minForJob()), roundTo);
+        var premium = roundUp(price * 1.18, roundTo);
+        var taxable = 0;
+        if (val('taxMode') === 'materials') taxable = trueMaterials;
+        if (val('taxMode') === 'full') taxable = price;
+        var tax = val('taxMode') === 'none' ? 0 : taxable * (num('taxRate') / 100);
+        var total = price + tax;
+        var premiumTotal = premium + (val('taxMode') === 'full' ? premium * (num('taxRate') / 100) : tax);
+        var trueCost = trueMaterials + helperCost + fees;
+        var profit = base >= 99999 ? 0 : price - trueCost;
+        var margin = price > 0 && base < 99999 ? profit / price * 100 : 0;
+        var deposit = depositAmount(total);
+        var remaining = total - deposit;
         lastCalc = { price: price, total: total, min: min, premiumTotal: premiumTotal, trueCost: trueCost, profit: profit, margin: margin, deposit: deposit, remaining: remaining, tax: tax };
-        updateResults(base, trueMaterials, helperCost, fees, tax, deposit, remaining, profit); updateWarnings(base, margin); renderBookedTimes(); makeQuote(); makeInternal(); makeFollowUp();
-      } catch (err) { el('warnings').innerHTML = '<div class="warning bad"><strong>App error:</strong> ' + err.message + '</div>'; }
+        updateResults(base, trueMaterials, helperCost, fees, tax, deposit, remaining, profit);
+        updateWarnings(base, margin);
+        renderBookedTimes();
+        makeQuote();
+        makeInternal();
+        makeFollowUp();
+      } catch (err) {
+        el('warnings').innerHTML = '<div class="warning bad"><strong>App error:</strong> ' + err.message + '</div>';
+      }
     }
 
     function updateResults(base, trueMaterials, helperCost, fees, tax, deposit, remaining, profit) {
-      el('finalPrice').textContent = base >= 99999 ? 'REFER OUT' : money(lastCalc.total); el('minPrice').textContent = money(lastCalc.min); el('recPrice').textContent = base >= 99999 ? 'Refer' : money(lastCalc.total); el('premiumPrice').textContent = money(lastCalc.premiumTotal); el('marginTag').textContent = Math.round(lastCalc.margin) + '% margin';
-      var extra = ''; if (currentJob === 'mulch') extra = 'Estimated bags: <strong>' + mulchBags() + '</strong><br>'; if (currentJob === 'sod') { var sodSqft = num('sodSqft') * (1 + num('sodBuffer') / 100); extra = 'Sod with buffer: <strong>' + Math.round(sodSqft).toLocaleString() + ' sq ft</strong><br>Estimated pallets: <strong>' + Math.ceil(sodSqft / 450) + '</strong><br>'; }
-      var pph = lastCalc.profit / Math.max(num('estimatedHours'), 1); var floor = num('negotiationFloor') || Math.max(lastCalc.trueCost + 100, lastCalc.price - 75);
+      el('finalPrice').textContent = base >= 99999 ? 'REFER OUT' : money(lastCalc.total);
+      el('minPrice').textContent = money(lastCalc.min);
+      el('recPrice').textContent = base >= 99999 ? 'Refer' : money(lastCalc.total);
+      el('premiumPrice').textContent = money(lastCalc.premiumTotal);
+      el('marginTag').textContent = Math.round(lastCalc.margin) + '% margin';
+      var extra = '';
+      if (currentJob === 'mulch') extra = 'Estimated bags: <strong>' + mulchBags() + '</strong><br>';
+      if (currentJob === 'sod') {
+        var sodSqft = num('sodSqft') * (1 + num('sodBuffer') / 100);
+        extra = 'Sod with buffer: <strong>' + Math.round(sodSqft).toLocaleString() + ' sq ft</strong><br>Estimated pallets: <strong>' + Math.ceil(sodSqft / 450) + '</strong><br>';
+      }
+      var pph = lastCalc.profit / Math.max(num('estimatedHours'), 1);
+      var floor = num('negotiationFloor') || Math.max(lastCalc.trueCost + 100, lastCalc.price - 75);
       el('breakdown').innerHTML = extra + 'Service base: <strong>' + (base >= 99999 ? 'REFER OUT' : money(base)) + '</strong><br>True cost: <strong>' + money(lastCalc.trueCost) + '</strong><br>Est. material cost: <strong>' + money(trueMaterials) + '</strong><br>Helper cost: <strong>' + money(helperCost) + '</strong><br>Dump/rental/fuel/travel: <strong>' + money(fees) + '</strong><br>Profit per hour: <strong>' + money(pph) + '/hr</strong><br>Negotiation floor: <strong>' + money(floor) + '</strong><br>Sales tax shown: <strong>' + money(tax) + '</strong><br>Deposit due: <strong>' + money(deposit) + '</strong><br>Remaining balance: <strong>' + money(remaining) + '</strong><br>Estimated profit before tax: <strong>' + money(profit) + '</strong><br><br><strong>Package ideas:</strong><br>' + packageOptions(lastCalc.price).replace(/\n/g, '<br>');
     }
 
     function updateWarnings(base, margin) {
-      var messages = []; var scheduled = scheduledStartEnd(); var conflicts = scheduledConflict();
+      var messages = [];
+      var scheduled = scheduledStartEnd();
+      var conflicts = scheduledConflict();
       el('scheduleSummary').innerHTML = scheduled ? 'Selected time: <strong>' + scheduled.start.toLocaleDateString() + ' • ' + formatTimeRange(scheduled.start, scheduled.end) + '</strong>' : 'Pick a date/time to check availability.';
       if (base >= 99999) messages.push('<div class="warning bad"><strong>Do not quote:</strong> Refer this out or quote separately. Do not use the displayed price.</div>');
       if (conflicts.length) messages.push('<div class="warning bad"><strong>Schedule conflict:</strong> This overlaps with ' + conflicts.length + ' saved booked job(s). Pick another time or adjust the estimate/buffer.</div>');
-      var pph = lastCalc.profit / Math.max(num('estimatedHours'), 1); var target = num('targetHourlyProfit') || 100;
-      if (pph >= target * 1.25) messages.push('<div class="warning info"><strong>High priority recommendation:</strong> This job is above your hourly profit target. Try to schedule it quickly.</div>'); else if (pph < target && base < 99999) messages.push('<div class="warning"><strong>Pricing recommendation:</strong> Profit per hour is below your target. Raise the price, reduce helper cost, or avoid discounting.</div>');
+      var pph = lastCalc.profit / Math.max(num('estimatedHours'), 1);
+      var target = num('targetHourlyProfit') || 100;
+      if (pph >= target * 1.25) messages.push('<div class="warning info"><strong>High priority recommendation:</strong> This job is above your hourly profit target. Try to schedule it quickly.</div>');
+      else if (pph < target && base < 99999) messages.push('<div class="warning"><strong>Pricing recommendation:</strong> Profit per hour is below your target. Raise the price, reduce helper cost, or avoid discounting.</div>');
       if (margin < 40 && base < 99999) messages.push('<div class="warning bad"><strong>Margin warning:</strong> This is under your 40% target. Raise price, lower helper cost, or add a difficulty/haul-away fee.</div>');
       if (currentJob === 'tree') messages.push('<div class="warning"><strong>Tree safety:</strong> Refer out power lines, serious lean, heavy limbs over property, bad access, roof/fence risk, stump grinding, high-risk access, or anything you are not comfortable doing.</div>');
       if (currentJob === 'trim') messages.push('<div class="warning"><strong>Trimming safety:</strong> Refer out anything near power lines, requiring climbing, or cuts you cannot control from the ground.</div>');
       if (currentJob === 'sod') messages.push('<div class="warning"><strong>Sod note:</strong> Send watering instructions separately. Warranty only applies if care instructions are followed.</div>');
-      if (val('beforePhotos') === 'no' || val('afterPhotos') === 'no') messages.push('<div class="warning info"><strong>Marketing reminder:</strong> Get before/after photos if the customer is okay with it.</div>');
       el('warnings').innerHTML = messages.join('');
     }
 
     function makeQuote() {
-      var customer = txt('customer'); var greeting = customer ? 'Hi ' + customer + ',' : 'Hi,'; var notes = txt('notes') ? '\n\nScope: ' + txt('notes') + '.' : ''; var taxLabel = val('taxMode') === 'materials' ? 'sales tax on materials' : 'sales tax'; var taxLine = val('taxMode') === 'none' ? '\nTotal: ' + money(lastCalc.total) : '\nTotal: ' + money(lastCalc.total) + ' including ' + money(lastCalc.tax) + ' ' + taxLabel; var depositLine = lastCalc.deposit > 0 ? '\n\nDeposit due ' + val('depositDue').toLowerCase() + ': ' + money(lastCalc.deposit) + '\nRemaining balance due upon completion: ' + money(lastCalc.remaining) : ''; var schedule = val('scheduleLine') === 'yes' ? '\n\nIf you’d like to move forward, I can get you on the schedule.' : ''; var scope = scopeLines().length ? '\n\nIncludes/notes:\n- ' + scopeLines().join('\n- ') : ''; var safety = currentJob === 'tree' ? '\n\nThis price is based on the tree being safe to remove with the discussed scope. If anything unsafe is found in person, I’ll let you know before moving forward.' : '';
-      if (lastCalc.price >= 99999) { el('quoteText').value = greeting + '\n\nAfter looking over the details, this is something I would recommend referring out or quoting separately due to the risk/scope. I don’t want to take on work unless I know it can be done safely and correctly.\n\nThank you,\nLandon Landscaping LLC\n657-417-7599'; return; }
-      if (val('quoteStyle') === 'short') { el('quoteText').value = greeting + '\n\nFor the ' + jobName() + ', my price would be ' + money(lastCalc.price) + '.' + taxLine + depositLine + '\n\nThank you,\nLandon Landscaping LLC\n657-417-7599'; return; }
-      if (val('quoteStyle') === 'friendly') { el('quoteText').value = greeting + '\n\nI got everything looked over. For the ' + jobName() + ', I’d be at ' + money(lastCalc.price) + '.' + taxLine + notes + scope + depositLine + schedule + '\n\nThank you,\nLandon Landscaping LLC\n657-417-7599'; return; }
+      var customer = txt('customer');
+      var greeting = customer ? 'Hi ' + customer + ',' : 'Hi,';
+      var notes = txt('notes') ? '\n\nScope: ' + txt('notes') + '.' : '';
+      var taxLabel = val('taxMode') === 'materials' ? 'sales tax on materials' : 'sales tax';
+      var taxLine = val('taxMode') === 'none' ? '\nTotal: ' + money(lastCalc.total) : '\nTotal: ' + money(lastCalc.total) + ' including ' + money(lastCalc.tax) + ' ' + taxLabel;
+      var depositLine = lastCalc.deposit > 0 ? '\n\nDeposit due ' + val('depositDue').toLowerCase() + ': ' + money(lastCalc.deposit) + '\nRemaining balance due upon completion: ' + money(lastCalc.remaining) : '';
+      var schedule = val('scheduleLine') === 'yes' ? '\n\nIf you’d like to move forward, I can get you on the schedule.' : '';
+      var scope = scopeLines().length ? '\n\nIncludes/notes:\n- ' + scopeLines().join('\n- ') : '';
+      var safety = currentJob === 'tree' ? '\n\nThis price is based on the tree being safe to remove with the discussed scope. If anything unsafe is found in person, I’ll let you know before moving forward.' : '';
+      if (lastCalc.price >= 99999) {
+        el('quoteText').value = greeting + '\n\nAfter looking over the details, this is something I would recommend referring out or quoting separately due to the risk/scope. I don’t want to take on work unless I know it can be done safely and correctly.\n\nThank you,\nLandon Landscaping LLC\n657-417-7599';
+        return;
+      }
+      if (val('quoteStyle') === 'short') {
+        el('quoteText').value = greeting + '\n\nFor the ' + jobName() + ', my price would be ' + money(lastCalc.price) + '.' + taxLine + depositLine + '\n\nThank you,\nLandon Landscaping LLC\n657-417-7599';
+        return;
+      }
+      if (val('quoteStyle') === 'friendly') {
+        el('quoteText').value = greeting + '\n\nI got everything looked over. For the ' + jobName() + ', I’d be at ' + money(lastCalc.price) + '.' + taxLine + notes + scope + depositLine + schedule + '\n\nThank you,\nLandon Landscaping LLC\n657-417-7599';
+        return;
+      }
       el('quoteText').value = greeting + '\n\nFor the ' + jobName() + ', my price would be ' + money(lastCalc.price) + '.' + taxLine + notes + scope + depositLine + safety + schedule + '\n\nThank you,\nLandon Landscaping LLC\n657-417-7599';
     }
 
     function makeInternal() {
-      var out = []; var scheduled = scheduledStartEnd();
-      out.push('INTERNAL NOTES - ' + jobName().toUpperCase()); out.push('Customer: ' + (txt('customer') || 'N/A')); out.push('Info: ' + (txt('customerInfo') || 'N/A')); out.push('Status: ' + val('jobStatus') + ' | Win/Loss: ' + val('winLoss')); out.push('Lead source: ' + val('leadSource') + ' | Priority: ' + val('jobPriority')); out.push('Location: ' + (txt('jobLocation') || 'N/A') + ' | Travel fee: ' + money(travelFee())); out.push(scheduled ? 'Scheduled: ' + scheduled.start.toLocaleDateString() + ' • ' + formatTimeRange(scheduled.start, scheduled.end) : 'Scheduled: not set'); out.push('Notes: ' + (txt('notes') || 'N/A')); out.push('Minimum / Recommended / Premium: ' + money(lastCalc.min) + ' / ' + money(lastCalc.total) + ' / ' + money(lastCalc.premiumTotal)); out.push('True cost: ' + money(lastCalc.trueCost) + ' | Profit: ' + money(lastCalc.profit) + ' | Margin: ' + Math.round(lastCalc.margin) + '%'); out.push('Profit per hour: ' + money(lastCalc.profit / Math.max(num('estimatedHours'), 1)) + '/hr | Target: ' + money(num('targetHourlyProfit') || 100) + '/hr'); out.push('Negotiation floor: ' + money(num('negotiationFloor') || Math.max(lastCalc.trueCost + 100, lastCalc.price - 75))); out.push('Deposit: ' + money(lastCalc.deposit) + ' | Remaining: ' + money(lastCalc.remaining));
-      if (currentJob === 'sod') { var sqft = num('sodSqft') * (1 + num('sodBuffer') / 100); out.push('Shopping list: ' + Math.ceil(sqft / 450) + ' pallets St. Augustine sod (' + Math.round(sqft) + ' sq ft with buffer)'); }
-      if (currentJob === 'mulch') { var laborPerBag = val('materialType') === 'rock' ? Math.max(num('bagLabor'), 10) : num('bagLabor'); out.push('Shopping list: ' + mulchBags() + ' bags of ' + val('materialType') + ' at ' + num('depth') + ' inch depth. Labor per bag used: ' + laborPerBag); }
-      if (currentJob === 'tree') out.push('Equipment: chainsaw, sharp chain, rope, wedges, rake/tarp, PPE, truck/trailer, dump plan'); if (currentJob === 'trim') out.push('Equipment: hedge trimmer, loppers, hand pruners, pole saw if needed, rake/tarp, blower, gloves, eye/hearing protection'); out.push('Bring checklist: water, gloves, eye protection, blower, rake, tarp, invoice/payment link'); out.push('Upsell ideas: ' + upsellIdeas().join(', ')); out.push('Photos: before=' + val('beforePhotos') + ', after=' + val('afterPhotos')); out.push('Packages:\n' + packageOptions(lastCalc.price)); el('internalText').value = out.join('\n');
+      var out = [];
+      var scheduled = scheduledStartEnd();
+      out.push('INTERNAL NOTES - ' + jobName().toUpperCase());
+      out.push('Customer: ' + (txt('customer') || 'N/A'));
+      out.push('Info: ' + (txt('customerInfo') || 'N/A'));
+      out.push('Status: ' + val('jobStatus'));
+      out.push('Lead source: ' + val('leadSource') + ' | Priority: ' + val('jobPriority'));
+      out.push('Travel fee: ' + money(travelFee()));
+      out.push(scheduled ? 'Scheduled: ' + scheduled.start.toLocaleDateString() + ' • ' + formatTimeRange(scheduled.start, scheduled.end) : 'Scheduled: not set');
+      out.push('Notes: ' + (txt('notes') || 'N/A'));
+      out.push('Minimum / Recommended / Premium: ' + money(lastCalc.min) + ' / ' + money(lastCalc.total) + ' / ' + money(lastCalc.premiumTotal));
+      out.push('True cost: ' + money(lastCalc.trueCost) + ' | Profit: ' + money(lastCalc.profit) + ' | Margin: ' + Math.round(lastCalc.margin) + '%');
+      out.push('Profit per hour: ' + money(lastCalc.profit / Math.max(num('estimatedHours'), 1)) + '/hr | Target: ' + money(num('targetHourlyProfit') || 100) + '/hr');
+      out.push('Negotiation floor: ' + money(num('negotiationFloor') || Math.max(lastCalc.trueCost + 100, lastCalc.price - 75)));
+      out.push('Deposit: ' + money(lastCalc.deposit) + ' | Remaining: ' + money(lastCalc.remaining));
+      if (currentJob === 'sod') {
+        var sqft = num('sodSqft') * (1 + num('sodBuffer') / 100);
+        out.push('Shopping list: ' + Math.ceil(sqft / 450) + ' pallets St. Augustine sod (' + Math.round(sqft) + ' sq ft with buffer)');
+      }
+      if (currentJob === 'mulch') {
+        var laborPerBag = val('materialType') === 'rock' ? Math.max(num('bagLabor'), 10) : num('bagLabor');
+        out.push('Shopping list: ' + mulchBags() + ' bags of ' + val('materialType') + ' at ' + num('depth') + ' inch depth. Labor per bag used: ' + laborPerBag);
+      }
+      if (currentJob === 'tree') out.push('Equipment: chainsaw, sharp chain, rope, wedges, rake/tarp, PPE, truck/trailer, dump plan');
+      if (currentJob === 'trim') out.push('Equipment: hedge trimmer, loppers, hand pruners, pole saw if needed, rake/tarp, blower, gloves, eye/hearing protection');
+      out.push('Upsell ideas: ' + upsellIdeas().join(', '));
+      out.push('Packages:\n' + packageOptions(lastCalc.price));
+      el('internalText').value = out.join('\n');
     }
 
     function makeFollowUp() {
-      var customer = txt('customer') || 'there'; var job = jobName(); var type = val('followType'); var scheduled = scheduledStartEnd(); var msg = '';
+      var customer = txt('customer') || 'there';
+      var job = jobName();
+      var type = val('followType');
+      var scheduled = scheduledStartEnd();
+      var msg = '';
       if (type === 'follow') msg = 'Hi ' + customer + '! Just following up on the ' + job + ' quote I sent over. Let me know if you have any questions or if you’d like me to get you on the schedule.';
       if (type === 'confirm') msg = 'Hi ' + customer + '! Just confirming we’re scheduled' + (scheduled ? ' for ' + scheduled.start.toLocaleDateString() + ' at ' + scheduled.start.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '') + ' for the ' + job + '. I’ll let you know when I’m on the way. Thank you!';
       if (type === 'daybefore') msg = 'Hi ' + customer + '! Just a reminder that I’m scheduled to come by tomorrow for the ' + job + '. Let me know if anything changes. Thank you!';
@@ -524,29 +665,138 @@
       el('followText').value = msg;
     }
 
-    function copyBox(id) { var box = el(id); box.select(); box.setSelectionRange(0, 99999); navigator.clipboard.writeText(box.value).then(function(){ alert('Copied'); }).catch(function(){ document.execCommand('copy'); alert('Copied'); }); }
+    function copyBox(id) {
+      var box = el(id);
+      box.select();
+      box.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(box.value).then(function(){ alert('Copied'); }).catch(function(){ document.execCommand('copy'); alert('Copied'); });
+    }
 
     function saveJob() {
-      var scheduled = scheduledStartEnd(); var conflicts = scheduledConflict();
-      if (conflicts.length > 0) { var list = ''; for (var i = 0; i < conflicts.length; i++) { var s = new Date(conflicts[i].startISO); var e = new Date(conflicts[i].endISO); list += conflicts[i].customer + ' - ' + conflicts[i].job + ' (' + s.toLocaleDateString() + ' • ' + formatTimeRange(s, e) + ')\n'; } alert('Schedule conflict. This job overlaps with:\n\n' + list + '\nPick a different start time, shorten the estimated hours, or adjust the buffer before saving.'); return; }
-      var jobs = savedJobs(); jobs.unshift({ date: new Date().toLocaleString(), startISO: scheduled ? scheduled.start.toISOString() : '', endISO: scheduled ? scheduled.end.toISOString() : '', customer: txt('customer') || 'Unnamed', info: txt('customerInfo'), job: jobName(), status: val('jobStatus'), winLoss: val('winLoss'), leadSource: val('leadSource'), priority: val('jobPriority'), location: txt('jobLocation'), total: money(lastCalc.total), profit: money(lastCalc.profit), margin: Math.round(lastCalc.margin) + '%', notes: txt('notes') }); localStorage.setItem('ll_jobs', JSON.stringify(jobs.slice(0, 50))); renderJobs(); renderBookedTimes(); alert('Job saved');
+      var scheduled = scheduledStartEnd();
+      var conflicts = scheduledConflict();
+      if (conflicts.length > 0) {
+        var list = '';
+        conflicts.forEach(function(job) {
+          var s = new Date(job.startISO);
+          var e = new Date(job.endISO);
+          list += job.customer + ' - ' + job.job + ' (' + s.toLocaleDateString() + ' • ' + formatTimeRange(s, e) + ')\n';
+        });
+        alert('Schedule conflict. This job overlaps with:\n\n' + list + '\nPick a different start time, shorten the estimated hours, or adjust the buffer before saving.');
+        return;
+      }
+      var jobs = savedJobs();
+      jobs.unshift({
+        date: new Date().toLocaleString(),
+        startISO: scheduled ? scheduled.start.toISOString() : '',
+        endISO: scheduled ? scheduled.end.toISOString() : '',
+        customer: txt('customer') || 'Unnamed',
+        info: txt('customerInfo'),
+        job: jobName(),
+        status: val('jobStatus'),
+        leadSource: val('leadSource'),
+        priority: val('jobPriority'),
+        total: money(lastCalc.total),
+        profit: money(lastCalc.profit),
+        margin: Math.round(lastCalc.margin) + '%',
+        notes: txt('notes')
+      });
+      localStorage.setItem('ll_jobs', JSON.stringify(jobs.slice(0, 50)));
+      renderJobs();
+      renderBookedTimes();
+      alert('Job saved');
     }
 
     function renderJobs() {
-      var jobs = savedJobs(); if (!jobs.length) { el('savedJobs').innerHTML = '<div class="small">No saved jobs yet.</div>'; return; }
-      var html = ''; for (var i = 0; i < jobs.length; i++) { var scheduleLine = ''; if (jobs[i].startISO) { var s = new Date(jobs[i].startISO); var e = new Date(jobs[i].endISO); scheduleLine = 'Scheduled: ' + s.toLocaleDateString() + ' • ' + formatTimeRange(s, e) + '<br>'; } html += '<div class="job-card"><strong>' + jobs[i].customer + '</strong> - ' + jobs[i].job + '<br>' + jobs[i].date + '<br>Status: ' + jobs[i].status + ' | ' + jobs[i].winLoss + '<br>' + scheduleLine + 'Lead: ' + (jobs[i].leadSource || 'N/A') + ' | Priority: ' + (jobs[i].priority || 'N/A') + '<br>Total: ' + jobs[i].total + ' | Profit: ' + jobs[i].profit + ' | Margin: ' + jobs[i].margin + '<br>' + (jobs[i].notes || '') + '<div class="mini-btns"><button class="secondary" type="button" onclick="deleteJob(' + i + ')">Delete</button></div></div>'; }
+      var jobs = savedJobs();
+      if (!jobs.length) {
+        el('savedJobs').innerHTML = '<div class="small">No saved jobs yet.</div>';
+        return;
+      }
+      var html = '';
+      jobs.forEach(function(job, index) {
+        var scheduleLine = '';
+        if (job.startISO) {
+          var s = new Date(job.startISO);
+          var e = new Date(job.endISO);
+          scheduleLine = 'Scheduled: ' + s.toLocaleDateString() + ' • ' + formatTimeRange(s, e) + '<br>';
+        }
+        html += '<div class="job-card"><strong>' + job.customer + '</strong> - ' + job.job + '<br>' + job.date + '<br>Status: ' + job.status + '<br>' + scheduleLine + 'Lead: ' + (job.leadSource || 'N/A') + ' | Priority: ' + (job.priority || 'N/A') + '<br>Total: ' + job.total + ' | Profit: ' + job.profit + ' | Margin: ' + job.margin + '<br>' + (job.notes || '') + '<br><button class="secondary" type="button" data-delete-index="' + index + '">Delete</button></div>';
+      });
       el('savedJobs').innerHTML = html;
     }
 
-    function deleteJob(i) { var jobs = savedJobs(); jobs.splice(i, 1); localStorage.setItem('ll_jobs', JSON.stringify(jobs)); renderJobs(); renderBookedTimes(); calculate(); }
-    function clearJobs() { if (!confirm('Clear all saved jobs?')) return; localStorage.removeItem('ll_jobs'); renderJobs(); renderBookedTimes(); calculate(); }
+    function deleteJob(index) {
+      var jobs = savedJobs();
+      jobs.splice(index, 1);
+      localStorage.setItem('ll_jobs', JSON.stringify(jobs));
+      renderJobs();
+      renderBookedTimes();
+      calculate();
+    }
 
-    function saveDefaults() { var ids = ['sodRate','sodCostSqft','sodBuffer','prepRate','bagCost','bagLabor','edgeAdd','bedPrep','hourRate','materialMarkup','taxRate','taxMode','deposit','roundTo','scheduleLine','pricingMode','quoteStyle','targetHourlyProfit','depositDue']; var defaults = {}; for (var i = 0; i < ids.length; i++) defaults[ids[i]] = val(ids[i]); localStorage.setItem('ll_defaults', JSON.stringify(defaults)); alert('Defaults saved on this device'); }
-    function loadDefaults() { try { var defaults = JSON.parse(localStorage.getItem('ll_defaults') || '{}'); for (var id in defaults) { if (el(id)) el(id).value = defaults[id]; } } catch(e) {} }
+    function clearJobs() {
+      if (!confirm('Clear all saved jobs?')) return;
+      localStorage.removeItem('ll_jobs');
+      renderJobs();
+      renderBookedTimes();
+      calculate();
+    }
 
-    function resetForm() { var fields = ['customer','customerInfo','notes','jobLocation','scheduleDate','scheduleTime','materials','helperCost','fees','sodSqft','sodRental','bedSqft','barrierSqft','hours','plants','lights','customAdd','customDeposit','hedgeCount','manualPrice','laborDiscount','negotiationFloor']; for (var i = 0; i < fields.length; i++) if (el(fields[i])) el(fields[i]).value = ''; var flags = ['redPower','redClimb','redLean','redProperty','redAccess','redUnsure']; for (var j = 0; j < flags.length; j++) el(flags[j]).checked = false; el('beforePhotos').value = 'no'; el('afterPhotos').value = 'no'; calculate(); }
+    function saveDefaults() {
+      var ids = ['sodRate','sodCostSqft','sodBuffer','prepRate','bagCost','bagLabor','edgeAdd','bedPrep','hourRate','materialMarkup','taxRate','taxMode','deposit','roundTo','scheduleLine','pricingMode','quoteStyle','targetHourlyProfit','depositDue'];
+      var defaults = {};
+      ids.forEach(function(id) { defaults[id] = val(id); });
+      localStorage.setItem('ll_defaults', JSON.stringify(defaults));
+      alert('Defaults saved on this device');
+    }
 
-    window.onload = function() { loadDefaults(); setJob('tree'); renderJobs(); renderBookedTimes(); calculate(); };
+    function loadDefaults() {
+      try {
+        var defaults = JSON.parse(localStorage.getItem('ll_defaults') || '{}');
+        Object.keys(defaults).forEach(function(id) { if (el(id)) el(id).value = defaults[id]; });
+      } catch(e) {}
+    }
+
+    function resetForm() {
+      var fields = ['customer','customerInfo','notes','scheduleDate','scheduleTime','materials','helperCost','fees','sodSqft','sodRental','bedSqft','barrierSqft','hours','plants','lights','customAdd','customDeposit','hedgeCount','manualPrice','laborDiscount','negotiationFloor'];
+      fields.forEach(function(id) { if (el(id)) el(id).value = ''; });
+      ['redPower','redClimb','redLean','redProperty','redAccess','redUnsure'].forEach(function(id) { el(id).checked = false; });
+      calculate();
+    }
+
+    function attachEvents() {
+      tabs.forEach(function(job) { el('tab-' + job).addEventListener('click', function() { setJob(job); }); });
+      el('preset-tree').addEventListener('click', function() { preset('smallTree'); });
+      el('preset-mulch').addEventListener('click', function() { preset('smallMulch'); });
+      el('preset-sod').addEventListener('click', function() { preset('sod7000'); });
+      el('preset-cleanup').addEventListener('click', function() { preset('cleanupHalfDay'); });
+      el('copyQuoteBtn').addEventListener('click', function() { copyBox('quoteText'); });
+      el('copyInternalBtn').addEventListener('click', function() { copyBox('internalText'); });
+      el('copyFollowBtn').addEventListener('click', function() { copyBox('followText'); });
+      el('saveJobBtn').addEventListener('click', saveJob);
+      el('saveDefaultsBtn').addEventListener('click', saveDefaults);
+      el('resetBtn').addEventListener('click', resetForm);
+      el('clearJobsBtn').addEventListener('click', clearJobs);
+      el('savedJobs').addEventListener('click', function(event) {
+        if (event.target && event.target.hasAttribute('data-delete-index')) {
+          deleteJob(Number(event.target.getAttribute('data-delete-index')));
+        }
+      });
+      document.querySelectorAll('input, select, textarea').forEach(function(input) {
+        input.addEventListener('input', calculate);
+        input.addEventListener('change', calculate);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+      attachEvents();
+      loadDefaults();
+      setJob('tree');
+      renderJobs();
+      renderBookedTimes();
+      calculate();
+    });
   </script>
 </body>
 </html>
