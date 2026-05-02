@@ -295,31 +295,6 @@
       margin-top: 10px;
     }
 
-    .estimate-pay-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .estimate-pay-button {
-      display: inline-block;
-      text-decoration: none;
-      background: var(--forest2);
-      color: white;
-      padding: 9px 12px;
-      border-radius: 10px;
-      font-size: 12px;
-      font-weight: 900;
-    }
-
-    .estimate-pay-button.paypal {
-      background: #243b80;
-    }
-
-    .estimate-pay-button.stripe {
-      background: #635bff;
-    }
 
     @media (max-width: 520px) {
       body { padding: 10px; }
@@ -877,20 +852,6 @@
       var deposit = lastCalc.deposit;
       var balance = lastCalc.remaining;
       var taxPercent = val('taxMode') === 'none' ? '0.0%' : num('taxRate').toFixed(1) + '%';
-      var stripeLink = txt('stripeLink');
-      var paypalLink = txt('paypalLink');
-
-      var paymentButtons = '';
-      if (stripeLink || paypalLink) {
-        paymentButtons = '<div class="estimate-pay-buttons">';
-        if (stripeLink) {
-          paymentButtons += '<a class="estimate-pay-button stripe" href="' + stripeLink + '" target="_blank">Pay with Stripe</a>';
-        }
-        if (paypalLink) {
-          paymentButtons += '<a class="estimate-pay-button paypal" href="' + paypalLink + '" target="_blank">Pay with PayPal</a>';
-        }
-        paymentButtons += '</div>';
-      }
 
       var html = '';
       html += '<div class="estimate-header">';
@@ -913,9 +874,7 @@
       html += '</tr></tbody>';
       html += '</table>';
       html += '<div class="estimate-bottom">';
-      html += '<div class="estimate-payment"><strong>Payment instructions</strong><br>Deposit may be required before scheduling or ordering materials.';
-      html += paymentButtons;
-      html += '<br><br><strong>Notes</strong><br>Quote is based on the discussed scope. Additional work may change the total.</div>';
+      html += '<div class="estimate-payment"><strong>Payment instructions</strong><br>Deposit may be required before scheduling or ordering materials.<br><br><strong>Notes</strong><br>Quote is based on the discussed scope. Additional work may change the total.</div>';
       html += '<div class="estimate-totals">';
       html += '<div class="estimate-total-row"><span>SUBTOTAL:</span><span>' + money(subtotal) + '</span></div>';
       html += '<div class="estimate-total-row"><span>TAX:</span><span>' + money(tax) + '</span></div>';
