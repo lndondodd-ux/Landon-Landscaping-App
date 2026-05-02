@@ -1874,10 +1874,10 @@
     }
 
     function updateWarnings(base, margin) {
-      const warnings = [];
+      const warningMessages = [];
 
       if (base >= 99999) {
-        warnings.push(`
+        warningMessages.push(`
           <div class="warning bad">
             <strong>Do not quote:</strong> Refer this out or quote separately. Do not use the displayed price.
           </div>
@@ -1894,7 +1894,7 @@
       }
 
       if (conflicts.length) {
-        warnings.push(`
+        warningMessages.push(`
           <div class="warning bad">
             <strong>Schedule conflict:</strong> This overlaps with ${conflicts.length} saved booked job(s). Pick another time or adjust the estimate/buffer.
           </div>
@@ -1905,13 +1905,13 @@
       const targetHourly = getNumber('targetHourlyProfit') || 100;
 
       if (profitPerHour >= targetHourly * 1.25) {
-        warnings.push(`
+        warningMessages.push(`
           <div class="warning info">
             <strong>High priority recommendation:</strong> This job is above your hourly profit target. Try to schedule it quickly.
           </div>
         `);
       } else if (profitPerHour < targetHourly && base < 99999) {
-        warnings.push(`
+        warningMessages.push(`
           <div class="warning">
             <strong>Pricing recommendation:</strong> Profit per hour is below your target. Raise the price, reduce helper cost, or avoid discounting.
           </div>
@@ -1919,7 +1919,7 @@
       }
 
       if (margin < 40 && base < 99999) {
-        warnings.push(`
+        warningMessages.push(`
           <div class="warning bad">
             <strong>Margin warning:</strong> This is under your 40% target. Raise price, lower helper cost, or add a difficulty/haul-away fee.
           </div>
@@ -1927,7 +1927,7 @@
       }
 
       if (currentJob === 'tree') {
-        warnings.push(`
+        warningMessages.push(`
           <div class="warning">
             <strong>Tree safety:</strong> Refuse or refer out if there are power lines, serious lean, heavy limbs over property, bad access, roof/fence risk, stump grinding, high-risk access, or anything you are not fully comfortable doing.
           </div>
@@ -1935,7 +1935,7 @@
       }
 
       if (currentJob === 'trim') {
-        warnings.push(`
+        warningMessages.push(`
           <div class="warning">
             <strong>Trimming safety:</strong> Refer out anything near power lines, anything requiring climbing, large limbs over property, or cuts you cannot safely control from the ground.
           </div>
@@ -1943,7 +1943,7 @@
       }
 
       if (currentJob === 'sod') {
-        warnings.push(`
+        warningMessages.push(`
           <div class="warning">
             <strong>Sod note:</strong> Send watering instructions separately. Warranty only applies if care instructions are followed.
           </div>
@@ -1951,14 +1951,14 @@
       }
 
       if (getValue('beforePhotos') === 'no' || getValue('afterPhotos') === 'no') {
-        warnings.push(`
+        warningMessages.push(`
           <div class="warning info">
             <strong>Marketing reminder:</strong> Get before/after photos if the customer is okay with it.
           </div>
         `);
       }
 
-      document.getElementById('warnings').innerHTML = warnings.join('');
+      document.getElementById('warnings').innerHTML = warningMessages.join('');
     }
 
     /* =========================================================
@@ -1974,11 +1974,16 @@
       const noteLine = notes ? `\n\nScope: ${notes}.` : '';
       const taxLabel = getValue('taxMode') === 'materials' ? 'Sales tax on materials' : 'Sales tax';
       const taxLine = getValue('taxMode') === 'none'
-        ? `\nTotal: ${money(lastCalc.total)}`
-        : `\nTotal: ${money(lastCalc.total)} including ${money(lastCalc.tax)} ${taxLabel.toLowerCase()}`;
+        ? `
+Total: ${money(lastCalc.total)}`
+        : `
+Total: ${money(lastCalc.total)} including ${money(lastCalc.tax)} ${taxLabel.toLowerCase()}`;
 
       const depositLine = lastCalc.deposit > 0
-        ? `\n\nDeposit due ${getValue('depositDue').toLowerCase()}: ${money(lastCalc.deposit)}\nRemaining balance due upon completion: ${money(lastCalc.remaining)}`
+        ? `
+
+Deposit due ${getValue('depositDue').toLowerCase()}: ${money(lastCalc.deposit)}
+Remaining balance due upon completion: ${money(lastCalc.remaining)}`
         : '';
 
       const scheduleLine = getValue('scheduleLine') === 'yes'
