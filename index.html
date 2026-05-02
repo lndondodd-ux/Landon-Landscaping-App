@@ -403,7 +403,7 @@
     }
 
     function preset(type) {
-      if (type === 'smallTree') { setJob('tree'); el('treeSize').value = '550'; el('treeHaul').value = '125'; el('stump').value = '0'; el('treeHeight').value = '100'; el('trunkDiameter').value = '75'; el('dropZone').value = '0'; el('treeRisk').value = '0'; el('fees').value = '50'; el('helperCost').value
+      if (type === 'smallTree') { setJob('tree'); el('treeSize').value = '550'; el('treeHaul').value = '125'; el('stump').value = '0'; el('treeHeight').value = '100'; el('trunkDiameter').value = '75'; el('dropZone').value = '0'; el('treeRisk').value = '0'; el('fees').value = '50'; el('helperCost').value = '0'; }
       if (type === 'smallMulch') { setJob('mulch'); el('bedSqft').value = '125'; el('depth').value = '3'; el('bagSize').value = '2'; el('bagCost').value = '2'; el('bagLabor').value = '6'; el('edgeAdd').value = '125'; el('bedPrep').value = '100'; }
       if (type === 'sod7000') { setJob('sod'); el('sodSqft').value = '7000'; el('sodRate').value = '1.25'; el('sodCostSqft').value = '0.40'; el('sodBuffer').value = '5'; el('prepRate').value = '0.25'; el('sodRental').value = '300'; el('helperCost').value = '1250'; }
       if (type === 'cleanupHalfDay') { setJob('cleanup'); el('hours').value = '4'; el('hourRate').value = '85'; el('cleanupHaul').value = '100'; el('cleanupDiff').value = '100'; }
@@ -473,10 +473,31 @@
 
     function serviceBase() {
       if (currentJob === 'tree') {
-        if (num('stump') >= 99999 || num('treeRisk') >= 99999 || num('treeHeight') >= 99999 || num('dropZone') >= 99999 || hasRedFlags()) return 99999;
-        return num('treeSize') + num('treeHaul') + num('stump') + num('treeHeight') + num('trunkDiameter') + num('dropZone') + num('treeRisk');
+        var treeHeight = num('treeHeight');
+        var trunkDiameter = num('trunkDiameter');
+        var dropZone = num('dropZone');
+
+        if (
+          num('stump') >= 99999 ||
+          num('treeRisk') >= 99999 ||
+          treeHeight >= 99999 ||
+          dropZone >= 99999 ||
+          hasRedFlags()
+        ) {
+          return 99999;
+        }
+
+        return (
+          num('treeSize') +
+          num('treeHaul') +
+          num('stump') +
+          treeHeight +
+          trunkDiameter +
+          dropZone +
+          num('treeRisk')
+        );
       }
-      if (currentJob === 'sod') {
+      if (currentJob === 'sod' {
         var sqft = num('sodSqft');
         var billable = sqft * (1 + num('sodBuffer') / 100);
         return billable * num('sodRate') + sqft * num('prepRate') + num('sodRental');
