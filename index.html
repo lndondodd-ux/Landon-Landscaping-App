@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Landon Landscaping LLC Pricing App</title>
+
   <style>
     * { box-sizing: border-box; }
 
@@ -42,91 +43,28 @@
       margin-bottom: 14px;
     }
 
-    .header-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 14px;
-    }
-
+    .header-top { display: flex; justify-content: space-between; align-items: center; gap: 14px; }
     .header h1 { margin: 0 0 5px; font-size: 27px; letter-spacing: -0.6px; }
     .header p { margin: 0; opacity: 0.92; font-size: 14px; line-height: 1.4; }
+    .brand-mark { width: 54px; height: 54px; display: grid; place-items: center; border-radius: 18px; background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.20); font-size: 27px; flex-shrink: 0; }
+    .header-badge { display: inline-flex; margin-top: 12px; padding: 7px 11px; border-radius: 999px; background: rgba(214,180,106,0.18); color: #fff3cf; font-size: 12px; font-weight: 900; }
 
-    .brand-mark {
-      width: 54px;
-      height: 54px;
-      display: grid;
-      place-items: center;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.14);
-      border: 1px solid rgba(255,255,255,0.20);
-      font-size: 27px;
-      flex-shrink: 0;
-    }
-
-    .header-badge {
-      display: inline-flex;
-      margin-top: 12px;
-      padding: 7px 11px;
-      border-radius: 999px;
-      background: rgba(214,180,106,0.18);
-      color: #fff3cf;
-      font-size: 12px;
-      font-weight: 900;
-    }
-
-    .card {
-      background: rgba(255,255,255,0.92);
-      padding: 17px;
-      border-radius: 22px;
-      border: 1px solid var(--border);
-      box-shadow: 0 8px 22px rgba(20, 53, 29, 0.08);
-      margin-bottom: 14px;
-    }
-
+    .card { background: rgba(255,255,255,0.92); padding: 17px; border-radius: 22px; border: 1px solid var(--border); box-shadow: 0 8px 22px rgba(20, 53, 29, 0.08); margin-bottom: 14px; }
     label { display: block; font-weight: 900; margin: 13px 0 7px; font-size: 13px; color: #263526; }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid rgba(31,90,45,0.18);
-      border-radius: 15px;
-      font-size: 16px;
-      background: white;
-      color: var(--text);
-      outline: none;
-    }
-
+    input, select, textarea { width: 100%; padding: 13px; border: 1px solid rgba(31,90,45,0.18); border-radius: 15px; font-size: 16px; background: white; color: var(--text); outline: none; }
     textarea { min-height: 130px; resize: vertical; line-height: 1.5; }
-
-    button {
-      width: 100%;
-      margin-top: 10px;
-      padding: 14px;
-      border: none;
-      border-radius: 16px;
-      background: linear-gradient(135deg, var(--forest), var(--forest2));
-      color: white;
-      font-size: 16px;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow: 0 8px 18px rgba(20,53,29,0.18);
-    }
-
-    button.secondary { background: #eef3e9; color: var(--forest); border: 1px solid rgba(31,90,45,0.14); }
-    button.danger { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(132,43,43,0.18); }
+    button { width: 100%; margin-top: 10px; padding: 14px; border: none; border-radius: 16px; background: linear-gradient(135deg, var(--forest), var(--forest2)); color: white; font-size: 16px; font-weight: 900; cursor: pointer; box-shadow: 0 8px 18px rgba(20,53,29,0.18); }
+    button.secondary { background: #eef3e9; color: var(--forest); border: 1px solid rgba(31,90,45,0.14); box-shadow: none; }
+    button.danger { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(132,43,43,0.18); box-shadow: none; }
 
     .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .hidden { display: none !important; }
     .small { font-size: 12px; color: var(--muted); line-height: 1.35; margin-top: 6px; }
-
     .tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; padding: 6px; border-radius: 20px; background: rgba(20,53,29,0.06); }
     .tab { margin: 0; padding: 11px 8px; border-radius: 15px; background: white; color: var(--forest); box-shadow: none; font-size: 13px; border: 1px solid rgba(31,90,45,0.12); }
     .tab.active { background: linear-gradient(135deg, var(--forest), var(--forest2)); color: white; }
-
     .quick { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; margin-top: 10px; }
     .quick button { margin: 0; padding: 12px 10px; font-size: 13px; background: white; color: var(--forest); border: 1px solid rgba(31,90,45,0.13); box-shadow: none; }
-
     .checks { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 8px; }
     .check { display: flex; gap: 9px; align-items: center; background: white; border: 1px solid rgba(31,90,45,0.13); border-radius: 15px; padding: 10px; font-size: 13px; font-weight: 800; }
     .check input { width: auto; transform: scale(1.15); accent-color: var(--forest2); }
@@ -139,194 +77,43 @@
     .price-box .label { font-size: 12px; color: var(--muted); font-weight: 900; margin: 0; }
     .price-box .price { font-size: 23px; font-weight: 950; margin-top: 5px; color: var(--forest); }
     .breakdown { margin-top: 12px; font-size: 14px; line-height: 1.75; color: #344034; background: white; border: 1px solid rgba(31,90,45,0.09); border-radius: 16px; padding: 12px; }
-
     .warning { margin-top: 10px; background: var(--warn-bg); border: 1px solid var(--warn-border); padding: 11px; border-radius: 15px; font-size: 13px; line-height: 1.45; }
     .bad { background: var(--danger-bg); border-color: #e3b2b2; color: var(--danger); }
     .info { background: var(--info-bg); border-color: var(--info-border); }
-
     .job-card, .time-block { border: 1px solid rgba(31,90,45,0.13); border-radius: 17px; padding: 12px; margin-top: 9px; background: white; font-size: 13px; line-height: 1.5; }
     .job-card strong, .time-block strong { font-size: 15px; color: var(--forest); }
-
-    .estimate-preview {
-      background: white;
-      border: 1px solid rgba(31,90,45,0.16);
-      border-radius: 18px;
-      overflow: hidden;
-      margin-top: 10px;
-    }
-
-    .estimate-header {
-      background: var(--forest2);
-      color: white;
-      padding: 18px;
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: flex-start;
-    }
-
-    .estimate-logo {
-      font-size: 22px;
-      font-weight: 950;
-      letter-spacing: -0.5px;
-    }
-
-    .estimate-business {
-      text-align: right;
-      font-size: 12px;
-      line-height: 1.45;
-      opacity: 0.95;
-    }
-
-    .estimate-title {
-      text-align: center;
-      padding: 18px 16px 10px;
-      font-size: 36px;
-      line-height: 1;
-      font-weight: 950;
-      color: #394039;
-      letter-spacing: -1px;
-    }
-
-    .estimate-date {
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 800;
-      padding-bottom: 14px;
-    }
-
-    .estimate-info {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      padding: 16px 18px;
-      font-size: 13px;
-      line-height: 1.45;
-      border-top: 1px solid #edf1ed;
-    }
-
-    .estimate-info strong {
-      color: #333b33;
-    }
-
-    .estimate-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-
-    .estimate-table th {
-      background: var(--forest2);
-      color: white;
-      text-align: left;
-      padding: 11px 10px;
-      font-size: 12px;
-    }
-
-    .estimate-table td {
-      padding: 13px 10px;
-      border-bottom: 1px solid #edf1ed;
-      vertical-align: top;
-    }
-
-    .estimate-table .amount-cell,
-    .estimate-table .qty-cell,
-    .estimate-table .tax-cell {
-      text-align: right;
-      white-space: nowrap;
-      font-weight: 800;
-    }
-
-    .estimate-desc-title {
-      font-weight: 950;
-      color: #293129;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-
-    .estimate-desc-sub {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.35;
-    }
-
-    .estimate-bottom {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      padding: 16px 18px 20px;
-    }
-
-    .estimate-payment {
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .estimate-totals {
-      font-size: 13px;
-    }
-
-    .estimate-total-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 4px 0;
-      font-weight: 800;
-    }
-
-    .balance-due {
-      margin-top: 8px;
-      background: #2f312f;
-      color: white;
-      padding: 11px 12px;
-      display: flex;
-      justify-content: space-between;
-      font-weight: 950;
-      font-size: 16px;
-    }
     .status-pill { display: inline-block; padding: 4px 8px; border-radius: 999px; background: #fff6dd; border: 1px solid rgba(214,180,106,0.35); color: var(--forest); font-size: 11px; font-weight: 900; margin-top: 4px; }
 
+    .estimate-preview { background: white; border: 1px solid rgba(31,90,45,0.16); border-radius: 18px; overflow: hidden; margin-top: 10px; }
+    .estimate-header { background: var(--forest2); color: white; padding: 18px; display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+    .estimate-logo { font-size: 22px; font-weight: 950; letter-spacing: -0.5px; }
+    .estimate-business { text-align: right; font-size: 12px; line-height: 1.45; opacity: 0.95; }
+    .estimate-title { text-align: center; padding: 18px 16px 10px; font-size: 36px; line-height: 1; font-weight: 950; color: #394039; letter-spacing: -1px; }
+    .estimate-date { text-align: center; color: var(--muted); font-size: 13px; font-weight: 800; padding-bottom: 14px; }
+    .estimate-info { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 16px 18px; font-size: 13px; line-height: 1.45; border-top: 1px solid #edf1ed; }
+    .estimate-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .estimate-table th { background: var(--forest2); color: white; text-align: left; padding: 11px 10px; font-size: 12px; }
+    .estimate-table td { padding: 13px 10px; border-bottom: 1px solid #edf1ed; vertical-align: top; }
+    .amount-cell, .qty-cell, .tax-cell { text-align: right; white-space: nowrap; font-weight: 800; }
+    .estimate-desc-title { font-weight: 950; color: #293129; text-transform: uppercase; margin-bottom: 4px; }
+    .estimate-desc-sub { color: var(--muted); font-size: 12px; line-height: 1.35; }
+    .estimate-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 16px 18px 20px; }
+    .estimate-payment, .estimate-totals { font-size: 13px; line-height: 1.5; }
+    .estimate-total-row { display: flex; justify-content: space-between; padding: 4px 0; font-weight: 800; }
+    .balance-due { margin-top: 8px; background: #2f312f; color: white; padding: 11px 12px; display: flex; justify-content: space-between; font-weight: 950; font-size: 16px; }
+    .invoice-action-bar { background: white; border: 1px solid rgba(31,90,45,0.16); border-top: none; border-radius: 0 0 18px 18px; padding: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .invoice-pay-btn { margin: 0; border-radius: 12px; font-size: 14px; padding: 13px; }
+    .invoice-pay-btn.stripe { background: #635bff; }
+    .invoice-pay-btn.paypal { background: #243b80; }
+    .payment-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 10px; }
     .footer-note { font-size: 12px; color: var(--muted); text-align: center; padding: 8px 2px 20px; line-height: 1.4; }
-
-    .payment-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 9px;
-      margin-top: 10px;
-    }
-
-    .invoice-action-bar {
-      background: white;
-      border: 1px solid rgba(31,90,45,0.16);
-      border-top: none;
-      border-radius: 0 0 18px 18px;
-      padding: 14px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .invoice-pay-btn {
-      margin: 0;
-      border-radius: 12px;
-      font-size: 14px;
-      padding: 13px;
-    }
-
-    .invoice-pay-btn.stripe {
-      background: #635bff;
-    }
-
-    .invoice-pay-btn.paypal {
-      background: #243b80;
-    }
-
 
     @media (max-width: 520px) {
       body { padding: 10px; }
-      .row, .price-grid, .quick, .checks { grid-template-columns: 1fr; }
+      .row, .price-grid, .quick, .checks, .estimate-info, .estimate-bottom, .invoice-action-bar, .payment-actions { grid-template-columns: 1fr; }
       .tabs { grid-template-columns: 1fr 1fr; }
       .main-price { font-size: 36px; }
+      .estimate-title { font-size: 30px; }
     }
   </style>
 </head>
@@ -440,6 +227,26 @@
     </div>
 
     <div class="card">
+      <label>Payment Setup</label>
+      <div class="small">Add payment links here. These power the payment buttons on the estimate.</div>
+      <div class="row">
+        <div><label>Stripe Payment Link</label><input id="stripeLink" placeholder="https://buy.stripe.com/..." /></div>
+        <div><label>PayPal Link</label><input id="paypalLink" placeholder="https://paypal.me/..." /></div>
+      </div>
+      <div class="row">
+        <div><label>Venmo</label><input id="venmoName" placeholder="Ex: @landonlandscaping" /></div>
+        <div><label>Apple Cash / Phone</label><input id="appleCashInfo" placeholder="Ex: 657-417-7599" /></div>
+      </div>
+      <label>Payment Message</label>
+      <textarea id="paymentText" readonly></textarea>
+      <div class="payment-actions">
+        <button class="secondary" type="button" id="copyPaymentBtn">Copy Payment Message</button>
+        <button class="secondary" type="button" id="openStripeBtn">Open Stripe Link</button>
+        <button class="secondary" type="button" id="openPaypalBtn">Open PayPal Link</button>
+      </div>
+    </div>
+
+    <div class="card">
       <label>Red Flag Checklist</label>
       <div class="checks">
         <label class="check"><input id="redPower" type="checkbox" /> Power lines nearby</label>
@@ -478,26 +285,6 @@
     </div>
 
     <div class="card">
-      <label>Payment Setup</label>
-      <div class="small">Internal setup only. These links power the payment buttons on the estimate preview.</div>
-      <div class="row">
-        <div><label>Stripe Payment Link</label><input id="stripeLink" placeholder="https://buy.stripe.com/..." /></div>
-        <div><label>PayPal Link</label><input id="paypalLink" placeholder="https://paypal.me/..." /></div>
-      </div>
-      <div class="row">
-        <div><label>Venmo</label><input id="venmoName" placeholder="Ex: @landonlandscaping" /></div>
-        <div><label>Apple Cash / Phone</label><input id="appleCashInfo" placeholder="Ex: 657-417-7599" /></div>
-      </div>
-      <label>Payment Message</label>
-      <textarea id="paymentText" readonly></textarea>
-      <div class="payment-actions">
-        <button class="secondary" type="button" id="copyPaymentBtn">Copy Payment Message</button>
-        <button class="secondary" type="button" id="openStripeBtn">Open Stripe Link</button>
-        <button class="secondary" type="button" id="openPaypalBtn">Open PayPal Link</button>
-      </div>
-    </div>
-
-    <div class="card">
       <div class="result">
         <div>Recommended Price</div>
         <div class="main-price" id="finalPrice">$0</div>
@@ -514,7 +301,7 @@
 
     <div class="card">
       <label>Professional Estimate Preview</label>
-      <div class="small">Customer-facing estimate with payment buttons. Add your Stripe/PayPal links in Payment Setup.</div>
+      <div class="small">Customer-facing estimate with payment buttons.</div>
       <div id="estimatePreview" class="estimate-preview"></div>
       <div class="invoice-action-bar">
         <button type="button" class="invoice-pay-btn stripe" id="estimateStripeBtn">Pay with Stripe</button>
@@ -522,7 +309,17 @@
       </div>
     </div>
 
-    <div class="card"><label>Saved Jobs</label><div class="small">Saved on this device only. Use this to track leads, quotes, completed jobs, and lost jobs.</div><div id="savedJobs"></div><button class="secondary" type="button" id="exportJobsBtn">Export Saved Jobs Backup</button><label>Import Saved Jobs Backup</label><textarea id="importJobsText" placeholder="Paste exported backup text here"></textarea><button class="secondary" type="button" id="importJobsBtn">Import Backup</button><button class="danger" type="button" id="clearJobsBtn">Clear Saved Jobs</button></div>
+    <div class="card">
+      <label>Saved Jobs</label>
+      <div class="small">Saved on this device only. Use this to track leads, quotes, completed jobs, and lost jobs.</div>
+      <div id="savedJobs"></div>
+      <button class="secondary" type="button" id="exportJobsBtn">Export Saved Jobs Backup</button>
+      <label>Import Saved Jobs Backup</label>
+      <textarea id="importJobsText" placeholder="Paste exported backup text here"></textarea>
+      <button class="secondary" type="button" id="importJobsBtn">Import Backup</button>
+      <button class="danger" type="button" id="clearJobsBtn">Clear Saved Jobs</button>
+    </div>
+
     <div class="footer-note">Free quotes. Built to protect margin. Raise price for risk, bad access, tight scheduling, heavy cleanup, or extra scope.</div>
   </div>
 
@@ -560,41 +357,24 @@
     }
 
     function preset(type) {
-      if (type === 'smallTree') {
-        setJob('tree'); el('treeSize').value = '550'; el('treeHaul').value = '125'; el('stump').value = '0'; el('treeRisk').value = '0'; el('fees').value = '50'; el('helperCost').value = '0';
-      }
-      if (type === 'smallMulch') {
-        setJob('mulch'); el('bedSqft').value = '125'; el('depth').value = '3'; el('bagSize').value = '2'; el('bagCost').value = '2'; el('bagLabor').value = '6'; el('edgeAdd').value = '125'; el('bedPrep').value = '100';
-      }
-      if (type === 'sod7000') {
-        setJob('sod'); el('sodSqft').value = '7000'; el('sodRate').value = '1.25'; el('sodCostSqft').value = '0.40'; el('sodBuffer').value = '5'; el('prepRate').value = '0.25'; el('sodRental').value = '300'; el('helperCost').value = '1250';
-      }
-      if (type === 'cleanupHalfDay') {
-        setJob('cleanup'); el('hours').value = '4'; el('hourRate').value = '85'; el('cleanupHaul').value = '100'; el('cleanupDiff').value = '100';
-      }
+      if (type === 'smallTree') { setJob('tree'); el('treeSize').value = '550'; el('treeHaul').value = '125'; el('stump').value = '0'; el('treeRisk').value = '0'; el('fees').value = '50'; el('helperCost').value = '0'; }
+      if (type === 'smallMulch') { setJob('mulch'); el('bedSqft').value = '125'; el('depth').value = '3'; el('bagSize').value = '2'; el('bagCost').value = '2'; el('bagLabor').value = '6'; el('edgeAdd').value = '125'; el('bedPrep').value = '100'; }
+      if (type === 'sod7000') { setJob('sod'); el('sodSqft').value = '7000'; el('sodRate').value = '1.25'; el('sodCostSqft').value = '0.40'; el('sodBuffer').value = '5'; el('prepRate').value = '0.25'; el('sodRental').value = '300'; el('helperCost').value = '1250'; }
+      if (type === 'cleanupHalfDay') { setJob('cleanup'); el('hours').value = '4'; el('hourRate').value = '85'; el('cleanupHaul').value = '100'; el('cleanupDiff').value = '100'; }
       calculate();
     }
 
     function jobName() {
-      var names = { tree: 'tree removal', sod: 'sod installation', mulch: 'mulch/rock installation', cleanup: 'property cleanup', trim: 'tree/hedge trimming', extras: 'landscape add-ons' };
-      return names[currentJob];
+      return { tree: 'tree removal', sod: 'sod installation', mulch: 'mulch/rock installation', cleanup: 'property cleanup', trim: 'tree/hedge trimming', extras: 'landscape add-ons' }[currentJob];
     }
 
     function minForJob() {
       if (currentJob === 'mulch' && val('materialType') === 'rock') return 350;
-      var mins = { tree: 500, sod: 1000, mulch: 275, cleanup: 200, trim: 175, extras: 150 };
-      return mins[currentJob] || 100;
+      return { tree: 500, sod: 1000, mulch: 275, cleanup: 200, trim: 175, extras: 150 }[currentJob] || 100;
     }
 
-    function autoDepositPercent() {
-      var d = { tree: 25, sod: 50, mulch: 50, cleanup: 0, trim: 0, extras: 50 };
-      return d[currentJob] || 0;
-    }
-
-    function hasRedFlags() {
-      return checked('redPower') || checked('redClimb') || checked('redLean') || checked('redProperty') || checked('redAccess') || checked('redUnsure');
-    }
-
+    function autoDepositPercent() { return { tree: 25, sod: 50, mulch: 50, cleanup: 0, trim: 0, extras: 50 }[currentJob] || 0; }
+    function hasRedFlags() { return checked('redPower') || checked('redClimb') || checked('redLean') || checked('redProperty') || checked('redAccess') || checked('redUnsure'); }
     function travelFee() { return num('driveTime'); }
 
     function scheduledStartEnd() {
@@ -609,20 +389,16 @@
     }
 
     function formatTimeRange(start, end) {
-      var options = { hour: 'numeric', minute: '2-digit' };
-      return start.toLocaleTimeString([], options) + ' - ' + end.toLocaleTimeString([], options);
+      return start.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + ' - ' + end.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
     }
 
-    function savedJobs() {
-      return JSON.parse(localStorage.getItem('ll_jobs') || '[]');
-    }
+    function savedJobs() { return JSON.parse(localStorage.getItem('ll_jobs') || '[]'); }
 
     function scheduledConflict() {
       var current = scheduledStartEnd();
       if (!current) return [];
-      var jobs = savedJobs();
       var conflicts = [];
-      jobs.forEach(function(job) {
+      savedJobs().forEach(function(job) {
         if (!job.startISO || !job.endISO) return;
         var existingStart = new Date(job.startISO);
         var existingEnd = new Date(job.endISO);
@@ -633,9 +409,8 @@
 
     function renderBookedTimes() {
       var selectedDate = val('scheduleDate');
-      var jobs = savedJobs();
       var html = '';
-      jobs.forEach(function(job) {
+      savedJobs().forEach(function(job) {
         if (!job.startISO) return;
         if (selectedDate && job.startISO.indexOf(selectedDate) !== 0) return;
         var start = new Date(job.startISO);
@@ -647,9 +422,7 @@
 
     function mulchBags() {
       if (currentJob !== 'mulch') return 0;
-      var cubicFeetNeeded = num('bedSqft') * (num('depth') / 12);
-      var bagSize = num('bagSize') || 2;
-      return Math.ceil(cubicFeetNeeded / bagSize);
+      return Math.ceil((num('bedSqft') * (num('depth') / 12)) / (num('bagSize') || 2));
     }
 
     function serviceBase() {
@@ -663,8 +436,8 @@
         return billable * num('sodRate') + sqft * num('prepRate') + num('sodRental');
       }
       if (currentJob === 'mulch') {
-        var laborPerBag = val('materialType') === 'rock' ? Math.max(num('bagLabor'), 10) : num('bagLabor');
-        return mulchBags() * (num('bagCost') + laborPerBag) + num('edgeAdd') + num('bedPrep') + num('barrierSqft') * weedBarrierRate;
+        var labor = val('materialType') === 'rock' ? Math.max(num('bagLabor'), 10) : num('bagLabor');
+        return mulchBags() * (num('bagCost') + labor) + num('edgeAdd') + num('bedPrep') + num('barrierSqft') * weedBarrierRate;
       }
       if (currentJob === 'cleanup') return num('hours') * num('hourRate') + num('cleanupHaul') + num('cleanupDiff');
       if (currentJob === 'trim') {
@@ -714,10 +487,7 @@
       var basic = roundUp(price * 0.92, r);
       var better = roundUp(price * 1.12, r);
       var best = roundUp(price * 1.3, r);
-      if (currentJob === 'tree') return 'Basic: removal + cleanup (' + money(basic) + ')\nBetter: removal + haul-away + stump cut low (' + money(better) + ')\nBest: removal + mulch ring/new plant option (' + money(best) + '+)';
-      if (currentJob === 'sod') return 'Basic: sod install (' + money(basic) + ')\nBetter: sod + bed edging (' + money(better) + ')\nBest: sod + mulch/plants/curb appeal (' + money(best) + '+)';
-      if (currentJob === 'mulch') return 'Basic: material install (' + money(basic) + ')\nBetter: install + bed edging/prep (' + money(better) + ')\nBest: install + weed barrier/plants (' + money(best) + '+)';
-      return 'Basic: current scope (' + money(basic) + ')\nBetter: current scope + cleanup/haul upgrade (' + money(better) + ')\nBest: full curb appeal add-ons (' + money(best) + '+)';
+      return 'Basic: current scope (' + money(basic) + ')\nBetter: upgraded scope (' + money(better) + ')\nBest: full upgrade (' + money(best) + '+)';
     }
 
     function calculate() {
@@ -876,89 +646,43 @@
       var estimateNumber = 'EST-' + new Date().getFullYear() + '-' + String(savedJobs().length + 1).padStart(3, '0');
       var description = jobName().toUpperCase();
       var notes = txt('notes') || 'Professional landscaping service based on the discussed scope.';
-      var subtotal = lastCalc.price;
-      var tax = lastCalc.tax;
-      var total = lastCalc.total;
-      var deposit = lastCalc.deposit;
-      var balance = lastCalc.remaining;
       var taxPercent = val('taxMode') === 'none' ? '0.0%' : num('taxRate').toFixed(1) + '%';
-
       var html = '';
-      html += '<div class="estimate-header">';
-      html += '<div class="estimate-logo">🌿 Landon<br><span style="font-size:12px;letter-spacing:1px;">LANDSCAPING LLC.</span></div>';
-      html += '<div class="estimate-business">LANDON LANDSCAPING LLC<br>657-417-7599<br>Green Cove Springs, Florida</div>';
-      html += '</div>';
-      html += '<div class="estimate-title">ESTIMATE</div>';
-      html += '<div class="estimate-date">' + estimateDate + '</div>';
-      html += '<div class="estimate-info">';
-      html += '<div><strong>BILL TO:</strong><br>' + customer + '<br>' + info + '</div>';
-      html += '<div style="text-align:right;"><strong>NUMBER:</strong> ' + estimateNumber + '<br><strong>DATE:</strong> ' + estimateDate + '<br><strong>DUE:</strong> Upon acceptance</div>';
-      html += '</div>';
-      html += '<table class="estimate-table">';
-      html += '<thead><tr><th>Description</th><th>Quantity</th><th>Tax</th><th>Amount</th></tr></thead>';
-      html += '<tbody><tr>';
-      html += '<td><div class="estimate-desc-title">' + description + '</div><div class="estimate-desc-sub">' + notes + '</div></td>';
-      html += '<td class="qty-cell">1</td>';
-      html += '<td class="tax-cell">' + taxPercent + '</td>';
-      html += '<td class="amount-cell">' + money(subtotal) + '</td>';
-      html += '</tr></tbody>';
-      html += '</table>';
-      html += '<div class="estimate-bottom">';
-      html += '<div class="estimate-payment"><strong>Payment instructions</strong><br>Use the secure payment buttons below the estimate. Deposit may be required before scheduling or ordering materials.<br><br><strong>Notes</strong><br>Quote is based on the discussed scope. Additional work may change the total.</div>';
-      html += '<div class="estimate-totals">';
-      html += '<div class="estimate-total-row"><span>SUBTOTAL:</span><span>' + money(subtotal) + '</span></div>';
-      html += '<div class="estimate-total-row"><span>TAX:</span><span>' + money(tax) + '</span></div>';
-      html += '<div class="estimate-total-row"><span>TOTAL:</span><span>' + money(total) + '</span></div>';
-      html += '<div class="estimate-total-row"><span>DEPOSIT:</span><span>' + money(deposit) + '</span></div>';
-      html += '<div class="balance-due"><span>BALANCE DUE</span><span>' + money(balance) + '</span></div>';
-      html += '</div>';
-      html += '</div>';
-
+      html += '<div class="estimate-header"><div class="estimate-logo">🌿 Landon<br><span style="font-size:12px;letter-spacing:1px;">LANDSCAPING LLC.</span></div><div class="estimate-business">LANDON LANDSCAPING LLC<br>657-417-7599<br>Green Cove Springs, Florida</div></div>';
+      html += '<div class="estimate-title">ESTIMATE</div><div class="estimate-date">' + estimateDate + '</div>';
+      html += '<div class="estimate-info"><div><strong>BILL TO:</strong><br>' + customer + '<br>' + info + '</div><div style="text-align:right;"><strong>NUMBER:</strong> ' + estimateNumber + '<br><strong>DATE:</strong> ' + estimateDate + '<br><strong>DUE:</strong> Upon acceptance</div></div>';
+      html += '<table class="estimate-table"><thead><tr><th>Description</th><th>Quantity</th><th>Tax</th><th>Amount</th></tr></thead><tbody><tr><td><div class="estimate-desc-title">' + description + '</div><div class="estimate-desc-sub">' + notes + '</div></td><td class="qty-cell">1</td><td class="tax-cell">' + taxPercent + '</td><td class="amount-cell">' + money(lastCalc.price) + '</td></tr></tbody></table>';
+      html += '<div class="estimate-bottom"><div class="estimate-payment"><strong>Payment instructions</strong><br>Use the secure payment buttons below the estimate. Deposit may be required before scheduling or ordering materials.<br><br><strong>Notes</strong><br>Quote is based on the discussed scope. Additional work may change the total.</div><div class="estimate-totals"><div class="estimate-total-row"><span>SUBTOTAL:</span><span>' + money(lastCalc.price) + '</span></div><div class="estimate-total-row"><span>TAX:</span><span>' + money(lastCalc.tax) + '</span></div><div class="estimate-total-row"><span>TOTAL:</span><span>' + money(lastCalc.total) + '</span></div><div class="estimate-total-row"><span>DEPOSIT:</span><span>' + money(lastCalc.deposit) + '</span></div><div class="balance-due"><span>BALANCE DUE</span><span>' + money(lastCalc.remaining) + '</span></div></div></div>';
       el('estimatePreview').innerHTML = html;
     }
 
     function makePaymentText() {
       var customer = txt('customer') || 'there';
-      var total = money(lastCalc.total);
-      var deposit = money(lastCalc.deposit);
-      var remaining = money(lastCalc.remaining);
-      var stripe = txt('stripeLink');
-      var paypal = txt('paypalLink');
-      var venmo = txt('venmoName');
-      var appleCash = txt('appleCashInfo');
       var lines = [];
-
       lines.push('Hi ' + customer + '! Here is the payment information for the ' + jobName() + '.');
       lines.push('');
-      lines.push('Total: ' + total);
-
+      lines.push('Total: ' + money(lastCalc.total));
       if (lastCalc.deposit > 0) {
-        lines.push('Deposit due: ' + deposit);
-        lines.push('Remaining balance due upon completion: ' + remaining);
+        lines.push('Deposit due: ' + money(lastCalc.deposit));
+        lines.push('Remaining balance due upon completion: ' + money(lastCalc.remaining));
       }
-
-      if (stripe) lines.push('Stripe payment link: ' + stripe);
-      if (paypal) lines.push('PayPal payment link: ' + paypal);
-      if (venmo) lines.push('Venmo: ' + venmo);
-      if (appleCash) lines.push('Apple Cash: ' + appleCash);
-
+      if (txt('stripeLink')) lines.push('Stripe payment link: ' + txt('stripeLink'));
+      if (txt('paypalLink')) lines.push('PayPal payment link: ' + txt('paypalLink'));
+      if (txt('venmoName')) lines.push('Venmo: ' + txt('venmoName'));
+      if (txt('appleCashInfo')) lines.push('Apple Cash: ' + txt('appleCashInfo'));
       lines.push('');
       lines.push('Thank you!');
       lines.push('Landon Landscaping LLC');
-
-      el('paymentText').value = lines.join('
-');
+      el('paymentText').value = lines.join('\n');
     }
 
     function openPaymentLink(type) {
       var link = type === 'stripe' ? txt('stripeLink') : txt('paypalLink');
       var label = type === 'stripe' ? 'Stripe' : 'PayPal';
-
       if (!link) {
         alert('Add your ' + label + ' link first.');
         return;
       }
-
       window.open(link, '_blank');
     }
 
@@ -983,21 +707,7 @@
         return;
       }
       var jobs = savedJobs();
-      jobs.unshift({
-        date: new Date().toLocaleString(),
-        startISO: scheduled ? scheduled.start.toISOString() : '',
-        endISO: scheduled ? scheduled.end.toISOString() : '',
-        customer: txt('customer') || 'Unnamed',
-        info: txt('customerInfo'),
-        job: jobName(),
-        status: val('jobStatus'),
-        leadSource: val('leadSource'),
-        priority: val('jobPriority'),
-        total: money(lastCalc.total),
-        profit: money(lastCalc.profit),
-        margin: Math.round(lastCalc.margin) + '%',
-        notes: txt('notes')
-      });
+      jobs.unshift({ date: new Date().toLocaleString(), startISO: scheduled ? scheduled.start.toISOString() : '', endISO: scheduled ? scheduled.end.toISOString() : '', customer: txt('customer') || 'Unnamed', info: txt('customerInfo'), job: jobName(), status: val('jobStatus'), leadSource: val('leadSource'), priority: val('jobPriority'), total: money(lastCalc.total), profit: money(lastCalc.profit), margin: Math.round(lastCalc.margin) + '%', notes: txt('notes') });
       localStorage.setItem('ll_jobs', JSON.stringify(jobs.slice(0, 50)));
       renderJobs();
       renderBookedTimes();
@@ -1034,45 +744,23 @@
 
     function exportJobs() {
       var jobs = savedJobs();
-      if (!jobs.length) {
-        alert('No saved jobs to export yet.');
-        return;
-      }
-
-      var backupText = JSON.stringify(jobs, null, 2);
-
+      if (!jobs.length) { alert('No saved jobs to export yet.'); return; }
+      var backup = JSON.stringify(jobs, null, 2);
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(backupText).then(function() {
-          alert('Backup copied. Paste it somewhere safe, like Notes or Google Docs.');
-        }).catch(function() {
-          window.prompt('Copy this backup text and save it somewhere safe:', backupText);
-        });
+        navigator.clipboard.writeText(backup).then(function(){ alert('Backup copied. Save it somewhere safe.'); }).catch(function(){ window.prompt('Copy this backup text:', backup); });
       } else {
-        window.prompt('Copy this backup text and save it somewhere safe:', backupText);
+        window.prompt('Copy this backup text:', backup);
       }
     }
 
     function importJobs() {
-      var backupText = el('importJobsText').value.trim();
-
-      if (!backupText) {
-        alert('Paste your backup text first.');
-        return;
-      }
-
+      var text = txt('importJobsText');
+      if (!text) { alert('Paste your backup text first.'); return; }
       try {
-        var importedJobs = JSON.parse(backupText);
-
-        if (!Array.isArray(importedJobs)) {
-          alert('That backup does not look right. Make sure you pasted the full export text.');
-          return;
-        }
-
-        if (!confirm('Import ' + importedJobs.length + ' saved job(s)? This will replace the saved jobs on this device.')) {
-          return;
-        }
-
-        localStorage.setItem('ll_jobs', JSON.stringify(importedJobs));
+        var imported = JSON.parse(text);
+        if (!Array.isArray(imported)) { alert('That backup does not look right.'); return; }
+        if (!confirm('Import ' + imported.length + ' saved job(s)? This will replace saved jobs on this device.')) return;
+        localStorage.setItem('ll_jobs', JSON.stringify(imported));
         el('importJobsText').value = '';
         renderJobs();
         renderBookedTimes();
@@ -1114,60 +802,27 @@
     }
 
     function attachEvents() {
-      function bind(id, eventName, handler) {
-        var element = el(id);
-        if (element) {
-          element.addEventListener(eventName, handler);
-        }
-      }
-
-      tabs.forEach(function(job) {
-        bind('tab-' + job, 'click', function() {
-          setJob(job);
-        });
-      });
-
-      bind('preset-tree', 'click', function() { preset('smallTree'); });
-      bind('preset-mulch', 'click', function() { preset('smallMulch'); });
-      bind('preset-sod', 'click', function() { preset('sod7000'); });
-      bind('preset-cleanup', 'click', function() { preset('cleanupHalfDay'); });
-
-      bind('copyQuoteBtn', 'click', function() { copyBox('quoteText'); });
-      bind('copyInternalBtn', 'click', function() { copyBox('internalText'); });
-      bind('copyFollowBtn', 'click', function() { copyBox('followText'); });
-      bind('copyPaymentBtn', 'click', function() { copyBox('paymentText'); });
-
-      bind('openStripeBtn', 'click', function() { openPaymentLink('stripe'); });
-      bind('openPaypalBtn', 'click', function() { openPaymentLink('paypal'); });
-      bind('estimateStripeBtn', 'click', function() { openPaymentLink('stripe'); });
-      bind('estimatePaypalBtn', 'click', function() { openPaymentLink('paypal'); });
-
-      bind('saveJobBtn', 'click', saveJob);
-      bind('saveDefaultsBtn', 'click', saveDefaults);
-      bind('resetBtn', 'click', resetForm);
-      bind('clearJobsBtn', 'click', clearJobs);
-
-      if (typeof exportJobs === 'function') {
-        bind('exportJobsBtn', 'click', exportJobs);
-      }
-
-      if (typeof importJobs === 'function') {
-        bind('importJobsBtn', 'click', importJobs);
-      }
-
-      var savedJobsBox = el('savedJobs');
-      if (savedJobsBox) {
-        savedJobsBox.addEventListener('click', function(event) {
-          if (event.target && event.target.hasAttribute('data-delete-index')) {
-            deleteJob(Number(event.target.getAttribute('data-delete-index')));
-          }
-        });
-      }
-
-      document.querySelectorAll('input, select, textarea').forEach(function(input) {
-        input.addEventListener('input', calculate);
-        input.addEventListener('change', calculate);
-      });
+      tabs.forEach(function(job) { el('tab-' + job).addEventListener('click', function() { setJob(job); }); });
+      el('preset-tree').addEventListener('click', function() { preset('smallTree'); });
+      el('preset-mulch').addEventListener('click', function() { preset('smallMulch'); });
+      el('preset-sod').addEventListener('click', function() { preset('sod7000'); });
+      el('preset-cleanup').addEventListener('click', function() { preset('cleanupHalfDay'); });
+      el('copyQuoteBtn').addEventListener('click', function() { copyBox('quoteText'); });
+      el('copyInternalBtn').addEventListener('click', function() { copyBox('internalText'); });
+      el('copyFollowBtn').addEventListener('click', function() { copyBox('followText'); });
+      el('copyPaymentBtn').addEventListener('click', function() { copyBox('paymentText'); });
+      el('openStripeBtn').addEventListener('click', function() { openPaymentLink('stripe'); });
+      el('openPaypalBtn').addEventListener('click', function() { openPaymentLink('paypal'); });
+      el('estimateStripeBtn').addEventListener('click', function() { openPaymentLink('stripe'); });
+      el('estimatePaypalBtn').addEventListener('click', function() { openPaymentLink('paypal'); });
+      el('saveJobBtn').addEventListener('click', saveJob);
+      el('saveDefaultsBtn').addEventListener('click', saveDefaults);
+      el('resetBtn').addEventListener('click', resetForm);
+      el('exportJobsBtn').addEventListener('click', exportJobs);
+      el('importJobsBtn').addEventListener('click', importJobs);
+      el('clearJobsBtn').addEventListener('click', clearJobs);
+      el('savedJobs').addEventListener('click', function(event) { if (event.target && event.target.hasAttribute('data-delete-index')) deleteJob(Number(event.target.getAttribute('data-delete-index'))); });
+      document.querySelectorAll('input, select, textarea').forEach(function(input) { input.addEventListener('input', calculate); input.addEventListener('change', calculate); });
     }
 
     window.addEventListener('DOMContentLoaded', function() {
