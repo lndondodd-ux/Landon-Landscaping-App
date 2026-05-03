@@ -1,55 +1,3808 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Landon Landscaping App</title>
-  <link rel="stylesheet" href="styles.css"> <!-- Link to styles -->
-</head>
-<body>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Landon Landscaping LLC Pricing App</title>
 
+  <style>
+    /* =========================================================
+       LANDON LANDSCAPING LLC PRICING APP
+       Premium private dashboard redesign
+       ---------------------------------------------------------
+       This app is for owner/internal use. Customer-facing content
+       stays inside the estimate/quote preview only.
+       ========================================================= */
+
+    /* ---------- 1. Premium theme system ---------- */
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --forest-950: #061a0e;
+      --forest-900: #092914;
+      --forest-850: #0d351b;
+      --forest-800: #123f22;
+      --forest-700: #18552d;
+      --forest-600: #20723c;
+      --forest-500: #2f8a49;
+
+      --sage-100: #f6f8f1;
+      --sage-150: #eef4e8;
+      --sage-200: #e4eddd;
+      --sage-300: #d4e2cc;
+      --sage-500: #8aa97e;
+
+      --cream: #fbf7ee;
+      --gold: #d9b76e;
+      --gold-soft: #fff3cf;
+      --white: #ffffff;
+      --ink: #122015;
+      --text: #1b2a1d;
+      --muted: #657466;
+      --muted-2: #8a9589;
+
+      --danger: #842b2b;
+      --danger-bg: #faeaea;
+      --warning-bg: #fff8e8;
+      --warning-border: #efd58f;
+      --info-bg: #edf5ff;
+      --info-border: #c6ddff;
+
+      --border-soft: rgba(18, 63, 34, 0.10);
+      --border: rgba(18, 63, 34, 0.16);
+      --shadow-sm: 0 6px 18px rgba(6, 26, 14, 0.06);
+      --shadow-md: 0 14px 36px rgba(6, 26, 14, 0.10);
+      --shadow-lg: 0 24px 70px rgba(6, 26, 14, 0.18);
+      --radius-sm: 14px;
+      --radius-md: 20px;
+      --radius-lg: 28px;
+      --radius-xl: 36px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 14px;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(217, 183, 110, 0.22), transparent 34%),
+        radial-gradient(circle at 90% 10%, rgba(47, 138, 73, 0.16), transparent 30%),
+        linear-gradient(180deg, #fdf9ef 0%, #edf4e7 52%, #f9f7ee 100%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app {
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+
+    /* ---------- 2. Premium header ---------- */
+    .header {
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 16px;
+      padding: 24px;
+      color: white;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(135deg, rgba(6, 26, 14, 0.98), rgba(18, 63, 34, 0.96)),
+        radial-gradient(circle at 80% 20%, rgba(217, 183, 110, 0.24), transparent 26%);
+      box-shadow: var(--shadow-lg);
+      isolation: isolate;
+    }
+
+    .header::before {
+      content: "";
+      position: absolute;
+      inset: -80px -90px auto auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      z-index: -1;
+    }
+
+    .header::after {
+      content: "";
+      position: absolute;
+      right: 28px;
+      bottom: -64px;
+      width: 210px;
+      height: 210px;
+      opacity: 0.09;
+      background: radial-gradient(circle, white 0 2px, transparent 3px);
+      background-size: 18px 18px;
+      z-index: -1;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .header h1 {
+      margin: 0 0 6px;
+      font-size: clamp(26px, 4vw, 38px);
+      line-height: 0.98;
+      letter-spacing: -1.2px;
+      font-weight: 950;
+    }
+
+    .header p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.84);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      width: 68px;
+      height: 68px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 24px;
+      color: var(--gold-soft);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.07));
+      font-size: 34px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 20px 45px rgba(0, 0, 0, 0.18);
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 14px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      color: var(--gold-soft);
+      background: rgba(217, 183, 110, 0.14);
+      backdrop-filter: blur(10px);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.2px;
+    }
+
+    .header-badge::before {
+      content: "🔒";
+      font-size: 12px;
+    }
+
+    /* ---------- 3. Cards, layout, and forms ---------- */
+    .card {
+      position: relative;
+      margin-bottom: 16px;
+      padding: 18px;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(18px);
+    }
+
+    .card:hover {
+      border-color: rgba(18, 63, 34, 0.20);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+      transition: 180ms ease;
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 7px;
+      color: var(--forest-900);
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: 0.15px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid rgba(18, 63, 34, 0.14);
+      border-radius: 16px;
+      outline: none;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(249, 251, 246, 0.96));
+      font-size: 15px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      transition: 160ms ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: rgba(32, 114, 60, 0.48);
+      box-shadow: 0 0 0 4px rgba(32, 114, 60, 0.10);
+    }
+
+    textarea {
+      min-height: 132px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 14px 16px;
+      border: none;
+      border-radius: 17px;
+      color: white;
+      background:
+        linear-gradient(135deg, var(--forest-900), var(--forest-600));
+      font-size: 15px;
+      font-weight: 950;
+      letter-spacing: 0.1px;
+      cursor: pointer;
+      box-shadow: 0 12px 24px rgba(18, 63, 34, 0.22);
+      transition: transform 140ms ease, box-shadow 140ms ease, filter 140ms ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      filter: saturate(1.06);
+      box-shadow: 0 16px 34px rgba(18, 63, 34, 0.28);
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: 0 7px 18px rgba(18, 63, 34, 0.18);
+    }
+
+    button.secondary {
+      color: var(--forest-900);
+      border: 1px solid rgba(18, 63, 34, 0.14);
+      background: linear-gradient(180deg, #f8fbf4, #edf5e8);
+      box-shadow: none;
+    }
+
+    button.secondary:hover {
+      box-shadow: 0 10px 24px rgba(18, 63, 34, 0.10);
+    }
+
+    button.danger {
+      color: var(--danger);
+      border: 1px solid rgba(132, 43, 43, 0.18);
+      background: linear-gradient(180deg, #fff5f5, var(--danger-bg));
+      box-shadow: none;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .small {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    /* ---------- 4. Premium navigation / tabs ---------- */
+    .tabs {
+      position: sticky;
+      top: 10px;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      padding: 8px;
+      border: 1px solid rgba(18, 63, 34, 0.10);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: 0 14px 32px rgba(6, 26, 14, 0.08);
+      backdrop-filter: blur(20px);
+    }
+
+    .tab {
+      margin: 0;
+      padding: 12px 8px;
+      border: 1px solid transparent;
+      border-radius: 18px;
+      color: var(--forest-900);
+      background: transparent;
+      font-size: 13px;
+      box-shadow: none;
+    }
+
+    .tab:hover {
+      color: var(--forest-950);
+      background: rgba(237, 245, 232, 0.9);
+      box-shadow: none;
+    }
+
+    .tab.active {
+      color: white;
+      border-color: rgba(255, 255, 255, 0.18);
+      background: linear-gradient(135deg, var(--forest-900), var(--forest-600));
+      box-shadow: 0 10px 24px rgba(18, 63, 34, 0.22);
+    }
+
+    .quick {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 9px;
+      margin-top: 10px;
+    }
+
+    .quick button {
+      margin: 0;
+      padding: 13px 10px;
+      border: 1px solid rgba(18, 63, 34, 0.13);
+      color: var(--forest-900);
+      background: linear-gradient(180deg, white, var(--sage-100));
+      font-size: 12px;
+      box-shadow: none;
+    }
+
+    .checks {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 9px;
+      margin-top: 8px;
+    }
+
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 12px;
+      border: 1px solid rgba(18, 63, 34, 0.11);
+      border-radius: 16px;
+      background: linear-gradient(180deg, white, #f8fbf4);
+      color: var(--forest-900);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .check input {
+      width: auto;
+      accent-color: var(--forest-600);
+      transform: scale(1.15);
+    }
+
+    /* ---------- 5. Premium pricing result ---------- */
+    .result {
+      position: relative;
+      overflow: hidden;
+      padding: 22px;
+      border: 1px solid rgba(18, 63, 34, 0.13);
+      border-radius: 30px;
+      background:
+        linear-gradient(140deg, rgba(255, 255, 255, 0.96), rgba(242, 248, 238, 0.96));
+      box-shadow: var(--shadow-md);
+    }
+
+    .result::before {
+      content: "";
+      position: absolute;
+      top: -80px;
+      right: -70px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(32, 114, 60, 0.16), transparent 70%);
+    }
+
+    .result > div:first-child {
+      color: var(--forest-900);
+      font-size: 13px;
+      font-weight: 950;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+    }
+
+    .main-price {
+      position: relative;
+      margin: 6px 0 0;
+      color: var(--forest-950);
+      font-size: clamp(46px, 8vw, 72px);
+      font-weight: 1000;
+      line-height: 0.95;
+      letter-spacing: -3px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      padding: 8px 12px;
+      border: 1px solid rgba(32, 114, 60, 0.16);
+      border-radius: 999px;
+      color: var(--forest-700);
+      background: rgba(255, 255, 255, 0.86);
+      font-size: 12px;
+      font-weight: 950;
+      box-shadow: 0 8px 18px rgba(6, 26, 14, 0.06);
+    }
+
+    .tag::before {
+      content: "↗";
+      font-size: 13px;
+    }
+
+    .price-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .price-box {
+      padding: 16px 12px;
+      border: 1px solid rgba(18, 63, 34, 0.12);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      text-align: center;
+      box-shadow: 0 10px 26px rgba(6, 26, 14, 0.06);
+    }
+
+    .price-box:nth-child(2) {
+      border-color: rgba(32, 114, 60, 0.26);
+      background: linear-gradient(180deg, #f1faec, #ffffff);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 34px rgba(32, 114, 60, 0.14);
+    }
+
+    .price-box .label {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+
+    .price-box .price {
+      margin-top: 7px;
+      color: var(--forest-950);
+      font-size: 26px;
+      font-weight: 1000;
+      letter-spacing: -0.8px;
+    }
+
+    .breakdown {
+      margin-top: 16px;
+      padding: 15px;
+      border: 1px solid rgba(18, 63, 34, 0.09);
+      border-radius: 20px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.82);
+      font-size: 14px;
+      line-height: 1.75;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .breakdown strong {
+      color: var(--forest-900);
+    }
+
+    .warning {
+      margin-top: 12px;
+      padding: 13px 14px;
+      border: 1px solid var(--warning-border);
+      border-radius: 18px;
+      background: var(--warning-bg);
+      color: #4b3b12;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .bad {
+      color: var(--danger);
+      border-color: #e3b2b2;
+      background: var(--danger-bg);
+    }
+
+    .info {
+      color: #103761;
+      border-color: var(--info-border);
+      background: var(--info-bg);
+    }
+
+    /* ---------- 6. Saved jobs / schedule cards ---------- */
+    .job-card,
+    .time-block {
+      margin-top: 10px;
+      padding: 14px;
+      border: 1px solid rgba(18, 63, 34, 0.12);
+      border-radius: 18px;
+      background: linear-gradient(180deg, white, #f9fcf6);
+      font-size: 13px;
+      line-height: 1.55;
+      box-shadow: 0 8px 20px rgba(6, 26, 14, 0.05);
+    }
+
+    .job-card strong,
+    .time-block strong {
+      color: var(--forest-900);
+      font-size: 15px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 6px;
+      padding: 5px 9px;
+      border: 1px solid rgba(217, 183, 110, 0.35);
+      border-radius: 999px;
+      color: var(--forest-900);
+      background: #fff6dd;
+      font-size: 11px;
+      font-weight: 950;
+    }
+
+    .status-pill::before {
+      content: "•";
+      color: var(--gold);
+      font-size: 18px;
+      line-height: 0;
+    }
+
+    /* ---------- 7. Premium estimate / invoice preview ---------- */
+    .estimate-preview {
+      margin-top: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(18, 63, 34, 0.15);
+      border-radius: 24px;
+      background: white;
+      box-shadow: var(--shadow-md);
+    }
+
+    .estimate-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 22px;
+      color: white;
+      background:
+        linear-gradient(135deg, var(--forest-900), var(--forest-600));
+    }
+
+    .estimate-logo {
+      font-size: 23px;
+      font-weight: 1000;
+      line-height: 1;
+      letter-spacing: -0.8px;
+    }
+
+    .estimate-business {
+      text-align: right;
+      font-size: 12px;
+      line-height: 1.5;
+      opacity: 0.92;
+    }
+
+    .estimate-title {
+      padding: 22px 16px 8px;
+      color: var(--forest-950);
+      text-align: center;
+      font-size: 40px;
+      font-weight: 1000;
+      line-height: 1;
+      letter-spacing: -1.5px;
+    }
+
+    .estimate-date {
+      padding-bottom: 16px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .estimate-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      padding: 18px 22px;
+      border-top: 1px solid #edf1ed;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .estimate-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .estimate-table th {
+      padding: 12px 12px;
+      color: white;
+      background: var(--forest-700);
+      text-align: left;
+      font-size: 11px;
+      letter-spacing: 0.25px;
+      text-transform: uppercase;
+    }
+
+    .estimate-table td {
+      padding: 14px 12px;
+      border-bottom: 1px solid #edf1ed;
+      vertical-align: top;
+    }
+
+    .amount-cell,
+    .qty-cell,
+    .tax-cell {
+      text-align: right;
+      white-space: nowrap;
+      font-weight: 900;
+    }
+
+    .estimate-desc-title {
+      margin-bottom: 4px;
+      color: var(--forest-950);
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+
+    .estimate-desc-sub {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .estimate-bottom {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      padding: 18px 22px 22px;
+    }
+
+    .estimate-payment,
+    .estimate-totals {
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .estimate-total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      font-weight: 850;
+    }
+
+    .balance-due {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      padding: 13px 14px;
+      border-radius: 14px;
+      color: white;
+      background: linear-gradient(135deg, var(--forest-900), var(--forest-600));
+      font-size: 17px;
+      font-weight: 1000;
+      box-shadow: 0 12px 24px rgba(18, 63, 34, 0.18);
+    }
+
+    .invoice-action-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid rgba(18, 63, 34, 0.15);
+      border-top: none;
+      border-radius: 0 0 24px 24px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .invoice-pay-btn {
+      margin: 0;
+      padding: 14px;
+      border-radius: 15px;
+      font-size: 14px;
+    }
+
+    .invoice-pay-btn.stripe {
+      background: linear-gradient(135deg, #635bff, #4b43db);
+    }
+
+    .invoice-pay-btn.paypal {
+      background: linear-gradient(135deg, #263f8a, #14245b);
+    }
+
+    .payment-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+      margin-top: 10px;
+    }
+
+    .footer-note {
+      padding: 10px 2px 24px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .tiny-seal {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 6px;
+      font-size: 13px;
+      opacity: 0.58;
+      filter: saturate(0.95);
+      user-select: none;
+    }
+
+    .tiny-seal.faint {
+      opacity: 0.35;
+      font-size: 12px;
+    }
+
+    .tiny-seal.floaty {
+      transform: translateY(-2px);
+      opacity: 0.72;
+    }
+
+    /* ---------- 8. Print styles ---------- */
+    .print-only {
+      display: none;
+    }
+
+    @media print {
+      body {
+        padding: 0;
+        background: white;
+      }
+
+      body * {
+        visibility: hidden;
+      }
+
+      #printArea,
+      #printArea * {
+        visibility: visible;
+      }
+
+      #printArea {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+      }
+
+      .estimate-preview {
+        margin: 0;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .invoice-action-bar,
+      .no-print {
+        display: none !important;
+      }
+    }
+
+    /* ---------- 9. Mobile styles ---------- */
+    @media (max-width: 760px) {
+      .tabs {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .quick {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .payment-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 10px;
+      }
+
+      .header {
+        border-radius: 28px;
+        padding: 22px;
+      }
+
+      .brand-mark {
+        width: 58px;
+        height: 58px;
+        border-radius: 20px;
+        font-size: 29px;
+      }
+
+      .row,
+      .price-grid,
+      .quick,
+      .checks,
+      .estimate-info,
+      .estimate-bottom,
+      .invoice-action-bar {
+        grid-template-columns: 1fr;
+      }
+
+      .tabs {
+        grid-template-columns: 1fr 1fr;
+        position: static;
+      }
+
+      .main-price {
+        font-size: 52px;
+      }
+
+      .price-box:nth-child(2) {
+        transform: none;
+      }
+
+      .estimate-title {
+        font-size: 32px;
+      }
+    }
+  
+
+    /* ---------- 10. Extra premium dashboard polish ---------- */
+    .dashboard-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: -4px 0 16px;
+    }
+
+    .dash-stat {
+      position: relative;
+      overflow: hidden;
+      padding: 16px;
+      border: 1px solid rgba(18, 63, 34, 0.12);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(18px);
+    }
+
+    .dash-stat::after {
+      content: "";
+      position: absolute;
+      right: -28px;
+      bottom: -34px;
+      width: 92px;
+      height: 92px;
+      border-radius: 999px;
+      background: rgba(32, 114, 60, 0.08);
+    }
+
+    .dash-stat-icon {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      margin-bottom: 10px;
+      border-radius: 12px;
+      color: white;
+      background: linear-gradient(135deg, var(--forest-900), var(--forest-600));
+      box-shadow: 0 10px 20px rgba(18, 63, 34, 0.18);
+      font-size: 16px;
+    }
+
+    .dash-stat-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: 0.28px;
+      text-transform: uppercase;
+    }
+
+    .dash-stat-value {
+      margin-top: 4px;
+      color: var(--forest-950);
+      font-size: 22px;
+      font-weight: 1000;
+      letter-spacing: -0.6px;
+    }
+
+    .dash-stat-note {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(18, 63, 34, 0.08);
+    }
+
+    .section-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-icon {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 14px;
+      color: var(--forest-900);
+      background: linear-gradient(180deg, #f1faec, #ffffff);
+      border: 1px solid rgba(18, 63, 34, 0.10);
+      box-shadow: 0 8px 18px rgba(6, 26, 14, 0.05);
+    }
+
+    .section-title {
+      color: var(--forest-950);
+      font-size: 15px;
+      font-weight: 1000;
+      letter-spacing: -0.2px;
+    }
+
+    .section-subtitle {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .section-pill {
+      flex-shrink: 0;
+      padding: 7px 10px;
+      border: 1px solid rgba(32, 114, 60, 0.14);
+      border-radius: 999px;
+      color: var(--forest-700);
+      background: #f1faec;
+      font-size: 11px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .owner-only-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 16px;
+      padding: 14px 16px;
+      border: 1px solid rgba(217, 183, 110, 0.34);
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255, 248, 232, 0.95), rgba(241, 250, 236, 0.95));
+      box-shadow: var(--shadow-sm);
+    }
+
+    .owner-only-banner strong {
+      color: var(--forest-950);
+      font-size: 14px;
+    }
+
+    .owner-only-banner span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .owner-lock {
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      width: 38px;
+      height: 38px;
+      border-radius: 15px;
+      color: var(--forest-900);
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(217, 183, 110, 0.28);
+    }
+
+    .premium-divider {
+      height: 1px;
+      margin: 18px 0 6px;
+      background: linear-gradient(90deg, transparent, rgba(18, 63, 34, 0.16), transparent);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 22px;
+      right: 22px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent);
+      pointer-events: none;
+    }
+
+    .service-section {
+      border-left: 4px solid rgba(32, 114, 60, 0.38);
+    }
+
+    .result .breakdown {
+      column-count: 1;
+    }
+
+    .estimate-preview::before {
+      content: "Customer-facing preview";
+      display: block;
+      padding: 8px 14px;
+      color: var(--forest-700);
+      background: #f1faec;
+      border-bottom: 1px solid rgba(18, 63, 34, 0.08);
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: 0.35px;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 760px) {
+      .dashboard-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .dashboard-strip {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .dash-stat {
+        padding: 13px;
+        border-radius: 18px;
+      }
+
+      .dash-stat-value {
+        font-size: 18px;
+      }
+
+      .owner-only-banner {
+        align-items: flex-start;
+      }
+
+      .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  
+
+    /* ---------- 11. Insane pricing result card upgrade ---------- */
+    .result {
+      min-height: 420px;
+    }
+
+    .price-hero-top {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .price-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      padding: 8px 11px;
+      border: 1px solid rgba(217, 183, 110, 0.32);
+      border-radius: 999px;
+      color: var(--gold-soft);
+      background: linear-gradient(135deg, var(--forest-900), var(--forest-600));
+      box-shadow: 0 12px 26px rgba(18, 63, 34, 0.18);
+      font-size: 11px;
+      font-weight: 1000;
+      letter-spacing: 0.35px;
+      text-transform: uppercase;
+    }
+
+    .price-kicker::before {
+      content: "★";
+      color: var(--gold);
+    }
+
+    .price-hero-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: 0.32px;
+      text-transform: uppercase;
+    }
+
+    .price-confidence {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .confidence-pill,
+    .owner-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .confidence-pill {
+      color: var(--forest-900);
+      border: 1px solid rgba(32, 114, 60, 0.16);
+      background: #f1faec;
+    }
+
+    .confidence-pill::before {
+      content: "↗";
+    }
+
+    .owner-pill {
+      color: #705314;
+      border: 1px solid rgba(217, 183, 110, 0.28);
+      background: #fff6dd;
+    }
+
+    .owner-pill::before {
+      content: "🔒";
+    }
+
+    .price-main-wrap {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .price-main-panel {
+      position: relative;
+      overflow: hidden;
+      padding: 22px;
+      border-radius: 28px;
+      color: white;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(217, 183, 110, 0.22), transparent 28%),
+        linear-gradient(135deg, var(--forest-950), var(--forest-700));
+      box-shadow: 0 22px 52px rgba(6, 26, 14, 0.24);
+    }
+
+    .price-main-panel::after {
+      content: "";
+      position: absolute;
+      inset: auto -34px -56px auto;
+      width: 190px;
+      height: 190px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .price-main-panel .main-price {
+      color: white;
+      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+    }
+
+    .price-main-panel .tag {
+      color: var(--gold-soft);
+      border-color: rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.13);
+      backdrop-filter: blur(10px);
+      box-shadow: none;
+    }
+
+    .decision-card {
+      padding: 18px;
+      border: 1px solid rgba(18, 63, 34, 0.12);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: 0 14px 34px rgba(6, 26, 14, 0.08);
+    }
+
+    .decision-title {
+      color: var(--forest-950);
+      font-size: 13px;
+      font-weight: 1000;
+      letter-spacing: -0.1px;
+    }
+
+    .decision-subtitle {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .decision-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .decision-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 15px;
+      background: #f8fbf4;
+      border: 1px solid rgba(18, 63, 34, 0.08);
+      font-size: 12px;
+    }
+
+    .decision-item strong {
+      color: var(--forest-950);
+      font-weight: 1000;
+    }
+
+    .decision-item span {
+      color: var(--muted);
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .profit-meter-card {
+      margin-top: 14px;
+      padding: 14px;
+      border: 1px solid rgba(18, 63, 34, 0.10);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.84);
+    }
+
+    .meter-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 9px;
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .meter-top span:first-child {
+      color: var(--forest-950);
+    }
+
+    .meter-top span:last-child {
+      color: var(--forest-700);
+    }
+
+    .meter-track {
+      overflow: hidden;
+      height: 11px;
+      border-radius: 999px;
+      background: #e6eee0;
+      box-shadow: inset 0 1px 2px rgba(6, 26, 14, 0.12);
+    }
+
+    .meter-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--forest-600), var(--gold));
+      transition: width 220ms ease;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .kpi-card {
+      padding: 13px;
+      border: 1px solid rgba(18, 63, 34, 0.10);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: 0 8px 22px rgba(6, 26, 14, 0.05);
+    }
+
+    .kpi-label {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 1000;
+      letter-spacing: 0.28px;
+      text-transform: uppercase;
+    }
+
+    .kpi-value {
+      margin-top: 5px;
+      color: var(--forest-950);
+      font-size: 18px;
+      font-weight: 1000;
+      letter-spacing: -0.4px;
+    }
+
+    .kpi-note {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.3;
+    }
+
+    .breakdown-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 18px 0 10px;
+    }
+
+    .breakdown-title-row strong {
+      color: var(--forest-950);
+      font-size: 14px;
+      font-weight: 1000;
+    }
+
+    .breakdown-title-row span {
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: var(--forest-700);
+      background: #f1faec;
+      font-size: 11px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .result-action-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+      margin-top: 14px;
+    }
+
+    .result-action-chip {
+      padding: 11px 10px;
+      border: 1px solid rgba(18, 63, 34, 0.10);
+      border-radius: 16px;
+      background: linear-gradient(180deg, white, #f7fbf4);
+      color: var(--forest-900);
+      font-size: 12px;
+      font-weight: 950;
+      text-align: center;
+      box-shadow: 0 8px 18px rgba(6, 26, 14, 0.05);
+    }
+
+    @media (max-width: 860px) {
+      .price-main-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .price-hero-top {
+        flex-direction: column;
+      }
+
+      .price-confidence {
+        align-items: flex-start;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      .price-main-panel {
+        padding: 18px;
+      }
+
+      .kpi-grid,
+      .result-action-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
   <div class="app">
+    <!-- =======================================================
+         HEADER
+         ======================================================= -->
     <header class="header">
       <div class="header-top">
-        <div class="brand-mark">LL</div>
-        <div class="header-title">
-          <h1>Landon Landscaping</h1>
-          <p>Your trusted landscaping solution</p>
+        <div>
+          <h1>Landon Landscaping LLC</h1>
+          <p>Smart pricing, cleaner quotes, better margins.<br />657-417-7599</p>
+          <div class="header-badge">Stable pricing dashboard <span class="tiny-seal floaty">🦭</span></div>
         </div>
+        <div class="brand-mark">🌿</div>
       </div>
     </header>
 
-    <section class="dashboard">
+    <section class="owner-only-banner">
+      <div>
+        <strong>Owner dashboard</strong>
+        <span>This side is for your eyes only. Customer-facing wording stays inside the quote and estimate preview.</span>
+      </div>
+      <div class="owner-lock">🔒</div>
+    </section>
+
+    <!-- =======================================================
+         CUSTOMER / JOB BASICS
+         ======================================================= -->
+    <section class="card">
       <div class="section-heading">
         <div class="section-title-wrap">
-          <div class="section-icon">🌳</div>
-          <h2 class="section-title">Pricing & Job Quotes</h2>
+          <div class="section-icon">🧭</div>
+          <div>
+            <div class="section-title">Job workspace <span class="tiny-seal faint">🦭</span></div>
+            <div class="section-subtitle">Pick the job type, set customer info, and start the quote.</div>
+          </div>
+        </div>
+        <div class="section-pill">Private controls</div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" type="button" id="tab-tree">🌳 Tree</button>
+        <button class="tab" type="button" id="tab-sod">🌱 Sod</button>
+        <button class="tab" type="button" id="tab-mulch">🪨 Mulch/Rock</button>
+        <button class="tab" type="button" id="tab-cleanup">🧹 Cleanup</button>
+        <button class="tab" type="button" id="tab-trim">✂️ Trim</button>
+        <button class="tab" type="button" id="tab-extras">💡 Extras</button>
+      </div>
+
+      <label>Quick Presets</label>
+      <div class="quick">
+        <button type="button" id="preset-tree">Small Tree Removal</button>
+        <button type="button" id="preset-mulch">Small Mulch Refresh</button>
+        <button type="button" id="preset-sod">7,000 Sq Ft Sod</button>
+        <button type="button" id="preset-cleanup">Half-Day Cleanup</button>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Customer Name</label>
+          <input id="customer" placeholder="Ex: Mrs. Smith" />
+        </div>
+        <div>
+          <label>Customer Phone/Address</label>
+          <input id="customerInfo" placeholder="Optional" />
         </div>
       </div>
 
-      <div class="card">
-        <h3>Tree Removal Quote</h3>
-        <label for="jobType">Select Job Type</label>
-        <select id="jobType" onchange="updatePrice()">
-          <option value="treeRemoval">Tree Removal</option>
-          <option value="stumpGrinding">Stump Grinding</option>
-          <option value="pruning">Pruning</option>
-        </select>
+      <label>Job Notes</label>
+      <input id="notes" placeholder="Ex: front yard tree, haul away included" />
 
-        <div class="price-hero">
-          <p class="price-hero-label">Estimated Price</p>
-          <p id="totalPrice" class="main-price">$0</p>
+      <div class="row">
+        <div>
+          <label>Job Status</label>
+          <select id="jobStatus">
+            <option>Lead</option>
+            <option>Quote sent</option>
+            <option>Waiting on customer</option>
+            <option>Scheduled</option>
+            <option>Completed</option>
+            <option>Lost job</option>
+          </select>
         </div>
+        <div>
+          <label>Lead Source</label>
+          <select id="leadSource">
+            <option>Facebook group</option>
+            <option>Yard sign</option>
+            <option>Referral</option>
+            <option>Repeat customer</option>
+            <option>Neighbor of current job</option>
+            <option>Door knocking</option>
+            <option>Nextdoor</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
 
-        <button id="calculateBtn">Calculate Quote</button>
+      <div class="row">
+        <div>
+          <label>Drive Time</label>
+          <select id="driveTime">
+            <option value="0">0-15 min: no fee</option>
+            <option value="35">15-30 min: +$35</option>
+            <option value="60">30-45 min: +$60</option>
+            <option value="100">45+ min: +$100</option>
+          </select>
+        </div>
+        <div>
+          <label>Priority</label>
+          <select id="jobPriority">
+            <option>Auto</option>
+            <option>Low</option>
+            <option>Normal</option>
+            <option>High Priority</option>
+            <option>Urgent</option>
+          </select>
+        </div>
       </div>
     </section>
 
-    <footer class="footer">
-      <p>&copy; 2026 Landon Landscaping LLC | <a href="mailto:landonlandscaping@domain.com">Contact Us</a></p>
-    </footer>
+    <!-- =======================================================
+         SCHEDULING
+         ======================================================= -->
+    <section class="card">
+      <div class="section-heading">
+        <div class="section-title-wrap">
+          <div class="section-icon">📅</div>
+          <div>
+            <div class="section-title">Scheduling <span class="tiny-seal faint">🦭</span></div>
+            <div class="section-subtitle">Estimate job time and prevent accidental double-booking.</div>
+          </div>
+        </div>
+        <div class="section-pill">Time blocking</div>
+      </div>
+
+      <label>Schedule Job</label>
+      <div class="row">
+        <div>
+          <label>Scheduled Date</label>
+          <input id="scheduleDate" type="date" />
+        </div>
+        <div>
+          <label>Start Time</label>
+          <input id="scheduleTime" type="time" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Estimated Job Hours</label>
+          <input id="estimatedHours" type="number" step="0.25" value="3" />
+        </div>
+        <div>
+          <label>Buffer After Job</label>
+          <select id="bufferMinutes">
+            <option value="0">No buffer</option>
+            <option value="30" selected>30 minutes</option>
+            <option value="60">1 hour</option>
+            <option value="90">1.5 hours</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="scheduleSummary" class="warning info">Pick a date/time to check availability.</div>
+
+      <label>Booked Time Blocks</label>
+      <div id="bookedTimes"></div>
+    </section>
+
+    <!-- =======================================================
+         TREE PRICING
+         ======================================================= -->
+    <section class="card service-section" id="treeFields">
+      <div class="section-heading">
+        <div class="section-title-wrap">
+          <div class="section-icon">🌳</div>
+          <div>
+            <div class="section-title">Tree pricing <span class="tiny-seal floaty">🦭</span></div>
+            <div class="section-subtitle">Built for small front-yard removals, stump options, and risk control.</div>
+          </div>
+        </div>
+        <div class="section-pill">Risk adjusted</div>
+      </div>
+
+      <label>Tree Base Size / Complexity</label>
+      <select id="treeSize">
+        <option value="350">Small ornamental / easy tree ($350)</option>
+        <option value="450" selected>Small-medium front-yard tree ($450)</option>
+        <option value="550">Small-medium heavier tree ($550)</option>
+        <option value="750">Medium tree ($750)</option>
+        <option value="1000">Large tree / multiple sections ($1,000)</option>
+      </select>
+
+      <div class="row">
+        <div>
+          <label>Haul Away / Debris Removal</label>
+          <select id="treeHaul">
+            <option value="0">No haul-away</option>
+            <option value="100">Light haul-away (+$100)</option>
+            <option value="150" selected>Normal haul-away (+$150)</option>
+            <option value="250">Heavy haul-away (+$250)</option>
+            <option value="375">Multiple trips / huge debris (+$375)</option>
+          </select>
+        </div>
+        <div>
+          <label>Stump Handling</label>
+          <select id="stump">
+            <option value="0" selected>No stump work included</option>
+            <option value="75">Cut stump low (+$75)</option>
+            <option value="325">Grind small stump (+$325)</option>
+            <option value="475">Grind medium stump (+$475)</option>
+            <option value="650">Grind large stump (+$650)</option>
+            <option value="99999">Full stump/root removal: refer out</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Tree Height</label>
+          <select id="treeHeight">
+            <option value="0">Under 10 ft: no add-on</option>
+            <option value="50">10-15 ft: +$50</option>
+            <option value="125">15-25 ft: +$125</option>
+            <option value="99999">25+ ft / too tall: refer out</option>
+          </select>
+        </div>
+        <div>
+          <label>Trunk Diameter</label>
+          <select id="trunkDiameter">
+            <option value="0">Under 4 inches: no add-on</option>
+            <option value="50">4-8 inches: +$50</option>
+            <option value="100">8-12 inches: +$100</option>
+            <option value="225">12+ inches: +$225 / quote carefully</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Drop Zone</label>
+      <select id="dropZone">
+        <option value="0">Open yard / easy drop: no add-on</option>
+        <option value="100">Near driveway/sidewalk/landscaping but clear fall path (+$100)</option>
+        <option value="150">Near house but controlled drop zone (+$150)</option>
+        <option value="250">Tight near house/structure (+$250)</option>
+        <option value="99999">High risk drop zone: refer out</option>
+      </select>
+
+      <label>Risk Add-on</label>
+      <select id="treeRisk">
+        <option value="0">No extra risk add-on</option>
+        <option value="150">Extra caution / awkward access (+$150)</option>
+        <option value="99999">High risk / tight access: refer out</option>
+      </select>
+    </section>
+
+    <!-- =======================================================
+         SOD PRICING
+         ======================================================= -->
+    <section class="card service-section hidden" id="sodFields">
+      <div class="section-heading">
+        <div class="section-title-wrap">
+          <div class="section-icon">🌱</div>
+          <div>
+            <div class="section-title">Sod pricing</div>
+            <div class="section-subtitle">Square footage, prep, access, irrigation caution, and warranty notes.</div>
+          </div>
+        </div>
+        <div class="section-pill">St. Augustine ready</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Square Feet</label>
+          <input id="sodSqft" type="number" placeholder="Ex: 7000" />
+        </div>
+        <div>
+          <label>Install Rate / Sq Ft</label>
+          <input id="sodRate" type="number" step="0.01" value="1.25" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Sod Cost / Sq Ft</label>
+          <input id="sodCostSqft" type="number" step="0.01" value="0.40" />
+        </div>
+        <div>
+          <label>Waste/Cut Buffer</label>
+          <select id="sodBuffer">
+            <option value="0">0%</option>
+            <option value="5" selected>5%</option>
+            <option value="8">8%</option>
+            <option value="10">10%</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Prep / Removal Rate</label>
+          <input id="prepRate" type="number" step="0.01" value="0.25" />
+        </div>
+        <div>
+          <label>Rental + Gas</label>
+          <input id="sodRental" type="number" placeholder="Ex: 250" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Sod Access Difficulty</label>
+          <select id="sodAccess">
+            <option value="0">Pallets dropped close: no add-on</option>
+            <option value="250">Medium carry / side yard: +$250</option>
+            <option value="500">Long carry / backyard: +$500</option>
+            <option value="800">Tight gate / difficult cart access: +$800</option>
+          </select>
+        </div>
+        <div>
+          <label>Removal / Prep Difficulty</label>
+          <select id="sodPrepDifficulty">
+            <option value="0">Already prepped / easy</option>
+            <option value="350">Light removal: +$350</option>
+            <option value="700">Normal removal: +$700</option>
+            <option value="1200">Heavy removal / leveling: +$1,200</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Irrigation / Sprinklers</label>
+          <select id="sodIrrigation">
+            <option value="0">No irrigation noted</option>
+            <option value="0">Irrigation heads present - customer responsible</option>
+            <option value="150">Extra caution around irrigation: +$150</option>
+          </select>
+        </div>
+        <div>
+          <label>Sod Warranty</label>
+          <select id="sodWarranty">
+            <option value="none">No warranty included</option>
+            <option value="workmanship" selected>30-day workmanship warranty</option>
+            <option value="watering">30-day warranty only with watering instructions followed</option>
+            <option value="declined">Customer declined care/warranty plan</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Sod Watering Instructions</label>
+      <textarea id="sodWateringText" readonly></textarea>
+      <button class="secondary" type="button" id="copySodWateringBtn">Copy Sod Watering Instructions</button>
+    </section>
+
+    <!-- =======================================================
+         MULCH / ROCK PRICING
+         ======================================================= -->
+    <section class="card service-section hidden" id="mulchFields">
+      <div class="section-heading">
+        <div class="section-title-wrap">
+          <div class="section-icon">🪨</div>
+          <div>
+            <div class="section-title">Mulch / rock pricing</div>
+            <div class="section-subtitle">Bag counts, labor, edging, prep, and weed barrier allowances.</div>
+          </div>
+        </div>
+        <div class="section-pill">Bag calculator</div>
+      </div>
+
+      <label>Material Type</label>
+      <select id="materialType">
+        <option value="mulch">Mulch</option>
+        <option value="rock">Rock</option>
+      </select>
+
+      <div class="row">
+        <div>
+          <label>Area Sq Ft</label>
+          <input id="bedSqft" type="number" placeholder="Ex: 125" />
+        </div>
+        <div>
+          <label>Depth Inches</label>
+          <input id="depth" type="number" value="3" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Bag Size Cu Ft</label>
+          <input id="bagSize" type="number" value="2" />
+        </div>
+        <div>
+          <label>Cost Per Bag</label>
+          <input id="bagCost" type="number" step="0.01" value="2" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Install Labor / Bag</label>
+          <input id="bagLabor" type="number" value="6" />
+        </div>
+        <div>
+          <label>Bed Edge</label>
+          <input id="edgeAdd" type="number" value="125" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Weed/Prep Add-on</label>
+          <input id="bedPrep" type="number" value="100" />
+        </div>
+        <div>
+          <label>Weed Barrier Sq Ft</label>
+          <input id="barrierSqft" type="number" placeholder="Optional" />
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         CLEANUP PRICING
+         ======================================================= -->
+    <section class="card service-section hidden" id="cleanupFields">
+      <div class="section-heading">
+        <div class="section-title-wrap">
+          <div class="section-icon">🧹</div>
+          <div>
+            <div class="section-title">Cleanup pricing</div>
+            <div class="section-subtitle">Hourly cleanup, haul-away, and difficulty adjustments.</div>
+          </div>
+        </div>
+        <div class="section-pill">Labor based</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Estimated Hours</label>
+          <input id="hours" type="number" placeholder="Ex: 4" />
+        </div>
+        <div>
+          <label>Your Rate / Hour</label>
+          <input id="hourRate" type="number" value="85" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Haul-away</label>
+          <select id="cleanupHaul">
+            <option value="0">None</option>
+            <option value="100" selected>Normal (+$100)</option>
+            <option value="200">Heavy (+$200)</option>
+          </select>
+        </div>
+        <div>
+          <label>Difficulty</label>
+          <select id="cleanupDiff">
+            <option value="0">Easy</option>
+            <option value="100" selected>Normal (+$100)</option>
+            <option value="250">Heavy / overgrown (+$250)</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         TRIMMING PRICING
+         ======================================================= -->
+    <section class="card service-section hidden" id="trimFields">
+      <div class="section-heading">
+        <div class="section-title-wrap">
+          <div class="section-icon">✂️</div>
+          <div>
+            <div class="section-title">Trimming pricing</div>
+            <div class="section-subtitle">Hedges, small pruning, palms, dead limbs, haul-away, and access risk.</div>
+          </div>
+        </div>
+        <div class="section-pill">Safety first</div>
+      </div>
+
+      <label>Job Size / Difficulty</label>
+      <select id="trimType">
+        <option value="175">Small quick trim ($175)</option>
+        <option value="300" selected>Normal trim ($300)</option>
+        <option value="500">Heavy trim ($500)</option>
+        <option value="750">Severe overgrowth / HOA risk ($750)</option>
+      </select>
+
+      <div class="row">
+        <div>
+          <label>Number of Hedges/Bushes</label>
+          <input id="hedgeCount" type="number" placeholder="Ex: 8" />
+        </div>
+        <div>
+          <label>Extra Per Hedge/Bush</label>
+          <input id="hedgeRate" type="number" value="20" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Small Tree Pruning</label>
+          <select id="smallTreePrune">
+            <option value="0">None</option>
+            <option value="125">Light pruning (+$125)</option>
+            <option value="250">Medium pruning (+$250)</option>
+            <option value="400">Heavy pruning (+$400)</option>
+          </select>
+        </div>
+        <div>
+          <label>Dead Limb Removal</label>
+          <select id="deadLimb">
+            <option value="0">None</option>
+            <option value="100">1-2 small limbs (+$100)</option>
+            <option value="225">Several limbs (+$225)</option>
+            <option value="400">Heavy deadwood (+$400)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Palm Trimming</label>
+          <select id="palmTrim">
+            <option value="0">No palms</option>
+            <option value="125">1 small palm (+$125)</option>
+            <option value="250">2-3 small palms (+$250)</option>
+            <option value="450">4+ palms (+$450)</option>
+          </select>
+        </div>
+        <div>
+          <label>Haul-away / Cleanup</label>
+          <select id="trimHaul">
+            <option value="0">Leave debris</option>
+            <option value="75" selected>Normal haul-away (+$75)</option>
+            <option value="175">Heavy haul-away (+$175)</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Trimming Risk / Access</label>
+      <select id="trimRisk">
+        <option value="0">Easy access</option>
+        <option value="100">Tight access/thorns (+$100)</option>
+        <option value="250">Tall/ladder/risky (+$250)</option>
+        <option value="99999">Refer out / do not quote</option>
+      </select>
+    </section>
+
+    <!-- =======================================================
+         EXTRAS PRICING
+         ======================================================= -->
+    <section class="card service-section hidden" id="extrasFields">
+      <div class="section-heading">
+        <div class="section-title-wrap">
+          <div class="section-icon">💡</div>
+          <div>
+            <div class="section-title">Add-ons pricing</div>
+            <div class="section-subtitle">Plants, lighting, pressure washing, and custom upgrades.</div>
+          </div>
+        </div>
+        <div class="section-pill">Upsell ready</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Plants Installed</label>
+          <input id="plants" type="number" placeholder="Ex: 10" />
+        </div>
+        <div>
+          <label>Install Labor / Plant</label>
+          <input id="plantRate" type="number" value="45" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Landscape Lights</label>
+          <input id="lights" type="number" placeholder="Ex: 6" />
+        </div>
+        <div>
+          <label>Install Labor / Light</label>
+          <input id="lightRate" type="number" value="75" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Pressure Washing</label>
+          <select id="pressure">
+            <option value="0">No</option>
+            <option value="275">Small/medium area ($275)</option>
+            <option value="450">Large area ($450)</option>
+          </select>
+        </div>
+        <div>
+          <label>Custom Add-on</label>
+          <input id="customAdd" type="number" placeholder="Ex: 250" />
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         PAYMENT SETUP
+         ======================================================= -->
+    <section class="card">
+      <div class="section-heading">
+        <div class="section-title-wrap">
+          <div class="section-icon">💳</div>
+          <div>
+            <div class="section-title">Payment setup <span class="tiny-seal faint">🦭</span></div>
+            <div class="section-subtitle">Internal payment links and copyable payment message.</div>
+          </div>
+        </div>
+        <div class="section-pill">Payment later</div>
+      </div>
+
+      <label>Payment Setup</label>
+      <div class="small">Add payment links here. These power the payment buttons on the estimate.</div>
+
+      <div class="row">
+        <div>
+          <label>Stripe Payment Link</label>
+          <input id="stripeLink" placeholder="https://buy.stripe.com/..." />
+        </div>
+        <div>
+          <label>PayPal Link or Email</label>
+          <input id="paypalLink" placeholder="https://paypal.me/... or PayPal email" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Venmo</label>
+          <input id="venmoName" placeholder="Ex: @landonlandscaping" />
+        </div>
+        <div>
+          <label>Apple Cash / Phone</label>
+          <input id="appleCashInfo" placeholder="Ex: 657-417-7599" />
+        </div>
+      </div>
+
+      <label>Payment Message</label>
+      <textarea id="paymentText" readonly></textarea>
+
+      <div class="payment-actions">
+        <button class="secondary" type="button" id="copyPaymentBtn">Copy Payment Message</button>
+        <button class="secondary" type="button" id="openStripeBtn">Open Stripe Link</button>
+        <button class="secondary" type="button" id="openPaypalBtn">Open PayPal Link</button>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         RISK / SCOPE CHECKLISTS
+         ======================================================= -->
+    <section class="card">
+      <div class="section-heading">
+        <div class="section-title-wrap">
+          <div class="section-icon">⚠️</div>
+          <div>
+            <div class="section-title">Risk checklist</div>
+            <div class="section-subtitle">Any checked red flag protects you by forcing refer-out pricing.</div>
+          </div>
+        </div>
+        <div class="section-pill">Do not ignore</div>
+      </div>
+
+      <label>Red Flag Checklist</label>
+      <div class="checks">
+        <label class="check"><input id="redPower" type="checkbox" /> Power lines nearby</label>
+        <label class="check"><input id="redClimb" type="checkbox" /> Climbing required</label>
+        <label class="check"><input id="redLean" type="checkbox" /> Heavy lean</label>
+        <label class="check"><input id="redProperty" type="checkbox" /> Roof/fence/car risk</label>
+        <label class="check"><input id="redAccess" type="checkbox" /> Bad access</label>
+        <label class="check"><input id="redUnsure" type="checkbox" /> I feel unsure</label>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-heading">
+        <div class="section-title-wrap">
+          <div class="section-icon">✅</div>
+          <div>
+            <div class="section-title">Scope checklist</div>
+            <div class="section-subtitle">Controls what the customer quote says is included or excluded.</div>
+          </div>
+        </div>
+        <div class="section-pill">Quote wording</div>
+      </div>
+
+      <label>Scope Checklist</label>
+      <div class="checks">
+        <label class="check"><input id="scopeMaterials" type="checkbox" /> Materials included</label>
+        <label class="check"><input id="scopeHaul" type="checkbox" checked /> Haul-away included</label>
+        <label class="check"><input id="scopeCleanup" type="checkbox" checked /> Cleanup included</label>
+        <label class="check"><input id="scopeEdge" type="checkbox" /> Bed edging included</label>
+        <label class="check"><input id="scopeStumpLow" type="checkbox" /> Stump cut low</label>
+        <label class="check"><input id="scopeNoStump" type="checkbox" checked /> Stump grinding excluded</label>
+        <label class="check"><input id="scopeNoIrrigation" type="checkbox" checked /> Irrigation repair excluded</label>
+        <label class="check"><input id="scopeWarranty" type="checkbox" /> Warranty included</label>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         UNIVERSAL PRICING SETTINGS
+         ======================================================= -->
+    <section class="card">
+      <div class="section-heading">
+        <div class="section-title-wrap">
+          <div class="section-icon">⚙️</div>
+          <div>
+            <div class="section-title">Pricing controls</div>
+            <div class="section-subtitle">Fine-tune discounts, deposits, taxes, rounding, and overrides.</div>
+          </div>
+        </div>
+        <div class="section-pill">Owner settings</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Pricing Mode</label>
+          <select id="pricingMode">
+            <option value="0.92">Competitive</option>
+            <option value="1" selected>Recommended</option>
+            <option value="1.18">Premium</option>
+          </select>
+        </div>
+        <div>
+          <label>Quote Style</label>
+          <select id="quoteStyle">
+            <option value="short">Short</option>
+            <option value="detailed" selected>Detailed</option>
+            <option value="friendly">Friendly</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Target Profit / Hour</label>
+          <input id="targetHourlyProfit" type="number" value="100" />
+        </div>
+        <div>
+          <label>Manual Final Price Override</label>
+          <input id="manualPrice" type="number" placeholder="Optional" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Labor-Only Discount %</label>
+          <input id="laborDiscount" type="number" value="0" />
+        </div>
+        <div>
+          <label>Discount Reason</label>
+          <select id="discountReason">
+            <option>No discount</option>
+            <option>Referral / neighbor</option>
+            <option>Repeat customer</option>
+            <option>Bundle discount</option>
+            <option>Competitive close</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Negotiation Floor</label>
+          <input id="negotiationFloor" type="number" placeholder="Auto if blank" />
+        </div>
+        <div>
+          <label>Deposit Due</label>
+          <select id="depositDue">
+            <option>Before scheduling</option>
+            <option>Before materials are ordered</option>
+            <option>Upon acceptance</option>
+            <option>None</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Extra Material Cost</label>
+          <input id="materials" type="number" placeholder="Optional" />
+        </div>
+        <div>
+          <label>Helper Cost</label>
+          <input id="helperCost" type="number" placeholder="Optional" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Dump / Rental / Fuel</label>
+          <input id="fees" type="number" placeholder="Optional" />
+        </div>
+        <div>
+          <label>Material Markup %</label>
+          <input id="materialMarkup" type="number" value="35" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Sales Tax %</label>
+          <input id="taxRate" type="number" step="0.1" value="7" />
+        </div>
+        <div>
+          <label>Sales Tax</label>
+          <select id="taxMode">
+            <option value="materials" selected>Tax materials only</option>
+            <option value="full">Tax full job</option>
+            <option value="none">No tax</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Deposit</label>
+          <select id="deposit">
+            <option value="auto" selected>Auto by job type</option>
+            <option value="0">No deposit</option>
+            <option value="25">25%</option>
+            <option value="50">50%</option>
+            <option value="custom">Custom amount</option>
+          </select>
+        </div>
+        <div>
+          <label>Custom Deposit $</label>
+          <input id="customDeposit" type="number" placeholder="Optional" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Round Price To</label>
+          <select id="roundTo">
+            <option value="1">Exact</option>
+            <option value="25" selected>$25</option>
+            <option value="50">$50</option>
+            <option value="100">$100</option>
+          </select>
+        </div>
+        <div>
+          <label>Scheduling Line</label>
+          <select id="scheduleLine">
+            <option value="yes" selected>Include</option>
+            <option value="no">Remove</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         RESULTS / TEXT GENERATORS
+         ======================================================= -->
+    <section class="card">
+      <div class="section-heading">
+        <div class="section-title-wrap">
+          <div class="section-icon">📈</div>
+          <div>
+            <div class="section-title">Pricing result</div>
+            <div class="section-subtitle">Your recommended price, margin, quote text, and internal notes.</div>
+          </div>
+        </div>
+        <div class="section-pill">Decision center</div>
+      </div>
+
+      <div class="result">
+        <div class="price-hero-top">
+          <div>
+            <div class="price-kicker">Decision center <span class="tiny-seal floaty">🦭</span></div>
+            <div class="price-hero-label">Recommended Price</div>
+          </div>
+          <div class="price-confidence">
+            <div class="confidence-pill" id="confidencePill">Smart quote</div>
+            <div class="owner-pill">Owner only</div>
+          </div>
+        </div>
+
+        <div class="price-main-wrap">
+          <div class="price-main-panel">
+            <div class="main-price" id="finalPrice">$0</div>
+            <span class="tag" id="marginTag">0% margin</span>
+
+            <div class="price-grid">
+              <div class="price-box">
+                <div class="label">Minimum</div>
+                <div class="price" id="minPrice">$0</div>
+              </div>
+              <div class="price-box">
+                <div class="label">Recommended</div>
+                <div class="price" id="recPrice">$0</div>
+              </div>
+              <div class="price-box">
+                <div class="label">Premium</div>
+                <div class="price" id="premiumPrice">$0</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="decision-card">
+            <div class="decision-title" id="decisionTitle">Quote guidance</div>
+            <div class="decision-subtitle" id="decisionSubtitle">Use this panel to decide whether to send, discount, or protect margin.</div>
+            <div class="decision-list">
+              <div class="decision-item"><strong>Close price</strong><span id="closePrice">$0</span></div>
+              <div class="decision-item"><strong>Floor</strong><span id="floorPrice">$0</span></div>
+              <div class="decision-item"><strong>Premium ask</strong><span id="premiumAsk">$0</span></div>
+            </div>
+            <div class="result-action-row">
+              <div class="result-action-chip">Send quote</div>
+              <div class="result-action-chip">Save lead</div>
+              <div class="result-action-chip">Protect margin</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="profit-meter-card">
+          <div class="meter-top"><span>Margin strength</span><span id="meterLabel">0%</span></div>
+          <div class="meter-track"><div class="meter-fill" id="marginMeterFill"></div></div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Profit</div>
+            <div class="kpi-value" id="kpiProfit">$0</div>
+            <div class="kpi-note">before tax</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">True cost</div>
+            <div class="kpi-value" id="kpiCost">$0</div>
+            <div class="kpi-note">cash cost</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Deposit</div>
+            <div class="kpi-value" id="kpiDeposit">$0</div>
+            <div class="kpi-note">due upfront</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Hourly</div>
+            <div class="kpi-value" id="kpiHourly">$0/hr</div>
+            <div class="kpi-note">profit target</div>
+          </div>
+        </div>
+
+        <div class="breakdown-title-row"><strong>Cost breakdown</strong><span id="breakdownBadge">Live math</span></div>
+        <div class="breakdown" id="breakdown"></div>
+        <div id="warnings"></div>
+      </div>
+
+      <label>Customer Quote</label>
+      <textarea id="quoteText" readonly></textarea>
+      <button type="button" id="copyQuoteBtn">Copy Customer Quote</button>
+
+      <label>Internal Notes / Shopping List</label>
+      <textarea id="internalText" readonly></textarea>
+      <button class="secondary" type="button" id="copyInternalBtn">Copy Internal Notes</button>
+
+      <label>Follow-Up Text Generator</label>
+      <select id="followType">
+        <option value="follow">Follow up after quote</option>
+        <option value="confirm">Confirm schedule</option>
+        <option value="daybefore">Day-before reminder</option>
+        <option value="thanks">Completed / thank you</option>
+        <option value="review">Ask for review</option>
+        <option value="photo">Ask photo permission</option>
+        <option value="payment">Payment reminder</option>
+      </select>
+      <textarea id="followText" readonly></textarea>
+      <button class="secondary" type="button" id="copyFollowBtn">Copy Follow-Up Text</button>
+
+      <button type="button" id="saveJobBtn">Save This Job</button>
+      <button class="secondary" type="button" id="saveDefaultsBtn">Save My Defaults</button>
+      <button class="danger" type="button" id="resetBtn">Reset Current Job</button>
+    </section>
+
+    <!-- =======================================================
+         ESTIMATE PREVIEW
+         ======================================================= -->
+    <section class="card">
+      <div class="section-heading">
+        <div class="section-title-wrap">
+          <div class="section-icon">🧾</div>
+          <div>
+            <div class="section-title">Estimate preview</div>
+            <div class="section-subtitle">This is the part customers can see or receive as a PDF.</div>
+          </div>
+        </div>
+        <div class="section-pill">Customer-facing</div>
+      </div>
+
+      <label>Professional Estimate Preview</label>
+      <div class="small">Customer-facing estimate with payment buttons.</div>
+
+      <div id="printArea">
+        <div id="estimatePreview" class="estimate-preview"></div>
+      </div>
+
+      <button class="secondary no-print" type="button" id="printEstimateBtn">Print / Save Estimate as PDF</button>
+
+      <div class="invoice-action-bar no-print">
+        <button type="button" class="invoice-pay-btn stripe" id="estimateStripeBtn">Pay with Stripe</button>
+        <button type="button" class="invoice-pay-btn paypal" id="estimatePaypalBtn">Pay with PayPal</button>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         SAVED JOBS
+         ======================================================= -->
+    <section class="card">
+      <div class="section-heading">
+        <div class="section-title-wrap">
+          <div class="section-icon">💾</div>
+          <div>
+            <div class="section-title">Saved jobs</div>
+            <div class="section-subtitle">Track leads, quotes, completed work, and backup your data.</div>
+          </div>
+        </div>
+        <div class="section-pill">Local storage</div>
+      </div>
+
+      <label>Saved Jobs</label>
+      <div class="small">Saved on this device only. Use this to track leads, quotes, completed jobs, and lost jobs.</div>
+      <div id="savedJobs"></div>
+
+      <button class="secondary" type="button" id="exportJobsBtn">Export Saved Jobs Backup</button>
+
+      <label>Import Saved Jobs Backup</label>
+      <textarea id="importJobsText" placeholder="Paste exported backup text here"></textarea>
+      <button class="secondary" type="button" id="importJobsBtn">Import Backup</button>
+      <button class="danger" type="button" id="clearJobsBtn">Clear Saved Jobs</button>
+    </section>
+
+    <div class="footer-note">
+      <span class="tiny-seal faint">🦭</span>
+    </div>
   </div>
 
-  <script src="app.js"></script> <!-- Link to core logic -->
+  <script>
+    /* =========================================================
+       LANDON LANDSCAPING LLC PRICING APP JAVASCRIPT
+       ---------------------------------------------------------
+       Sections:
+       1. App state and helpers
+       2. Job switching and presets
+       3. Scheduling and saved jobs
+       4. Pricing math
+       5. Estimate line items
+       6. UI rendering
+       7. Text generators
+       8. Payment / print / copy
+       9. Defaults, reset, and event binding
+       ========================================================= */
+
+    /* ---------- 1. App state and helpers ---------- */
+    var currentJob = 'tree';
+
+    var lastCalc = {
+      price: 0,
+      total: 0,
+      min: 0,
+      premiumTotal: 0,
+      trueCost: 0,
+      profit: 0,
+      margin: 0,
+      deposit: 0,
+      remaining: 0,
+      tax: 0
+    };
+
+    var serviceSections = [
+      'treeFields',
+      'sodFields',
+      'mulchFields',
+      'cleanupFields',
+      'trimFields',
+      'extrasFields'
+    ];
+
+    var jobTabs = [
+      'tree',
+      'sod',
+      'mulch',
+      'cleanup',
+      'trim',
+      'extras'
+    ];
+
+    var weedBarrierRate = 0.85;
+
+    function el(id) {
+      return document.getElementById(id);
+    }
+
+    function money(value) {
+      return '$' + Math.round(Number(value) || 0).toLocaleString();
+    }
+
+    function num(id) {
+      var element = el(id);
+      return element ? Number(element.value) || 0 : 0;
+    }
+
+    function val(id) {
+      var element = el(id);
+      return element ? element.value : '';
+    }
+
+    function txt(id) {
+      var element = el(id);
+      return element ? element.value.trim() : '';
+    }
+
+    function checked(id) {
+      var element = el(id);
+      return element ? element.checked : false;
+    }
+
+    function setChecked(id, value) {
+      var element = el(id);
+      if (element) element.checked = value;
+    }
+
+    function setValue(id, value) {
+      var element = el(id);
+      if (element) element.value = value;
+    }
+
+    function roundUp(value, roundTo) {
+      if (roundTo <= 1) return value;
+      return Math.ceil(value / roundTo) * roundTo;
+    }
+
+    /* ---------- 2. Job switching and presets ---------- */
+    function setJob(job) {
+      currentJob = job;
+
+      serviceSections.forEach(function(sectionId) {
+        el(sectionId).classList.add('hidden');
+      });
+
+      el(job + 'Fields').classList.remove('hidden');
+
+      jobTabs.forEach(function(tabName) {
+        el('tab-' + tabName).classList.remove('active');
+      });
+
+      el('tab-' + job).classList.add('active');
+
+      applyScopeDefaults();
+      calculate();
+    }
+
+    function applyScopeDefaults() {
+      setChecked('scopeMaterials', currentJob === 'sod' || currentJob === 'mulch' || currentJob === 'extras');
+      setChecked('scopeWarranty', currentJob === 'sod');
+      setChecked('scopeEdge', currentJob === 'mulch');
+      setChecked('scopeNoStump', currentJob === 'tree');
+      setChecked('scopeStumpLow', false);
+    }
+
+    function applyPreset(presetName) {
+      if (presetName === 'smallTree') {
+        setJob('tree');
+        setValue('treeSize', '450');
+        setValue('treeHaul', '150');
+        setValue('stump', '0');
+        setValue('treeHeight', '50');
+        setValue('trunkDiameter', '50');
+        setValue('dropZone', '0');
+        setValue('treeRisk', '0');
+        setValue('fees', '50');
+        setValue('helperCost', '0');
+      }
+
+      if (presetName === 'smallMulch') {
+        setJob('mulch');
+        setValue('bedSqft', '125');
+        setValue('depth', '3');
+        setValue('bagSize', '2');
+        setValue('bagCost', '2');
+        setValue('bagLabor', '6');
+        setValue('edgeAdd', '125');
+        setValue('bedPrep', '100');
+      }
+
+      if (presetName === 'sod7000') {
+        setJob('sod');
+        setValue('sodSqft', '7000');
+        setValue('sodRate', '1.25');
+        setValue('sodCostSqft', '0.40');
+        setValue('sodBuffer', '5');
+        setValue('prepRate', '0.25');
+        setValue('sodRental', '300');
+        setValue('helperCost', '1250');
+      }
+
+      if (presetName === 'cleanupHalfDay') {
+        setJob('cleanup');
+        setValue('hours', '4');
+        setValue('hourRate', '85');
+        setValue('cleanupHaul', '100');
+        setValue('cleanupDiff', '100');
+      }
+
+      calculate();
+    }
+
+    function jobName() {
+      var names = {
+        tree: 'tree removal',
+        sod: 'sod installation',
+        mulch: 'mulch/rock installation',
+        cleanup: 'property cleanup',
+        trim: 'tree/hedge trimming',
+        extras: 'landscape add-ons'
+      };
+
+      return names[currentJob] || 'landscaping service';
+    }
+
+    /* ---------- 3. Scheduling and saved jobs ---------- */
+    function scheduledStartEnd() {
+      var date = val('scheduleDate');
+      var time = val('scheduleTime');
+      var hours = num('estimatedHours');
+      var bufferMinutes = num('bufferMinutes');
+
+      if (!date || !time || !hours) return null;
+
+      var start = new Date(date + 'T' + time);
+      var end = new Date(start.getTime() + (hours * 60 + bufferMinutes) * 60 * 1000);
+
+      return {
+        start: start,
+        end: end
+      };
+    }
+
+    function formatTimeRange(start, end) {
+      var options = {
+        hour: 'numeric',
+        minute: '2-digit'
+      };
+
+      return start.toLocaleTimeString([], options) + ' - ' + end.toLocaleTimeString([], options);
+    }
+
+    function savedJobs() {
+      return JSON.parse(localStorage.getItem('ll_jobs') || '[]');
+    }
+
+    function scheduledConflict() {
+      var currentTimeBlock = scheduledStartEnd();
+      var conflicts = [];
+
+      if (!currentTimeBlock) return conflicts;
+
+      savedJobs().forEach(function(job) {
+        if (!job.startISO || !job.endISO) return;
+
+        var existingStart = new Date(job.startISO);
+        var existingEnd = new Date(job.endISO);
+
+        var overlaps = currentTimeBlock.start < existingEnd && currentTimeBlock.end > existingStart;
+
+        if (overlaps) conflicts.push(job);
+      });
+
+      return conflicts;
+    }
+
+    function renderBookedTimes() {
+      var selectedDate = val('scheduleDate');
+      var html = '';
+
+      savedJobs().forEach(function(job) {
+        if (!job.startISO) return;
+        if (selectedDate && job.startISO.indexOf(selectedDate) !== 0) return;
+
+        var start = new Date(job.startISO);
+        var end = new Date(job.endISO);
+
+        html += '<div class="time-block">';
+        html += '<strong>' + job.customer + '</strong> - ' + job.job + '<br>';
+        html += start.toLocaleDateString() + ' • ' + formatTimeRange(start, end) + '<br>';
+        html += '<span class="status-pill">' + job.status + '</span>';
+        html += '</div>';
+      });
+
+      el('bookedTimes').innerHTML = html || '<div class="small">No saved booked times for this date yet.</div>';
+    }
+
+    function saveJob() {
+      var scheduled = scheduledStartEnd();
+      var conflicts = scheduledConflict();
+
+      if (conflicts.length > 0) {
+        var list = '';
+
+        conflicts.forEach(function(job) {
+          var start = new Date(job.startISO);
+          var end = new Date(job.endISO);
+          list += job.customer + ' - ' + job.job + ' (' + start.toLocaleDateString() + ' • ' + formatTimeRange(start, end) + ')\n';
+        });
+
+        alert('Schedule conflict. This job overlaps with:\n\n' + list + '\nPick a different start time, shorten the estimated hours, or adjust the buffer before saving.');
+        return;
+      }
+
+      var jobs = savedJobs();
+
+      jobs.unshift({
+        date: new Date().toLocaleString(),
+        startISO: scheduled ? scheduled.start.toISOString() : '',
+        endISO: scheduled ? scheduled.end.toISOString() : '',
+        customer: txt('customer') || 'Unnamed',
+        info: txt('customerInfo'),
+        job: jobName(),
+        status: val('jobStatus'),
+        leadSource: val('leadSource'),
+        priority: val('jobPriority'),
+        total: money(lastCalc.total),
+        profit: money(lastCalc.profit),
+        margin: Math.round(lastCalc.margin) + '%',
+        notes: txt('notes')
+      });
+
+      localStorage.setItem('ll_jobs', JSON.stringify(jobs.slice(0, 50)));
+
+      renderJobs();
+      renderBookedTimes();
+      alert('Job saved');
+    }
+
+    function renderJobs() {
+      var jobs = savedJobs();
+
+      if (!jobs.length) {
+        el('savedJobs').innerHTML = '<div class="small">No saved jobs yet.</div>';
+        return;
+      }
+
+      var html = '';
+
+      jobs.forEach(function(job, index) {
+        var scheduleLine = '';
+
+        if (job.startISO) {
+          var start = new Date(job.startISO);
+          var end = new Date(job.endISO);
+          scheduleLine = 'Scheduled: ' + start.toLocaleDateString() + ' • ' + formatTimeRange(start, end) + '<br>';
+        }
+
+        html += '<div class="job-card">';
+        html += '<strong>' + job.customer + '</strong> - ' + job.job + '<br>';
+        html += job.date + '<br>';
+        html += 'Status: ' + job.status + '<br>';
+        html += scheduleLine;
+        html += 'Lead: ' + (job.leadSource || 'N/A') + ' | Priority: ' + (job.priority || 'N/A') + '<br>';
+        html += 'Total: ' + job.total + ' | Profit: ' + job.profit + ' | Margin: ' + job.margin + '<br>';
+        html += (job.notes || '') + '<br>';
+        html += '<button class="secondary" type="button" data-delete-index="' + index + '">Delete</button>';
+        html += '</div>';
+      });
+
+      el('savedJobs').innerHTML = html;
+    }
+
+    function deleteJob(index) {
+      var jobs = savedJobs();
+      jobs.splice(index, 1);
+      localStorage.setItem('ll_jobs', JSON.stringify(jobs));
+      renderJobs();
+      renderBookedTimes();
+      calculate();
+    }
+
+    /* ---------- 4. Pricing math ---------- */
+    function minForJob() {
+      if (currentJob === 'mulch' && val('materialType') === 'rock') return 350;
+
+      var minimums = {
+        tree: 500,
+        sod: 1000,
+        mulch: 275,
+        cleanup: 200,
+        trim: 175,
+        extras: 150
+      };
+
+      return minimums[currentJob] || 100;
+    }
+
+    function autoDepositPercent() {
+      var percentages = {
+        tree: 25,
+        sod: 50,
+        mulch: 50,
+        cleanup: 0,
+        trim: 0,
+        extras: 50
+      };
+
+      return percentages[currentJob] || 0;
+    }
+
+    function hasTreeOrTrimRedFlags() {
+      return checked('redPower') ||
+        checked('redClimb') ||
+        checked('redLean') ||
+        checked('redProperty') ||
+        checked('redAccess') ||
+        checked('redUnsure');
+    }
+
+    function travelFee() {
+      return num('driveTime');
+    }
+
+    function mulchBags() {
+      if (currentJob !== 'mulch') return 0;
+
+      var cubicFeetNeeded = num('bedSqft') * (num('depth') / 12);
+      var bagSize = num('bagSize') || 2;
+
+      return Math.ceil(cubicFeetNeeded / bagSize);
+    }
+
+    function serviceBase() {
+      if (currentJob === 'tree') return treeBasePrice();
+      if (currentJob === 'sod') return sodBasePrice();
+      if (currentJob === 'mulch') return mulchBasePrice();
+      if (currentJob === 'cleanup') return cleanupBasePrice();
+      if (currentJob === 'trim') return trimBasePrice();
+      if (currentJob === 'extras') return extrasBasePrice();
+
+      return 0;
+    }
+
+    function treeBasePrice() {
+      var stump = num('stump');
+      var height = num('treeHeight');
+      var dropZone = num('dropZone');
+      var treeRisk = num('treeRisk');
+
+      if (stump >= 99999 || height >= 99999 || dropZone >= 99999 || treeRisk >= 99999 || hasTreeOrTrimRedFlags()) {
+        return 99999;
+      }
+
+      return num('treeSize') +
+        num('treeHaul') +
+        stump +
+        height +
+        num('trunkDiameter') +
+        dropZone +
+        treeRisk;
+    }
+
+    function sodBasePrice() {
+      var sqft = num('sodSqft');
+      var billableSqft = sqft * (1 + num('sodBuffer') / 100);
+
+      return (billableSqft * num('sodRate')) +
+        (sqft * num('prepRate')) +
+        num('sodRental') +
+        num('sodAccess') +
+        num('sodPrepDifficulty') +
+        num('sodIrrigation');
+    }
+
+    function mulchBasePrice() {
+      var laborPerBag = val('materialType') === 'rock'
+        ? Math.max(num('bagLabor'), 10)
+        : num('bagLabor');
+
+      return mulchBags() * (num('bagCost') + laborPerBag) +
+        num('edgeAdd') +
+        num('bedPrep') +
+        (num('barrierSqft') * weedBarrierRate);
+    }
+
+    function cleanupBasePrice() {
+      return (num('hours') * num('hourRate')) +
+        num('cleanupHaul') +
+        num('cleanupDiff');
+    }
+
+    function trimBasePrice() {
+      if (num('trimRisk') >= 99999 || hasTreeOrTrimRedFlags()) return 99999;
+
+      return num('trimType') +
+        (num('hedgeCount') * num('hedgeRate')) +
+        num('smallTreePrune') +
+        num('deadLimb') +
+        num('palmTrim') +
+        num('trimHaul') +
+        num('trimRisk');
+    }
+
+    function extrasBasePrice() {
+      return (num('plants') * num('plantRate')) +
+        (num('lights') * num('lightRate')) +
+        num('pressure') +
+        num('customAdd');
+    }
+
+    function materialCost() {
+      if (currentJob === 'sod') {
+        return num('sodSqft') * (1 + num('sodBuffer') / 100) * num('sodCostSqft');
+      }
+
+      if (currentJob === 'mulch') {
+        return mulchBags() * num('bagCost');
+      }
+
+      return 0;
+    }
+
+    function depositAmount(total) {
+      if (val('deposit') === 'custom') return num('customDeposit');
+
+      var percentage = val('deposit') === 'auto'
+        ? autoDepositPercent()
+        : Number(val('deposit'));
+
+      return total * (percentage / 100);
+    }
+
+    function calculate() {
+      try {
+        var base = serviceBase();
+        var autoMaterials = materialCost();
+        var extraMaterials = num('materials');
+        var trueMaterials = autoMaterials + extraMaterials;
+        var markedExtraMaterials = extraMaterials * (1 + num('materialMarkup') / 100);
+        var helperCost = num('helperCost');
+        var fees = num('fees') + travelFee();
+        var roundTo = num('roundTo');
+        var pricingMode = Number(val('pricingMode'));
+        var subtotal = base + markedExtraMaterials + helperCost + fees;
+        var laborDiscount = base < 99999 ? base * (num('laborDiscount') / 100) : 0;
+
+        var price = roundUp(Math.max(subtotal * pricingMode - laborDiscount, minForJob()), roundTo);
+
+        if (num('manualPrice') > 0) {
+          price = num('manualPrice');
+        }
+
+        var min = roundUp(Math.max(price * 0.92, minForJob()), roundTo);
+        var premium = roundUp(price * 1.18, roundTo);
+        var taxable = taxableAmount(price, trueMaterials);
+        var tax = val('taxMode') === 'none' ? 0 : taxable * (num('taxRate') / 100);
+        var total = price + tax;
+        var premiumTotal = premium + (val('taxMode') === 'full' ? premium * (num('taxRate') / 100) : tax);
+        var trueCost = trueMaterials + helperCost + fees;
+        var profit = base >= 99999 ? 0 : price - trueCost;
+        var margin = price > 0 && base < 99999 ? profit / price * 100 : 0;
+        var deposit = depositAmount(total);
+        var remaining = total - deposit;
+
+        lastCalc = {
+          price: price,
+          total: total,
+          min: min,
+          premiumTotal: premiumTotal,
+          trueCost: trueCost,
+          profit: profit,
+          margin: margin,
+          deposit: deposit,
+          remaining: remaining,
+          tax: tax
+        };
+
+        updateResults(base, trueMaterials, helperCost, fees, tax, deposit, remaining, profit);
+        updateWarnings(base, margin);
+        renderBookedTimes();
+        makeQuote();
+        makeInternalNotes();
+        makeFollowUp();
+        makeEstimatePreview();
+        makePaymentText();
+        makeSodWateringText();
+      } catch (err) {
+        el('warnings').innerHTML = '<div class="warning bad"><strong>App error:</strong> ' + err.message + '</div>';
+      }
+    }
+
+    function taxableAmount(price, trueMaterials) {
+      if (val('taxMode') === 'materials') return trueMaterials;
+      if (val('taxMode') === 'full') return price;
+      return 0;
+    }
+
+    /* ---------- 5. Estimate line items ---------- */
+    function buildEstimateLineItems() {
+      var items = [];
+      var serviceTotal = 0;
+
+      function addItem(title, detail, amount) {
+        amount = Number(amount) || 0;
+        if (amount === 0) return;
+
+        items.push({
+          title: title,
+          detail: detail,
+          amount: amount
+        });
+
+        serviceTotal += amount;
+      }
+
+      addJobSpecificLineItems(addItem);
+      addUniversalLineItems(addItem);
+      addPricingAdjustmentLineItem(addItem, serviceTotal);
+
+      if (!items.length) {
+        addItem(jobName(), 'Professional landscaping service based on the discussed scope.', lastCalc.price);
+      }
+
+      return items;
+    }
+
+    function addJobSpecificLineItems(addItem) {
+      if (currentJob === 'tree') addTreeLineItems(addItem);
+      if (currentJob === 'sod') addSodLineItems(addItem);
+      if (currentJob === 'mulch') addMulchLineItems(addItem);
+      if (currentJob === 'cleanup') addCleanupLineItems(addItem);
+      if (currentJob === 'trim') addTrimLineItems(addItem);
+      if (currentJob === 'extras') addExtrasLineItems(addItem);
+    }
+
+    function addTreeLineItems(addItem) {
+      addItem('Tree removal', 'Cut down and remove tree based on selected size/scope.', num('treeSize'));
+      addItem('Haul-away and cleanup', 'Cleanup and haul-away of tree debris based on selected debris amount.', num('treeHaul'));
+      addItem('Stump handling', 'Stump work selected for this estimate, if any. Stump grinding includes grinder rental allowance, labor, and basic cleanup.', num('stump') < 99999 ? num('stump') : 0);
+      addItem('Tree height adjustment', 'Additional labor/risk based on tree height.', num('treeHeight') < 99999 ? num('treeHeight') : 0);
+      addItem('Trunk diameter adjustment', 'Additional cutting, weight, and handling based on trunk diameter.', num('trunkDiameter'));
+      addItem('Drop zone adjustment', 'Added difficulty for limited space or nearby structures.', num('dropZone') < 99999 ? num('dropZone') : 0);
+      addItem('Risk / access adjustment', 'Added difficulty for awkward access or extra caution.', num('treeRisk') < 99999 ? num('treeRisk') : 0);
+    }
+
+    function addSodLineItems(addItem) {
+      var sqft = num('sodSqft');
+      var billableSqft = sqft * (1 + num('sodBuffer') / 100);
+
+      addItem('Sod installation labor', Math.round(billableSqft).toLocaleString() + ' sq ft including buffer.', billableSqft * num('sodRate'));
+      addItem('Prep / removal', 'Ground prep and install preparation.', sqft * num('prepRate'));
+      addItem('Rental / gas', 'Rental equipment, gas, and job-related equipment cost.', num('sodRental'));
+      addItem('Sod access difficulty', 'Added labor for carry distance, backyard access, gates, or cart difficulty.', num('sodAccess'));
+      addItem('Removal / prep difficulty', 'Added cost for removal, leveling, rough grading, or difficult prep.', num('sodPrepDifficulty'));
+      addItem('Irrigation caution', 'Extra caution around irrigation heads or sprinkler areas.', num('sodIrrigation'));
+    }
+
+    function addMulchLineItems(addItem) {
+      var bags = mulchBags();
+      var laborPerBag = val('materialType') === 'rock'
+        ? Math.max(num('bagLabor'), 10)
+        : num('bagLabor');
+      var materialLabel = val('materialType') === 'rock' ? 'Rock' : 'Mulch';
+
+      addItem(materialLabel + ' material', bags + ' bag(s) estimated.', bags * num('bagCost'));
+      addItem(materialLabel + ' installation labor', 'Install labor based on material difficulty.', bags * laborPerBag);
+      addItem('Bed edging', 'Clean bed edge / border preparation if selected.', num('edgeAdd'));
+      addItem('Bed prep / weed cleanup', 'Prep beds before material installation.', num('bedPrep'));
+      addItem('Weed barrier', 'Weed barrier material/install allowance.', num('barrierSqft') * weedBarrierRate);
+    }
+
+    function addCleanupLineItems(addItem) {
+      addItem('Property cleanup labor', num('hours') + ' estimated hour(s).', num('hours') * num('hourRate'));
+      addItem('Haul-away', 'Normal or heavy debris haul-away.', num('cleanupHaul'));
+      addItem('Difficulty adjustment', 'Added cost for overgrowth or difficult conditions.', num('cleanupDiff'));
+    }
+
+    function addTrimLineItems(addItem) {
+      addItem('Trimming service', 'Tree/hedge trimming based on selected size and difficulty.', num('trimType'));
+      addItem('Extra hedge/bush trimming', num('hedgeCount') + ' hedge/bush add-on(s).', num('hedgeCount') * num('hedgeRate'));
+      addItem('Small tree pruning', 'Small tree pruning add-on if selected.', num('smallTreePrune'));
+      addItem('Dead limb removal', 'Dead limb/deadwood removal if selected.', num('deadLimb'));
+      addItem('Palm trimming', 'Palm trimming add-on if selected.', num('palmTrim'));
+      addItem('Haul-away and cleanup', 'Cleanup/haul-away for trimming debris.', num('trimHaul'));
+      addItem('Risk / access adjustment', 'Added difficulty for ladder, access, height, or risk.', num('trimRisk') < 99999 ? num('trimRisk') : 0);
+    }
+
+    function addExtrasLineItems(addItem) {
+      addItem('Plant installation', num('plants') + ' plant(s) installed.', num('plants') * num('plantRate'));
+      addItem('Landscape light installation', num('lights') + ' light(s) installed.', num('lights') * num('lightRate'));
+      addItem('Pressure washing', 'Pressure washing add-on if selected.', num('pressure'));
+      addItem('Custom add-on', 'Custom landscape add-on/service.', num('customAdd'));
+    }
+
+    function addUniversalLineItems(addItem) {
+      addItem('Extra materials', 'Additional material cost entered for this job.', num('materials') * (1 + num('materialMarkup') / 100));
+      addItem('Helper / crew cost', 'Helper or crew labor cost included in this quote.', num('helperCost'));
+      addItem('Dump / rental / fuel / travel', 'Job-related travel, dump, rental, or fuel expense.', num('fees') + travelFee());
+    }
+
+    function addPricingAdjustmentLineItem(addItem, serviceTotal) {
+      var difference = lastCalc.price - serviceTotal;
+
+      if (Math.abs(difference) < 1 || lastCalc.price >= 99999) return;
+
+      if (difference > 0) {
+        addItem('Pricing adjustment', 'Pricing mode, minimum, rounding, or final quote adjustment.', difference);
+      } else {
+        addItem('Labor discount', 'Discount or manual price adjustment applied.', difference);
+      }
+    }
+
+    /* ---------- 6. UI rendering ---------- */
+    function updateResults(base, trueMaterials, helperCost, fees, tax, deposit, remaining, profit) {
+      var profitPerHour = lastCalc.profit / Math.max(num('estimatedHours'), 1);
+      var negotiationFloor = num('negotiationFloor') || Math.max(lastCalc.trueCost + 100, lastCalc.price - 75);
+      var closePrice = Math.max(negotiationFloor, roundUp(lastCalc.price * 0.9, num('roundTo')));
+      var meterPercent = Math.max(0, Math.min(100, Math.round(lastCalc.margin)));
+
+      el('finalPrice').textContent = base >= 99999 ? 'REFER OUT' : money(lastCalc.total);
+      el('minPrice').textContent = money(lastCalc.min);
+      el('recPrice').textContent = base >= 99999 ? 'Refer' : money(lastCalc.total);
+      el('premiumPrice').textContent = money(lastCalc.premiumTotal);
+      el('marginTag').textContent = Math.round(lastCalc.margin) + '% margin';
+
+      if (el('confidencePill')) el('confidencePill').textContent = base >= 99999 ? 'Refer out' : (lastCalc.margin >= 70 ? 'Strong quote' : lastCalc.margin >= 45 ? 'Healthy quote' : 'Check margin');
+      if (el('decisionTitle')) el('decisionTitle').textContent = base >= 99999 ? 'Do not quote this job' : 'Quote guidance';
+      if (el('decisionSubtitle')) el('decisionSubtitle').textContent = base >= 99999 ? 'This job has a safety/risk flag. Refer out or quote separately.' : 'Use this panel to decide whether to send, discount, or protect margin.';
+      if (el('closePrice')) el('closePrice').textContent = base >= 99999 ? 'Refer' : money(closePrice);
+      if (el('floorPrice')) el('floorPrice').textContent = base >= 99999 ? 'Refer' : money(negotiationFloor);
+      if (el('premiumAsk')) el('premiumAsk').textContent = base >= 99999 ? 'Refer' : money(lastCalc.premiumTotal);
+      if (el('meterLabel')) el('meterLabel').textContent = base >= 99999 ? 'Risk flag' : Math.round(lastCalc.margin) + '%';
+      if (el('marginMeterFill')) el('marginMeterFill').style.width = base >= 99999 ? '100%' : meterPercent + '%';
+      if (el('kpiProfit')) el('kpiProfit').textContent = base >= 99999 ? '$0' : money(profit);
+      if (el('kpiCost')) el('kpiCost').textContent = money(lastCalc.trueCost);
+      if (el('kpiDeposit')) el('kpiDeposit').textContent = money(deposit);
+      if (el('kpiHourly')) el('kpiHourly').textContent = base >= 99999 ? '$0/hr' : money(profitPerHour) + '/hr';
+      if (el('breakdownBadge')) el('breakdownBadge').textContent = currentJob.toUpperCase() + ' • live math';
+
+      var extraJobInfo = buildExtraJobInfo();
+
+      el('breakdown').innerHTML =
+        extraJobInfo +
+        'Service base: <strong>' + (base >= 99999 ? 'REFER OUT' : money(base)) + '</strong><br>' +
+        'True cost: <strong>' + money(lastCalc.trueCost) + '</strong><br>' +
+        'Est. material cost: <strong>' + money(trueMaterials) + '</strong><br>' +
+        'Helper cost: <strong>' + money(helperCost) + '</strong><br>' +
+        'Dump/rental/fuel/travel: <strong>' + money(fees) + '</strong><br>' +
+        'Profit per hour: <strong>' + money(profitPerHour) + '/hr</strong><br>' +
+        'Negotiation floor: <strong>' + money(negotiationFloor) + '</strong><br>' +
+        'Sales tax shown: <strong>' + money(tax) + '</strong><br>' +
+        'Deposit due: <strong>' + money(deposit) + '</strong><br>' +
+        'Remaining balance: <strong>' + money(remaining) + '</strong><br>' +
+        'Estimated profit before tax: <strong>' + money(profit) + '</strong><br><br>' +
+        '<strong>Package ideas:</strong><br>' + packageOptions(lastCalc.price).replace(/\n/g, '<br>');
+    }
+
+    function buildExtraJobInfo() {
+      if (currentJob === 'mulch') {
+        return 'Estimated bags: <strong>' + mulchBags() + '</strong><br>';
+      }
+
+      if (currentJob === 'sod') {
+        var sodSqft = num('sodSqft') * (1 + num('sodBuffer') / 100);
+        return 'Sod with buffer: <strong>' + Math.round(sodSqft).toLocaleString() + ' sq ft</strong><br>' +
+          'Estimated pallets: <strong>' + Math.ceil(sodSqft / 450) + '</strong><br>';
+      }
+
+      return '';
+    }
+
+    function updateWarnings(base, margin) {
+      var messages = [];
+      var scheduled = scheduledStartEnd();
+      var conflicts = scheduledConflict();
+
+      el('scheduleSummary').innerHTML = scheduled
+        ? 'Selected time: <strong>' + scheduled.start.toLocaleDateString() + ' • ' + formatTimeRange(scheduled.start, scheduled.end) + '</strong>'
+        : 'Pick a date/time to check availability.';
+
+      if (base >= 99999) {
+        messages.push('<div class="warning bad"><strong>Do not quote:</strong> Refer this out or quote separately. Do not use the displayed price.</div>');
+      }
+
+      if (conflicts.length) {
+        messages.push('<div class="warning bad"><strong>Schedule conflict:</strong> This overlaps with ' + conflicts.length + ' saved booked job(s). Pick another time or adjust the estimate/buffer.</div>');
+      }
+
+      addProfitWarnings(messages, base, margin);
+      addJobSpecificWarnings(messages);
+
+      el('warnings').innerHTML = messages.join('');
+    }
+
+    function addProfitWarnings(messages, base, margin) {
+      var profitPerHour = lastCalc.profit / Math.max(num('estimatedHours'), 1);
+      var target = num('targetHourlyProfit') || 100;
+
+      if (profitPerHour >= target * 1.25) {
+        messages.push('<div class="warning info"><strong>High priority recommendation:</strong> This job is above your hourly profit target. Try to schedule it quickly.</div>');
+      } else if (profitPerHour < target && base < 99999) {
+        messages.push('<div class="warning"><strong>Pricing recommendation:</strong> Profit per hour is below your target. Raise the price, reduce helper cost, or avoid discounting.</div>');
+      }
+
+      if (margin < 40 && base < 99999) {
+        messages.push('<div class="warning bad"><strong>Margin warning:</strong> This is under your 40% target. Raise price, lower helper cost, or add a difficulty/haul-away fee.</div>');
+      }
+    }
+
+    function addJobSpecificWarnings(messages) {
+      if (currentJob === 'tree') {
+        messages.push('<div class="warning"><strong>Tree safety:</strong> Refer out power lines, serious lean, heavy limbs over property, bad access, roof/fence risk, full stump/root removal, or anything you are not comfortable doing. Stump grinding should be quoted only when access is safe and utilities/irrigation risk is clear.</div>');
+      }
+
+      if (currentJob === 'trim') {
+        messages.push('<div class="warning"><strong>Trimming safety:</strong> Refer out anything near power lines, requiring climbing, or cuts you cannot control from the ground.</div>');
+      }
+
+      if (currentJob === 'sod') {
+        messages.push('<div class="warning"><strong>Sod note:</strong> ' + sodWarrantyMessage() + '</div>');
+      }
+    }
+
+    function sodWarrantyMessage() {
+      var warranty = val('sodWarranty');
+
+      if (warranty === 'none') {
+        return 'No sod warranty is selected. Make sure the customer understands care is their responsibility.';
+      }
+
+      if (warranty === 'watering') {
+        return 'Warranty is tied to the customer following watering instructions. Send the watering text after install.';
+      }
+
+      if (warranty === 'declined') {
+        return 'Customer declined care/warranty plan. Note this in the quote if needed.';
+      }
+
+      return 'Send watering instructions separately. Warranty only applies if care instructions are followed.';
+    }
+
+    function packageOptions(price) {
+      var roundTo = num('roundTo');
+      var basic = roundUp(price * 0.92, roundTo);
+      var better = roundUp(price * 1.12, roundTo);
+      var best = roundUp(price * 1.3, roundTo);
+
+      return 'Basic: current scope (' + money(basic) + ')\n' +
+        'Better: upgraded scope (' + money(better) + ')\n' +
+        'Best: full upgrade (' + money(best) + '+)';
+    }
+
+    function makeEstimatePreview() {
+      var customer = txt('customer') || 'Customer';
+      var info = txt('customerInfo') || '';
+      var estimateDate = new Date().toLocaleDateString();
+      var estimateNumber = 'EST-' + new Date().getFullYear() + '-' + String(savedJobs().length + 1).padStart(3, '0');
+      var notes = txt('notes') || 'Professional landscaping service based on the discussed scope.';
+      var taxPercent = val('taxMode') === 'none' ? '0.0%' : num('taxRate').toFixed(1) + '%';
+      var rows = buildEstimateRows(taxPercent);
+
+      var html = '';
+      html += '<div class="estimate-header">';
+      html += '<div class="estimate-logo">🌿 Landon<br><span style="font-size:12px;letter-spacing:1px;">LANDSCAPING LLC.</span></div>';
+      html += '<div class="estimate-business">LANDON LANDSCAPING LLC<br>657-417-7599<br>Green Cove Springs, Florida</div>';
+      html += '</div>';
+      html += '<div class="estimate-title">ESTIMATE</div>';
+      html += '<div class="estimate-date">' + estimateDate + '</div>';
+      html += '<div class="estimate-info">';
+      html += '<div><strong>BILL TO:</strong><br>' + customer + '<br>' + info + '</div>';
+      html += '<div style="text-align:right;"><strong>NUMBER:</strong> ' + estimateNumber + '<br><strong>DATE:</strong> ' + estimateDate + '<br><strong>DUE:</strong> Upon acceptance</div>';
+      html += '</div>';
+      html += '<table class="estimate-table">';
+      html += '<thead><tr><th>Description</th><th>Quantity</th><th>Tax</th><th>Amount</th></tr></thead>';
+      html += '<tbody>' + rows + '</tbody>';
+      html += '</table>';
+      html += '<div class="estimate-bottom">';
+      html += '<div class="estimate-payment"><strong>Payment instructions</strong><br>Use the secure payment buttons below the estimate. Deposit may be required before scheduling or ordering materials.<br><br><strong>Project notes</strong><br>' + notes + '<br><br><strong>Terms</strong><br>Quote is based on the discussed scope. Additional work may change the total.</div>';
+      html += '<div class="estimate-totals">';
+      html += '<div class="estimate-total-row"><span>SUBTOTAL:</span><span>' + money(lastCalc.price) + '</span></div>';
+      html += '<div class="estimate-total-row"><span>TAX:</span><span>' + money(lastCalc.tax) + '</span></div>';
+      html += '<div class="estimate-total-row"><span>TOTAL:</span><span>' + money(lastCalc.total) + '</span></div>';
+      html += '<div class="estimate-total-row"><span>DEPOSIT:</span><span>' + money(lastCalc.deposit) + '</span></div>';
+      html += '<div class="balance-due"><span>BALANCE DUE</span><span>' + money(lastCalc.remaining) + '</span></div>';
+      html += '</div>';
+      html += '</div>';
+
+      el('estimatePreview').innerHTML = html;
+    }
+
+    function buildEstimateRows(taxPercent) {
+      var rows = '';
+
+      buildEstimateLineItems().forEach(function(item) {
+        rows += '<tr>';
+        rows += '<td><div class="estimate-desc-title">' + item.title + '</div><div class="estimate-desc-sub">' + item.detail + '</div></td>';
+        rows += '<td class="qty-cell">1</td>';
+        rows += '<td class="tax-cell">' + taxPercent + '</td>';
+        rows += '<td class="amount-cell">' + money(item.amount) + '</td>';
+        rows += '</tr>';
+      });
+
+      return rows;
+    }
+
+    /* ---------- 7. Text generators ---------- */
+    function scopeLines() {
+      var lines = [];
+
+      if (checked('scopeMaterials')) lines.push('Materials included');
+      if (checked('scopeHaul')) lines.push('Haul-away included');
+      if (checked('scopeCleanup')) lines.push('Cleanup included');
+      if (checked('scopeEdge')) lines.push('Bed edging included');
+      if (checked('scopeStumpLow')) lines.push('Stump cut low');
+      if (checked('scopeNoStump')) lines.push('Stump grinding excluded unless listed separately');
+      if (checked('scopeNoIrrigation')) lines.push('Irrigation repairs excluded');
+      if (checked('scopeWarranty')) lines.push('30-day limited workmanship warranty included');
+
+      return lines;
+    }
+
+    function makeQuote() {
+      var customer = txt('customer');
+      var greeting = customer ? 'Hi ' + customer + ',' : 'Hi,';
+      var notes = txt('notes') ? '\n\nScope: ' + txt('notes') + '.' : '';
+      var taxLabel = val('taxMode') === 'materials' ? 'sales tax on materials' : 'sales tax';
+      var taxLine = val('taxMode') === 'none'
+        ? '\nTotal: ' + money(lastCalc.total)
+        : '\nTotal: ' + money(lastCalc.total) + ' including ' + money(lastCalc.tax) + ' ' + taxLabel;
+      var depositLine = lastCalc.deposit > 0
+        ? '\n\nDeposit due ' + val('depositDue').toLowerCase() + ': ' + money(lastCalc.deposit) + '\nRemaining balance due upon completion: ' + money(lastCalc.remaining)
+        : '';
+      var schedule = val('scheduleLine') === 'yes'
+        ? '\n\nIf you’d like to move forward, I can get you on the schedule.'
+        : '';
+      var scope = scopeLines().length
+        ? '\n\nIncludes/notes:\n- ' + scopeLines().join('\n- ')
+        : '';
+      var safety = currentJob === 'tree'
+        ? '\n\nTree removal includes cutting down the tree, cleanup, and haul-away of tree debris when haul-away is selected. Stump grinding or full stump/root removal is not included unless listed separately. This price is based on the tree being safe to remove with the discussed scope. If anything unsafe is found in person, I’ll let you know before moving forward.'
+        : '';
+
+      if (lastCalc.price >= 99999) {
+        el('quoteText').value = greeting + '\n\nAfter looking over the details, this is something I would recommend referring out or quoting separately due to the risk/scope. I don’t want to take on work unless I know it can be done safely and correctly.\n\nThank you,\nLandon Landscaping LLC\n657-417-7599';
+        return;
+      }
+
+      if (val('quoteStyle') === 'short') {
+        el('quoteText').value = greeting + '\n\nFor the ' + jobName() + ', my price would be ' + money(lastCalc.price) + '.' + taxLine + depositLine + '\n\nThank you,\nLandon Landscaping LLC\n657-417-7599';
+        return;
+      }
+
+      if (val('quoteStyle') === 'friendly') {
+        el('quoteText').value = greeting + '\n\nI got everything looked over. For the ' + jobName() + ', I’d be at ' + money(lastCalc.price) + '.' + taxLine + notes + scope + depositLine + schedule + '\n\nThank you,\nLandon Landscaping LLC\n657-417-7599';
+        return;
+      }
+
+      el('quoteText').value = greeting + '\n\nFor the ' + jobName() + ', my price would be ' + money(lastCalc.price) + '.' + taxLine + notes + scope + depositLine + safety + schedule + '\n\nThank you,\nLandon Landscaping LLC\n657-417-7599';
+    }
+
+    function makeInternalNotes() {
+      var scheduled = scheduledStartEnd();
+      var out = [];
+
+      out.push('INTERNAL NOTES - ' + jobName().toUpperCase());
+      out.push('Customer: ' + (txt('customer') || 'N/A'));
+      out.push('Info: ' + (txt('customerInfo') || 'N/A'));
+      out.push('Status: ' + val('jobStatus'));
+      out.push('Lead source: ' + val('leadSource') + ' | Priority: ' + val('jobPriority'));
+      out.push('Travel fee: ' + money(travelFee()));
+      out.push(scheduled ? 'Scheduled: ' + scheduled.start.toLocaleDateString() + ' • ' + formatTimeRange(scheduled.start, scheduled.end) : 'Scheduled: not set');
+      out.push('Notes: ' + (txt('notes') || 'N/A'));
+      out.push('Minimum / Recommended / Premium: ' + money(lastCalc.min) + ' / ' + money(lastCalc.total) + ' / ' + money(lastCalc.premiumTotal));
+      out.push('True cost: ' + money(lastCalc.trueCost) + ' | Profit: ' + money(lastCalc.profit) + ' | Margin: ' + Math.round(lastCalc.margin) + '%');
+      out.push('Profit per hour: ' + money(lastCalc.profit / Math.max(num('estimatedHours'), 1)) + '/hr | Target: ' + money(num('targetHourlyProfit') || 100) + '/hr');
+      out.push('Negotiation floor: ' + money(num('negotiationFloor') || Math.max(lastCalc.trueCost + 100, lastCalc.price - 75)));
+      out.push('Deposit: ' + money(lastCalc.deposit) + ' | Remaining: ' + money(lastCalc.remaining));
+
+      addJobSpecificInternalNotes(out);
+
+      out.push('Upsell ideas: ' + upsellIdeas().join(', '));
+      out.push('Packages:\n' + packageOptions(lastCalc.price));
+
+      el('internalText').value = out.join('\n');
+    }
+
+    function addJobSpecificInternalNotes(out) {
+      if (currentJob === 'sod') {
+        var sqft = num('sodSqft') * (1 + num('sodBuffer') / 100);
+        out.push('Shopping list: ' + Math.ceil(sqft / 450) + ' pallets St. Augustine sod (' + Math.round(sqft) + ' sq ft with buffer)');
+      }
+
+      if (currentJob === 'mulch') {
+        var laborPerBag = val('materialType') === 'rock' ? Math.max(num('bagLabor'), 10) : num('bagLabor');
+        out.push('Shopping list: ' + mulchBags() + ' bags of ' + val('materialType') + ' at ' + num('depth') + ' inch depth. Labor per bag used: ' + laborPerBag);
+      }
+
+      if (currentJob === 'tree') {
+        out.push('Equipment: chainsaw, sharp chain, rope, wedges, rake/tarp, PPE, truck/trailer, dump plan');
+      }
+
+      if (currentJob === 'trim') {
+        out.push('Equipment: hedge trimmer, loppers, hand pruners, pole saw if needed, rake/tarp, blower, gloves, eye/hearing protection');
+      }
+    }
+
+    function upsellIdeas() {
+      var ideas = {
+        tree: ['fresh mulch ring', 'new plant/tree install', 'stump grinding if safe', 'bed cleanup'],
+        sod: ['perfect bed edges', 'mulch or rock refresh', 'plant package', 'landscape lighting', 'maintenance plan'],
+        mulch: ['weed barrier', 'bed expansion', 'plants', 'landscape lighting', 'fresh edging'],
+        cleanup: ['mulch refresh', 'hedge trimming', 'haul-away upgrade', 'pressure washing'],
+        trim: ['haul-away upgrade', 'mulch refresh', 'tree ring cleanup', 'palm trimming', 'bed edging'],
+        extras: ['plants', 'landscape lighting', 'mulch/rock', 'pressure washing']
+      };
+
+      return ideas[currentJob] || [];
+    }
+
+    function makeFollowUp() {
+      var customer = txt('customer') || 'there';
+      var job = jobName();
+      var type = val('followType');
+      var scheduled = scheduledStartEnd();
+      var msg = '';
+
+      if (type === 'follow') {
+        msg = 'Hi ' + customer + '! Just following up on the ' + job + ' quote I sent over. Let me know if you have any questions or if you’d like me to get you on the schedule.';
+      }
+
+      if (type === 'confirm') {
+        msg = 'Hi ' + customer + '! Just confirming we’re scheduled' + (scheduled ? ' for ' + scheduled.start.toLocaleDateString() + ' at ' + scheduled.start.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '') + ' for the ' + job + '. I’ll let you know when I’m on the way. Thank you!';
+      }
+
+      if (type === 'daybefore') {
+        msg = 'Hi ' + customer + '! Just a reminder that I’m scheduled to come by tomorrow for the ' + job + '. Let me know if anything changes. Thank you!';
+      }
+
+      if (type === 'thanks') {
+        msg = 'Hi ' + customer + '! The job is all finished. Thank you again for choosing Landon Landscaping LLC. If you need anything else, just let me know.';
+      }
+
+      if (type === 'review') {
+        msg = 'Hi ' + customer + '! Thank you again for choosing Landon Landscaping LLC. If you’re happy with the work, I’d really appreciate a quick review or recommendation in the neighborhood group.';
+      }
+
+      if (type === 'photo') {
+        msg = 'Hi ' + customer + '! Would you be okay with me using before/after photos of the project for my business page? I wouldn’t include any personal information.';
+      }
+
+      if (type === 'payment') {
+        msg = 'Hi ' + customer + '! Just sending a payment reminder for the ' + job + '. Total: ' + money(lastCalc.total) + '. Deposit: ' + money(lastCalc.deposit) + '. Remaining balance: ' + money(lastCalc.remaining) + '. Thank you!';
+      }
+
+      el('followText').value = msg;
+    }
+
+    function makeSodWateringText() {
+      if (!el('sodWateringText')) return;
+
+      var text = '';
+      text += 'Sod Watering Instructions\n\n';
+      text += 'For the first 2 weeks, keep the new sod consistently moist. Water 2-3 times per day depending on heat, sun, and rainfall. The goal is to keep the sod and soil underneath damp, not flooded.\n\n';
+      text += 'Weeks 3-4: begin watering deeper but less often, usually once per day or every other day depending on weather.\n\n';
+      text += 'Do not mow until the sod has rooted and cannot be easily lifted. When mowing, keep St. Augustine around 3.5-4 inches tall and avoid scalping.\n\n';
+      text += 'Avoid heavy foot traffic, pets, and parked equipment on the sod while it establishes. Customer watering and care are required for successful establishment.\n\n';
+      text += 'Landon Landscaping LLC';
+
+      el('sodWateringText').value = text;
+    }
+
+    function makePaymentText() {
+      var customer = txt('customer') || 'there';
+      var lines = [];
+
+      lines.push('Hi ' + customer + '! Here is the payment information for the ' + jobName() + '.');
+      lines.push('');
+      lines.push('Total: ' + money(lastCalc.total));
+
+      if (lastCalc.deposit > 0) {
+        lines.push('Deposit due: ' + money(lastCalc.deposit));
+        lines.push('Remaining balance due upon completion: ' + money(lastCalc.remaining));
+      }
+
+      if (txt('stripeLink')) lines.push('Stripe payment link: ' + txt('stripeLink'));
+      if (txt('paypalLink')) lines.push('PayPal: ' + txt('paypalLink'));
+      if (txt('venmoName')) lines.push('Venmo: ' + txt('venmoName'));
+      if (txt('appleCashInfo')) lines.push('Apple Cash: ' + txt('appleCashInfo'));
+
+      lines.push('');
+      lines.push('Thank you!');
+      lines.push('Landon Landscaping LLC');
+
+      el('paymentText').value = lines.join('\n');
+    }
+
+    /* ---------- 8. Payment / print / copy ---------- */
+    function openPaymentLink(type) {
+      var link = type === 'stripe' ? txt('stripeLink') : txt('paypalLink');
+      var label = type === 'stripe' ? 'Stripe' : 'PayPal';
+
+      if (!link) {
+        alert('Add your ' + label + ' link first.');
+        return;
+      }
+
+      if (type === 'stripe') {
+        if (link.indexOf('http://') !== 0 && link.indexOf('https://') !== 0) {
+          alert('Stripe needs a full payment link that starts with https://');
+          return;
+        }
+
+        window.open(link, '_blank');
+        return;
+      }
+
+      if (link.indexOf('@') > -1 && link.indexOf('http') !== 0) {
+        window.open('https://www.paypal.com/myaccount/transfer/send?recipient=' + encodeURIComponent(link), '_blank');
+        return;
+      }
+
+      if (link.indexOf('http://') !== 0 && link.indexOf('https://') !== 0) {
+        link = 'https://' + link;
+      }
+
+      window.open(link, '_blank');
+    }
+
+    function printEstimate() {
+      window.print();
+    }
+
+    function copyBox(id) {
+      var box = el(id);
+      if (!box) return;
+
+      box.select();
+      box.setSelectionRange(0, 99999);
+
+      navigator.clipboard.writeText(box.value)
+        .then(function() {
+          alert('Copied');
+        })
+        .catch(function() {
+          document.execCommand('copy');
+          alert('Copied');
+        });
+    }
+
+    /* ---------- 9. Defaults, reset, and event binding ---------- */
+    function saveDefaults() {
+      var ids = [
+        'sodRate',
+        'sodCostSqft',
+        'sodBuffer',
+        'prepRate',
+        'sodAccess',
+        'sodPrepDifficulty',
+        'sodIrrigation',
+        'sodWarranty',
+        'bagCost',
+        'bagLabor',
+        'edgeAdd',
+        'bedPrep',
+        'hourRate',
+        'materialMarkup',
+        'taxRate',
+        'taxMode',
+        'deposit',
+        'roundTo',
+        'scheduleLine',
+        'pricingMode',
+        'quoteStyle',
+        'targetHourlyProfit',
+        'depositDue',
+        'stripeLink',
+        'paypalLink',
+        'venmoName',
+        'appleCashInfo'
+      ];
+
+      var defaults = {};
+
+      ids.forEach(function(id) {
+        defaults[id] = val(id);
+      });
+
+      localStorage.setItem('ll_defaults', JSON.stringify(defaults));
+      alert('Defaults saved on this device');
+    }
+
+    function loadDefaults() {
+      try {
+        var defaults = JSON.parse(localStorage.getItem('ll_defaults') || '{}');
+
+        Object.keys(defaults).forEach(function(id) {
+          if (el(id) && defaults[id] !== '') {
+            el(id).value = defaults[id];
+          }
+        });
+      } catch (e) {}
+
+      if (el('venmoName') && !el('venmoName').value) el('venmoName').value = 'landonlandscaping';
+      if (el('appleCashInfo') && !el('appleCashInfo').value) el('appleCashInfo').value = '657-417-7599';
+      if (el('paypalLink') && !el('paypalLink').value) el('paypalLink').value = 'aimeedodd08@gmail.com';
+    }
+
+    function resetForm() {
+      var fieldsToClear = [
+        'customer',
+        'customerInfo',
+        'notes',
+        'scheduleDate',
+        'scheduleTime',
+        'materials',
+        'helperCost',
+        'fees',
+        'sodSqft',
+        'sodRental',
+        'bedSqft',
+        'barrierSqft',
+        'hours',
+        'plants',
+        'lights',
+        'customAdd',
+        'customDeposit',
+        'hedgeCount',
+        'manualPrice',
+        'laborDiscount',
+        'negotiationFloor'
+      ];
+
+      fieldsToClear.forEach(function(id) {
+        setValue(id, '');
+      });
+
+      [
+        'redPower',
+        'redClimb',
+        'redLean',
+        'redProperty',
+        'redAccess',
+        'redUnsure'
+      ].forEach(function(id) {
+        setChecked(id, false);
+      });
+
+      calculate();
+    }
+
+    function exportJobs() {
+      var jobs = savedJobs();
+
+      if (!jobs.length) {
+        alert('No saved jobs to export yet.');
+        return;
+      }
+
+      var backup = JSON.stringify(jobs, null, 2);
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(backup)
+          .then(function() {
+            alert('Backup copied. Save it somewhere safe.');
+          })
+          .catch(function() {
+            window.prompt('Copy this backup text:', backup);
+          });
+      } else {
+        window.prompt('Copy this backup text:', backup);
+      }
+    }
+
+    function importJobs() {
+      var text = txt('importJobsText');
+
+      if (!text) {
+        alert('Paste your backup text first.');
+        return;
+      }
+
+      try {
+        var imported = JSON.parse(text);
+
+        if (!Array.isArray(imported)) {
+          alert('That backup does not look right.');
+          return;
+        }
+
+        if (!confirm('Import ' + imported.length + ' saved job(s)? This will replace saved jobs on this device.')) {
+          return;
+        }
+
+        localStorage.setItem('ll_jobs', JSON.stringify(imported));
+        setValue('importJobsText', '');
+        renderJobs();
+        renderBookedTimes();
+        calculate();
+        alert('Saved jobs imported.');
+      } catch (error) {
+        alert('Import failed. Make sure you pasted the full backup text exactly.');
+      }
+    }
+
+    function clearJobs() {
+      if (!confirm('Clear all saved jobs?')) return;
+
+      localStorage.removeItem('ll_jobs');
+      renderJobs();
+      renderBookedTimes();
+      calculate();
+    }
+
+    function bind(id, eventName, handler) {
+      var element = el(id);
+      if (element) {
+        element.addEventListener(eventName, handler);
+      }
+    }
+
+    function attachEvents() {
+      jobTabs.forEach(function(job) {
+        bind('tab-' + job, 'click', function() {
+          setJob(job);
+        });
+      });
+
+      bind('preset-tree', 'click', function() { applyPreset('smallTree'); });
+      bind('preset-mulch', 'click', function() { applyPreset('smallMulch'); });
+      bind('preset-sod', 'click', function() { applyPreset('sod7000'); });
+      bind('preset-cleanup', 'click', function() { applyPreset('cleanupHalfDay'); });
+
+      bind('copyQuoteBtn', 'click', function() { copyBox('quoteText'); });
+      bind('copyInternalBtn', 'click', function() { copyBox('internalText'); });
+      bind('copyFollowBtn', 'click', function() { copyBox('followText'); });
+      bind('copyPaymentBtn', 'click', function() { copyBox('paymentText'); });
+      bind('copySodWateringBtn', 'click', function() { copyBox('sodWateringText'); });
+
+      bind('openStripeBtn', 'click', function() { openPaymentLink('stripe'); });
+      bind('openPaypalBtn', 'click', function() { openPaymentLink('paypal'); });
+      bind('estimateStripeBtn', 'click', function() { openPaymentLink('stripe'); });
+      bind('estimatePaypalBtn', 'click', function() { openPaymentLink('paypal'); });
+      bind('printEstimateBtn', 'click', printEstimate);
+
+      bind('saveJobBtn', 'click', saveJob);
+      bind('saveDefaultsBtn', 'click', saveDefaults);
+      bind('resetBtn', 'click', resetForm);
+      bind('exportJobsBtn', 'click', exportJobs);
+      bind('importJobsBtn', 'click', importJobs);
+      bind('clearJobsBtn', 'click', clearJobs);
+
+      if (el('savedJobs')) {
+        el('savedJobs').addEventListener('click', function(event) {
+          if (event.target && event.target.hasAttribute('data-delete-index')) {
+            deleteJob(Number(event.target.getAttribute('data-delete-index')));
+          }
+        });
+      }
+
+      document.querySelectorAll('input, select, textarea').forEach(function(input) {
+        input.addEventListener('input', calculate);
+        input.addEventListener('change', calculate);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+      attachEvents();
+      loadDefaults();
+      setJob('tree');
+      renderJobs();
+      renderBookedTimes();
+      calculate();
+    });
+  </script>
 </body>
 </html>
