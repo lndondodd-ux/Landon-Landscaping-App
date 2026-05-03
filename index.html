@@ -8,138 +8,231 @@
   <style>
     /* =========================================================
        LANDON LANDSCAPING LLC PRICING APP
+       Premium private dashboard redesign
        ---------------------------------------------------------
-       Goal: keep this readable and easy to edit.
-       Sections:
-       1. Theme / base styles
-       2. Layout cards and forms
-       3. Pricing result styles
-       4. Estimate / invoice preview styles
-       5. Print styles
-       6. Mobile styles
+       This app is for owner/internal use. Customer-facing content
+       stays inside the estimate/quote preview only.
        ========================================================= */
 
-    /* ---------- 1. Theme / base styles ---------- */
+    /* ---------- 1. Premium theme system ---------- */
     * {
       box-sizing: border-box;
     }
 
     :root {
-      --forest: #14351d;
-      --forest-2: #1f5a2d;
-      --cream: #f7f3e8;
-      --page-bg: #edf3e9;
-      --text: #172417;
-      --muted: #667266;
-      --border: rgba(31, 90, 45, 0.16);
+      --forest-950: #061a0e;
+      --forest-900: #092914;
+      --forest-850: #0d351b;
+      --forest-800: #123f22;
+      --forest-700: #18552d;
+      --forest-600: #20723c;
+      --forest-500: #2f8a49;
+
+      --sage-100: #f6f8f1;
+      --sage-150: #eef4e8;
+      --sage-200: #e4eddd;
+      --sage-300: #d4e2cc;
+      --sage-500: #8aa97e;
+
+      --cream: #fbf7ee;
+      --gold: #d9b76e;
+      --gold-soft: #fff3cf;
+      --white: #ffffff;
+      --ink: #122015;
+      --text: #1b2a1d;
+      --muted: #657466;
+      --muted-2: #8a9589;
+
       --danger: #842b2b;
       --danger-bg: #faeaea;
       --warning-bg: #fff8e8;
       --warning-border: #efd58f;
-      --info-bg: #edf4ff;
-      --info-border: #c9dcff;
-      --white: #ffffff;
+      --info-bg: #edf5ff;
+      --info-border: #c6ddff;
+
+      --border-soft: rgba(18, 63, 34, 0.10);
+      --border: rgba(18, 63, 34, 0.16);
+      --shadow-sm: 0 6px 18px rgba(6, 26, 14, 0.06);
+      --shadow-md: 0 14px 36px rgba(6, 26, 14, 0.10);
+      --shadow-lg: 0 24px 70px rgba(6, 26, 14, 0.18);
+      --radius-sm: 14px;
+      --radius-md: 20px;
+      --radius-lg: 28px;
+      --radius-xl: 36px;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
       margin: 0;
       min-height: 100vh;
-      padding: 12px;
-      font-family: Arial, Helvetica, sans-serif;
+      padding: 14px;
       color: var(--text);
-      background: linear-gradient(180deg, var(--cream), var(--page-bg) 55%, #f8f6ef);
+      background:
+        radial-gradient(circle at top left, rgba(217, 183, 110, 0.22), transparent 34%),
+        radial-gradient(circle at 90% 10%, rgba(47, 138, 73, 0.16), transparent 30%),
+        linear-gradient(180deg, #fdf9ef 0%, #edf4e7 52%, #f9f7ee 100%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
+      -webkit-font-smoothing: antialiased;
     }
 
     .app {
-      max-width: 780px;
+      max-width: 1040px;
       margin: 0 auto;
     }
 
-    /* ---------- 2. Layout cards and forms ---------- */
+    /* ---------- 2. Premium header ---------- */
     .header {
-      margin-bottom: 14px;
-      padding: 22px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 16px;
+      padding: 24px;
       color: white;
-      border-radius: 26px;
-      background: linear-gradient(135deg, var(--forest), var(--forest-2));
-      box-shadow: 0 12px 34px rgba(20, 53, 29, 0.14);
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(135deg, rgba(6, 26, 14, 0.98), rgba(18, 63, 34, 0.96)),
+        radial-gradient(circle at 80% 20%, rgba(217, 183, 110, 0.24), transparent 26%);
+      box-shadow: var(--shadow-lg);
+      isolation: isolate;
+    }
+
+    .header::before {
+      content: "";
+      position: absolute;
+      inset: -80px -90px auto auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      z-index: -1;
+    }
+
+    .header::after {
+      content: "";
+      position: absolute;
+      right: 28px;
+      bottom: -64px;
+      width: 210px;
+      height: 210px;
+      opacity: 0.09;
+      background: radial-gradient(circle, white 0 2px, transparent 3px);
+      background-size: 18px 18px;
+      z-index: -1;
     }
 
     .header-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 14px;
+      gap: 16px;
     }
 
     .header h1 {
-      margin: 0 0 5px;
-      font-size: 27px;
-      letter-spacing: -0.6px;
+      margin: 0 0 6px;
+      font-size: clamp(26px, 4vw, 38px);
+      line-height: 0.98;
+      letter-spacing: -1.2px;
+      font-weight: 950;
     }
 
     .header p {
       margin: 0;
+      color: rgba(255, 255, 255, 0.84);
       font-size: 14px;
-      line-height: 1.4;
-      opacity: 0.92;
+      line-height: 1.45;
     }
 
     .brand-mark {
       display: grid;
       place-items: center;
       flex-shrink: 0;
-      width: 54px;
-      height: 54px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.14);
-      font-size: 27px;
+      width: 68px;
+      height: 68px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 24px;
+      color: var(--gold-soft);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.07));
+      font-size: 34px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 20px 45px rgba(0, 0, 0, 0.18);
     }
 
     .header-badge {
       display: inline-flex;
-      margin-top: 12px;
-      padding: 7px 11px;
+      align-items: center;
+      gap: 7px;
+      margin-top: 14px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
       border-radius: 999px;
-      color: #fff3cf;
-      background: rgba(214, 180, 106, 0.18);
+      color: var(--gold-soft);
+      background: rgba(217, 183, 110, 0.14);
+      backdrop-filter: blur(10px);
       font-size: 12px;
       font-weight: 900;
+      letter-spacing: 0.2px;
     }
 
+    .header-badge::before {
+      content: "🔒";
+      font-size: 12px;
+    }
+
+    /* ---------- 3. Cards, layout, and forms ---------- */
     .card {
-      margin-bottom: 14px;
-      padding: 17px;
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      background: rgba(255, 255, 255, 0.92);
-      box-shadow: 0 8px 22px rgba(20, 53, 29, 0.08);
+      position: relative;
+      margin-bottom: 16px;
+      padding: 18px;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(18px);
+    }
+
+    .card:hover {
+      border-color: rgba(18, 63, 34, 0.20);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+      transition: 180ms ease;
     }
 
     label {
       display: block;
-      margin: 13px 0 7px;
-      color: #263526;
-      font-size: 13px;
-      font-weight: 900;
+      margin: 14px 0 7px;
+      color: var(--forest-900);
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: 0.15px;
     }
 
     input,
     select,
     textarea {
       width: 100%;
-      padding: 13px;
-      border: 1px solid rgba(31, 90, 45, 0.18);
-      border-radius: 15px;
+      padding: 13px 14px;
+      border: 1px solid rgba(18, 63, 34, 0.14);
+      border-radius: 16px;
       outline: none;
-      background: white;
-      color: var(--text);
-      font-size: 16px;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(249, 251, 246, 0.96));
+      font-size: 15px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      transition: 160ms ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: rgba(32, 114, 60, 0.48);
+      box-shadow: 0 0 0 4px rgba(32, 114, 60, 0.10);
     }
 
     textarea {
-      min-height: 130px;
+      min-height: 132px;
       resize: vertical;
       line-height: 1.5;
     }
@@ -147,28 +240,46 @@
     button {
       width: 100%;
       margin-top: 10px;
-      padding: 14px;
+      padding: 14px 16px;
       border: none;
-      border-radius: 16px;
+      border-radius: 17px;
       color: white;
-      background: linear-gradient(135deg, var(--forest), var(--forest-2));
-      font-size: 16px;
-      font-weight: 900;
+      background:
+        linear-gradient(135deg, var(--forest-900), var(--forest-600));
+      font-size: 15px;
+      font-weight: 950;
+      letter-spacing: 0.1px;
       cursor: pointer;
-      box-shadow: 0 8px 18px rgba(20, 53, 29, 0.18);
+      box-shadow: 0 12px 24px rgba(18, 63, 34, 0.22);
+      transition: transform 140ms ease, box-shadow 140ms ease, filter 140ms ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      filter: saturate(1.06);
+      box-shadow: 0 16px 34px rgba(18, 63, 34, 0.28);
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: 0 7px 18px rgba(18, 63, 34, 0.18);
     }
 
     button.secondary {
-      color: var(--forest);
-      border: 1px solid rgba(31, 90, 45, 0.14);
-      background: #eef3e9;
+      color: var(--forest-900);
+      border: 1px solid rgba(18, 63, 34, 0.14);
+      background: linear-gradient(180deg, #f8fbf4, #edf5e8);
       box-shadow: none;
+    }
+
+    button.secondary:hover {
+      box-shadow: 0 10px 24px rgba(18, 63, 34, 0.10);
     }
 
     button.danger {
       color: var(--danger);
       border: 1px solid rgba(132, 43, 43, 0.18);
-      background: var(--danger-bg);
+      background: linear-gradient(180deg, #fff5f5, var(--danger-bg));
       box-shadow: none;
     }
 
@@ -183,57 +294,72 @@
     }
 
     .small {
-      margin-top: 6px;
+      margin-top: 7px;
       color: var(--muted);
       font-size: 12px;
       line-height: 1.35;
     }
 
+    /* ---------- 4. Premium navigation / tabs ---------- */
     .tabs {
+      position: sticky;
+      top: 10px;
+      z-index: 10;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 9px;
-      padding: 6px;
-      border-radius: 20px;
-      background: rgba(20, 53, 29, 0.06);
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      padding: 8px;
+      border: 1px solid rgba(18, 63, 34, 0.10);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: 0 14px 32px rgba(6, 26, 14, 0.08);
+      backdrop-filter: blur(20px);
     }
 
     .tab {
       margin: 0;
-      padding: 11px 8px;
-      border: 1px solid rgba(31, 90, 45, 0.12);
-      border-radius: 15px;
-      color: var(--forest);
-      background: white;
+      padding: 12px 8px;
+      border: 1px solid transparent;
+      border-radius: 18px;
+      color: var(--forest-900);
+      background: transparent;
       font-size: 13px;
+      box-shadow: none;
+    }
+
+    .tab:hover {
+      color: var(--forest-950);
+      background: rgba(237, 245, 232, 0.9);
       box-shadow: none;
     }
 
     .tab.active {
       color: white;
-      background: linear-gradient(135deg, var(--forest), var(--forest-2));
+      border-color: rgba(255, 255, 255, 0.18);
+      background: linear-gradient(135deg, var(--forest-900), var(--forest-600));
+      box-shadow: 0 10px 24px rgba(18, 63, 34, 0.22);
     }
 
     .quick {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 9px;
       margin-top: 10px;
     }
 
     .quick button {
       margin: 0;
-      padding: 12px 10px;
-      border: 1px solid rgba(31, 90, 45, 0.13);
-      color: var(--forest);
-      background: white;
-      font-size: 13px;
+      padding: 13px 10px;
+      border: 1px solid rgba(18, 63, 34, 0.13);
+      color: var(--forest-900);
+      background: linear-gradient(180deg, white, var(--sage-100));
+      font-size: 12px;
       box-shadow: none;
     }
 
     .checks {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, 1fr);
       gap: 9px;
       margin-top: 8px;
     }
@@ -242,94 +368,145 @@
       display: flex;
       align-items: center;
       gap: 9px;
-      padding: 10px;
-      border: 1px solid rgba(31, 90, 45, 0.13);
-      border-radius: 15px;
-      background: white;
+      padding: 12px;
+      border: 1px solid rgba(18, 63, 34, 0.11);
+      border-radius: 16px;
+      background: linear-gradient(180deg, white, #f8fbf4);
+      color: var(--forest-900);
       font-size: 13px;
-      font-weight: 800;
+      font-weight: 850;
     }
 
     .check input {
       width: auto;
-      accent-color: var(--forest-2);
+      accent-color: var(--forest-600);
       transform: scale(1.15);
     }
 
-    /* ---------- 3. Pricing result styles ---------- */
+    /* ---------- 5. Premium pricing result ---------- */
     .result {
-      padding: 18px;
-      border: 1px solid rgba(31, 90, 45, 0.16);
-      border-radius: 22px;
-      background: linear-gradient(135deg, #f3fbf1, #fffaf0);
+      position: relative;
+      overflow: hidden;
+      padding: 22px;
+      border: 1px solid rgba(18, 63, 34, 0.13);
+      border-radius: 30px;
+      background:
+        linear-gradient(140deg, rgba(255, 255, 255, 0.96), rgba(242, 248, 238, 0.96));
+      box-shadow: var(--shadow-md);
+    }
+
+    .result::before {
+      content: "";
+      position: absolute;
+      top: -80px;
+      right: -70px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(32, 114, 60, 0.16), transparent 70%);
+    }
+
+    .result > div:first-child {
+      color: var(--forest-900);
+      font-size: 13px;
+      font-weight: 950;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
     }
 
     .main-price {
-      margin: 4px 0 0;
-      color: var(--forest);
-      font-size: 42px;
-      font-weight: 950;
-      letter-spacing: -1.3px;
+      position: relative;
+      margin: 6px 0 0;
+      color: var(--forest-950);
+      font-size: clamp(46px, 8vw, 72px);
+      font-weight: 1000;
+      line-height: 0.95;
+      letter-spacing: -3px;
     }
 
     .tag {
-      display: inline-block;
-      margin-top: 7px;
-      padding: 7px 10px;
-      border: 1px solid rgba(31, 90, 45, 0.16);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      padding: 8px 12px;
+      border: 1px solid rgba(32, 114, 60, 0.16);
       border-radius: 999px;
-      color: var(--forest-2);
-      background: white;
+      color: var(--forest-700);
+      background: rgba(255, 255, 255, 0.86);
       font-size: 12px;
-      font-weight: 900;
+      font-weight: 950;
+      box-shadow: 0 8px 18px rgba(6, 26, 14, 0.06);
+    }
+
+    .tag::before {
+      content: "↗";
+      font-size: 13px;
     }
 
     .price-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 9px;
-      margin-top: 12px;
+      gap: 10px;
+      margin-top: 18px;
     }
 
     .price-box {
-      padding: 12px 10px;
-      border: 1px solid rgba(31, 90, 45, 0.13);
-      border-radius: 17px;
-      background: white;
+      padding: 16px 12px;
+      border: 1px solid rgba(18, 63, 34, 0.12);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.9);
       text-align: center;
+      box-shadow: 0 10px 26px rgba(6, 26, 14, 0.06);
+    }
+
+    .price-box:nth-child(2) {
+      border-color: rgba(32, 114, 60, 0.26);
+      background: linear-gradient(180deg, #f1faec, #ffffff);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 34px rgba(32, 114, 60, 0.14);
     }
 
     .price-box .label {
       margin: 0;
       color: var(--muted);
-      font-size: 12px;
-      font-weight: 900;
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
     }
 
     .price-box .price {
-      margin-top: 5px;
-      color: var(--forest);
-      font-size: 23px;
-      font-weight: 950;
+      margin-top: 7px;
+      color: var(--forest-950);
+      font-size: 26px;
+      font-weight: 1000;
+      letter-spacing: -0.8px;
     }
 
     .breakdown {
-      margin-top: 12px;
-      padding: 12px;
-      border: 1px solid rgba(31, 90, 45, 0.09);
-      border-radius: 16px;
-      color: #344034;
-      background: white;
+      margin-top: 16px;
+      padding: 15px;
+      border: 1px solid rgba(18, 63, 34, 0.09);
+      border-radius: 20px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.82);
       font-size: 14px;
       line-height: 1.75;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .breakdown strong {
+      color: var(--forest-900);
     }
 
     .warning {
-      margin-top: 10px;
-      padding: 11px;
+      margin-top: 12px;
+      padding: 13px 14px;
       border: 1px solid var(--warning-border);
-      border-radius: 15px;
+      border-radius: 18px;
       background: var(--warning-bg);
+      color: #4b3b12;
       font-size: 13px;
       line-height: 1.45;
     }
@@ -341,97 +518,112 @@
     }
 
     .info {
+      color: #103761;
       border-color: var(--info-border);
       background: var(--info-bg);
     }
 
+    /* ---------- 6. Saved jobs / schedule cards ---------- */
     .job-card,
     .time-block {
-      margin-top: 9px;
-      padding: 12px;
-      border: 1px solid rgba(31, 90, 45, 0.13);
-      border-radius: 17px;
-      background: white;
+      margin-top: 10px;
+      padding: 14px;
+      border: 1px solid rgba(18, 63, 34, 0.12);
+      border-radius: 18px;
+      background: linear-gradient(180deg, white, #f9fcf6);
       font-size: 13px;
-      line-height: 1.5;
+      line-height: 1.55;
+      box-shadow: 0 8px 20px rgba(6, 26, 14, 0.05);
     }
 
     .job-card strong,
     .time-block strong {
-      color: var(--forest);
+      color: var(--forest-900);
       font-size: 15px;
     }
 
     .status-pill {
-      display: inline-block;
-      margin-top: 4px;
-      padding: 4px 8px;
-      border: 1px solid rgba(214, 180, 106, 0.35);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 6px;
+      padding: 5px 9px;
+      border: 1px solid rgba(217, 183, 110, 0.35);
       border-radius: 999px;
-      color: var(--forest);
+      color: var(--forest-900);
       background: #fff6dd;
       font-size: 11px;
-      font-weight: 900;
+      font-weight: 950;
     }
 
-    /* ---------- 4. Estimate / invoice preview styles ---------- */
+    .status-pill::before {
+      content: "•";
+      color: var(--gold);
+      font-size: 18px;
+      line-height: 0;
+    }
+
+    /* ---------- 7. Premium estimate / invoice preview ---------- */
     .estimate-preview {
-      margin-top: 10px;
+      margin-top: 12px;
       overflow: hidden;
-      border: 1px solid rgba(31, 90, 45, 0.16);
-      border-radius: 18px;
+      border: 1px solid rgba(18, 63, 34, 0.15);
+      border-radius: 24px;
       background: white;
+      box-shadow: var(--shadow-md);
     }
 
     .estimate-header {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 12px;
-      padding: 18px;
+      gap: 14px;
+      padding: 22px;
       color: white;
-      background: var(--forest-2);
+      background:
+        linear-gradient(135deg, var(--forest-900), var(--forest-600));
     }
 
     .estimate-logo {
-      font-size: 22px;
-      font-weight: 950;
-      letter-spacing: -0.5px;
+      font-size: 23px;
+      font-weight: 1000;
+      line-height: 1;
+      letter-spacing: -0.8px;
     }
 
     .estimate-business {
       text-align: right;
       font-size: 12px;
-      line-height: 1.45;
-      opacity: 0.95;
+      line-height: 1.5;
+      opacity: 0.92;
     }
 
     .estimate-title {
-      padding: 18px 16px 10px;
-      color: #394039;
+      padding: 22px 16px 8px;
+      color: var(--forest-950);
       text-align: center;
-      font-size: 36px;
-      font-weight: 950;
+      font-size: 40px;
+      font-weight: 1000;
       line-height: 1;
-      letter-spacing: -1px;
+      letter-spacing: -1.5px;
     }
 
     .estimate-date {
-      padding-bottom: 14px;
+      padding-bottom: 16px;
       color: var(--muted);
       text-align: center;
       font-size: 13px;
-      font-weight: 800;
+      font-weight: 850;
     }
 
     .estimate-info {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 18px;
-      padding: 16px 18px;
+      padding: 18px 22px;
       border-top: 1px solid #edf1ed;
       font-size: 13px;
-      line-height: 1.45;
+      line-height: 1.5;
     }
 
     .estimate-table {
@@ -441,15 +633,17 @@
     }
 
     .estimate-table th {
-      padding: 11px 10px;
+      padding: 12px 12px;
       color: white;
-      background: var(--forest-2);
+      background: var(--forest-700);
       text-align: left;
-      font-size: 12px;
+      font-size: 11px;
+      letter-spacing: 0.25px;
+      text-transform: uppercase;
     }
 
     .estimate-table td {
-      padding: 13px 10px;
+      padding: 14px 12px;
       border-bottom: 1px solid #edf1ed;
       vertical-align: top;
     }
@@ -459,12 +653,12 @@
     .tax-cell {
       text-align: right;
       white-space: nowrap;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .estimate-desc-title {
       margin-bottom: 4px;
-      color: #293129;
+      color: var(--forest-950);
       font-weight: 950;
       text-transform: uppercase;
     }
@@ -479,31 +673,33 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 18px;
-      padding: 16px 18px 20px;
+      padding: 18px 22px 22px;
     }
 
     .estimate-payment,
     .estimate-totals {
       font-size: 13px;
-      line-height: 1.5;
+      line-height: 1.55;
     }
 
     .estimate-total-row {
       display: flex;
       justify-content: space-between;
-      padding: 4px 0;
-      font-weight: 800;
+      padding: 5px 0;
+      font-weight: 850;
     }
 
     .balance-due {
       display: flex;
       justify-content: space-between;
-      margin-top: 8px;
-      padding: 11px 12px;
+      margin-top: 10px;
+      padding: 13px 14px;
+      border-radius: 14px;
       color: white;
-      background: #2f312f;
-      font-size: 16px;
-      font-weight: 950;
+      background: linear-gradient(135deg, var(--forest-900), var(--forest-600));
+      font-size: 17px;
+      font-weight: 1000;
+      box-shadow: 0 12px 24px rgba(18, 63, 34, 0.18);
     }
 
     .invoice-action-bar {
@@ -511,43 +707,48 @@
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       padding: 14px;
-      border: 1px solid rgba(31, 90, 45, 0.16);
+      border: 1px solid rgba(18, 63, 34, 0.15);
       border-top: none;
-      border-radius: 0 0 18px 18px;
-      background: white;
+      border-radius: 0 0 24px 24px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: var(--shadow-sm);
     }
 
     .invoice-pay-btn {
       margin: 0;
-      padding: 13px;
-      border-radius: 12px;
+      padding: 14px;
+      border-radius: 15px;
       font-size: 14px;
     }
 
     .invoice-pay-btn.stripe {
-      background: #635bff;
+      background: linear-gradient(135deg, #635bff, #4b43db);
     }
 
     .invoice-pay-btn.paypal {
-      background: #243b80;
+      background: linear-gradient(135deg, #263f8a, #14245b);
     }
 
     .payment-actions {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 9px;
       margin-top: 10px;
     }
 
     .footer-note {
-      padding: 8px 2px 20px;
+      padding: 10px 2px 24px;
       color: var(--muted);
       text-align: center;
       font-size: 12px;
       line-height: 1.4;
     }
 
-    /* ---------- 5. Print styles ---------- */
+    .footer-note::before {
+      content: "🔒 ";
+    }
+
+    /* ---------- 8. Print styles ---------- */
     .print-only {
       display: none;
     }
@@ -578,6 +779,7 @@
         margin: 0;
         border: none;
         border-radius: 0;
+        box-shadow: none;
       }
 
       .invoice-action-bar,
@@ -586,10 +788,36 @@
       }
     }
 
-    /* ---------- 6. Mobile styles ---------- */
+    /* ---------- 9. Mobile styles ---------- */
+    @media (max-width: 760px) {
+      .tabs {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .quick {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .payment-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 520px) {
       body {
         padding: 10px;
+      }
+
+      .header {
+        border-radius: 28px;
+        padding: 22px;
+      }
+
+      .brand-mark {
+        width: 58px;
+        height: 58px;
+        border-radius: 20px;
+        font-size: 29px;
       }
 
       .row,
@@ -598,21 +826,25 @@
       .checks,
       .estimate-info,
       .estimate-bottom,
-      .invoice-action-bar,
-      .payment-actions {
+      .invoice-action-bar {
         grid-template-columns: 1fr;
       }
 
       .tabs {
         grid-template-columns: 1fr 1fr;
+        position: static;
       }
 
       .main-price {
-        font-size: 36px;
+        font-size: 52px;
+      }
+
+      .price-box:nth-child(2) {
+        transform: none;
       }
 
       .estimate-title {
-        font-size: 30px;
+        font-size: 32px;
       }
     }
   </style>
