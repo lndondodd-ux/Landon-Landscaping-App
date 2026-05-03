@@ -744,8 +744,25 @@
       line-height: 1.4;
     }
 
-    .footer-note::before {
-      content: "🔒 ";
+    .tiny-seal {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 6px;
+      font-size: 13px;
+      opacity: 0.58;
+      filter: saturate(0.95);
+      user-select: none;
+    }
+
+    .tiny-seal.faint {
+      opacity: 0.35;
+      font-size: 12px;
+    }
+
+    .tiny-seal.floaty {
+      transform: translateY(-2px);
+      opacity: 0.72;
     }
 
     /* ---------- 8. Print styles ---------- */
@@ -1423,7 +1440,7 @@
         <div>
           <h1>Landon Landscaping LLC</h1>
           <p>Smart pricing, cleaner quotes, better margins.<br />657-417-7599</p>
-          <div class="header-badge">Stable pricing dashboard</div>
+          <div class="header-badge">Stable pricing dashboard <span class="tiny-seal floaty">🦭</span></div>
         </div>
         <div class="brand-mark">🌿</div>
       </div>
@@ -1472,7 +1489,7 @@
         <div class="section-title-wrap">
           <div class="section-icon">🧭</div>
           <div>
-            <div class="section-title">Job workspace</div>
+            <div class="section-title">Job workspace <span class="tiny-seal faint">🦭</span></div>
             <div class="section-subtitle">Pick the job type, set customer info, and start the quote.</div>
           </div>
         </div>
@@ -1568,7 +1585,7 @@
         <div class="section-title-wrap">
           <div class="section-icon">📅</div>
           <div>
-            <div class="section-title">Scheduling</div>
+            <div class="section-title">Scheduling <span class="tiny-seal faint">🦭</span></div>
             <div class="section-subtitle">Estimate job time and prevent accidental double-booking.</div>
           </div>
         </div>
@@ -1617,7 +1634,7 @@
         <div class="section-title-wrap">
           <div class="section-icon">🌳</div>
           <div>
-            <div class="section-title">Tree pricing</div>
+            <div class="section-title">Tree pricing <span class="tiny-seal floaty">🦭</span></div>
             <div class="section-subtitle">Built for small front-yard removals, stump options, and risk control.</div>
           </div>
         </div>
@@ -2051,7 +2068,7 @@
         <div class="section-title-wrap">
           <div class="section-icon">💳</div>
           <div>
-            <div class="section-title">Payment setup</div>
+            <div class="section-title">Payment setup <span class="tiny-seal faint">🦭</span></div>
             <div class="section-subtitle">Internal payment links and copyable payment message.</div>
           </div>
         </div>
@@ -2314,7 +2331,7 @@
       <div class="result">
         <div class="price-hero-top">
           <div>
-            <div class="price-kicker">Decision center</div>
+            <div class="price-kicker">Decision center <span class="tiny-seal floaty">🦭</span></div>
             <div class="price-hero-label">Recommended Price</div>
           </div>
           <div class="price-confidence">
@@ -2477,7 +2494,7 @@
     </section>
 
     <div class="footer-note">
-      Free quotes. Built to protect margin. Raise price for risk, bad access, tight scheduling, heavy cleanup, or extra scope. 🦭
+      <span class="tiny-seal faint">🦭</span>
     </div>
   </div>
 
