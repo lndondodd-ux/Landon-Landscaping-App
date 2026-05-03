@@ -10,17 +10,44 @@
 
   <div class="app">
     <header class="header">
-      <!-- Header content: title, branding, etc -->
+      <div class="header-top">
+        <div class="brand-mark">LL</div>
+        <div class="header-title">
+          <h1>Landon Landscaping</h1>
+          <p>Your trusted landscaping solution</p>
+        </div>
+      </div>
     </header>
 
     <section class="dashboard">
-      <!-- Dashboard content, pricing sections, etc -->
+      <div class="section-heading">
+        <div class="section-title-wrap">
+          <div class="section-icon">🌳</div>
+          <h2 class="section-title">Pricing & Job Quotes</h2>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Tree Removal Quote</h3>
+        <label for="jobType">Select Job Type</label>
+        <select id="jobType" onchange="updatePrice()">
+          <option value="treeRemoval">Tree Removal</option>
+          <option value="stumpGrinding">Stump Grinding</option>
+          <option value="pruning">Pruning</option>
+        </select>
+
+        <div class="price-hero">
+          <p class="price-hero-label">Estimated Price</p>
+          <p id="totalPrice" class="main-price">$0</p>
+        </div>
+
+        <button id="calculateBtn">Calculate Quote</button>
+      </div>
     </section>
 
     <footer class="footer">
-      <!-- Footer content with job saved/export details -->
+      <p>&copy; 2026 Landon Landscaping LLC | <a href="mailto:landonlandscaping@domain.com">Contact Us</a></p>
     </footer>
-
   </div>
 
   <script src="app.js"></script> <!-- Link to core logic -->
